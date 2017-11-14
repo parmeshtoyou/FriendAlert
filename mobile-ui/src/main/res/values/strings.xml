@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FriendAlert</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="menu_broadcast">Broadcast</string>
+    <string name="menu_myplace">MyPlace</string>
+    <string name="menu_friends">Friends</string>
+    <string name="menu_notifications">Notifications</string>
+</resources>
