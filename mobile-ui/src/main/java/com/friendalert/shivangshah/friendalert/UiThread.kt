@@ -2,7 +2,7 @@ package com.friendalert.shivangshah.friendalert
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
-import com.friendalert.shivangshah.domain.executor.PostExecutionThread
+import com.friendalert.shivangshah.domain.PostExecutionThread
 import javax.inject.Inject
 
 /**

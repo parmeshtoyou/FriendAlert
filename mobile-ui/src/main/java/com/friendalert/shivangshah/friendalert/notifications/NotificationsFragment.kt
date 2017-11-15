@@ -11,8 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.friendalert.mapper.NotificationMapper
-import com.friendalert.shivangshah.presentation.model.NotificationView
+import com.friendalert.shivangshah.presentation.notifications.NotificationView
 import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject

@@ -1,8 +1,7 @@
 package com.friendalert.shivangshah.presentation.notifications
 
-import com.friendalert.shivangshah.domain.interactor.SingleUseCase
-import com.friendalert.shivangshah.domain.model.Notification
-import com.friendalert.shivangshah.presentation.mapper.NotificationMapper
+import com.friendalert.shivangshah.domain.SingleUseCase
+import com.friendalert.shivangshah.domain.notifications.Notification
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 

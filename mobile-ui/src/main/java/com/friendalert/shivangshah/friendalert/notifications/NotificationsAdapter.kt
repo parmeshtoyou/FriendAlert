@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.friendalert.model.NotificationsViewModel
 import javax.inject.Inject
 
 /**

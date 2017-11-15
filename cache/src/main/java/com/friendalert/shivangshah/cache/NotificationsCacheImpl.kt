@@ -7,8 +7,8 @@ import com.friendalert.shivangshah.cache.db.constants.NotificationConstants
 import com.friendalert.shivangshah.cache.db.mapper.NotificationMapper
 import com.friendalert.shivangshah.cache.mapper.NotificationEntityMapper
 import com.friendalert.shivangshah.cache.model.CachedNotification
-import com.friendalert.shivangshah.data.model.NotificationEntity
-import com.friendalert.shivangshah.data.repository.NotificationCache
+import com.friendalert.shivangshah.data.notifications.NotificationEntity
+import com.friendalert.shivangshah.data.notifications.repository.NotificationCache
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
