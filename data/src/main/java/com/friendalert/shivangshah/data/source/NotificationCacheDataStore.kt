@@ -15,15 +15,18 @@ open class NotificationCacheDataStore @Inject constructor(private val notificati
         NotificationDataStore {
 
     override fun clearNotifications(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return notificationCache.clearNotifications()
     }
 
     override fun saveNotifications(notifications: List<NotificationEntity>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return notificationCache.saveNotifications(notifications)
+                .doOnComplete {
+                    notificationCache.setLastCacheTime(System.currentTimeMillis())
+                }
     }
 
     override fun getNotifications(): Single<List<NotificationEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return notificationCache.getNotifications()
     }
 
 

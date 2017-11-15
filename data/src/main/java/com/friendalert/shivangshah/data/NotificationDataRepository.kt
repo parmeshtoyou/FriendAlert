@@ -18,11 +18,12 @@ class NotificationDataRepository @Inject constructor(private val factory: Notifi
                                                  private val notificationMapper: NotificationMapper) :
         NotificationRepository {
     override fun clearNotifications(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return factory.retrieveCacheDataStore().clearNotifications()
     }
 
     override fun saveNotifications(notifications: List<Notification>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val notificationEntities = notifications.map { notificationMapper.mapToEntity(it) }
+        return saveNotificationEntities(notificationEntities)
     }
 
     override fun getNotifications(): Single<List<Notification>> {

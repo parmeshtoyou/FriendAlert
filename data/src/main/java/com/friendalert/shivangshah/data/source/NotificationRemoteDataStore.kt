@@ -16,11 +16,11 @@ class NotificationRemoteDataStore @Inject constructor(private val notificationRe
         NotificationDataStore {
 
     override fun clearNotifications(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException()
     }
 
     override fun saveNotifications(notifications: List<NotificationEntity>): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException()
     }
 
     override fun getNotifications(): Single<List<NotificationEntity>> {

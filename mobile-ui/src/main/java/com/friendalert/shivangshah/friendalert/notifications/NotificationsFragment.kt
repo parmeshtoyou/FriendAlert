@@ -10,12 +10,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.friendalert.mapper.NotificationMapper
 import com.friendalert.shivangshah.presentation.model.NotificationView
 import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
-import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -42,11 +40,10 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
     }
 
     override fun showProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        Log.d("show","progress")    }
 
     override fun hideProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("hide","progress")
     }
 
     override fun showNotifications(notifications: List<NotificationView>) {
@@ -60,19 +57,19 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
     }
 
     override fun showErrorState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("show","error state")
     }
 
     override fun hideErrorState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("hide","error state")
     }
 
     override fun showEmptyState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("show","notifications")
     }
 
     override fun hideEmptyState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("hide","empty state")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
