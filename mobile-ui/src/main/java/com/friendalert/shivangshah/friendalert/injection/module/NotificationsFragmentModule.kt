@@ -24,7 +24,7 @@ import dagger.multibindings.IntoMap
  * Created by shivangshah on 11/11/17.
  */
 @Module
-abstract class NotificationsFragmentModule {
+class NotificationsFragmentModule {
 
     @PerFragment
     @Provides

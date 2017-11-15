@@ -24,7 +24,7 @@ class NotificationRemoteDataStore @Inject constructor(private val notificationRe
     }
 
     override fun getNotifications(): Single<List<NotificationEntity>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return notificationRemote.getNotifications()
     }
 
 }

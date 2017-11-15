@@ -25,6 +25,8 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_home)
 
         bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)

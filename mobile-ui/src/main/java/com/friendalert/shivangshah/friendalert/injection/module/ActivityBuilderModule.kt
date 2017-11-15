@@ -20,13 +20,15 @@ import dagger.multibindings.IntoMap
 @Module
 abstract class ActivityBuilderModule {
 
-    @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(HomeActivityModule::class))
-    abstract fun bindHomeActivity(): HomeActivity
+    @Binds
+    @IntoMap
+    @ActivityKey(HomeActivity::class)
+    internal abstract fun bindHomeActivity(builder: HomeActivitySubComponent.Builder): AndroidInjector.Factory<out Activity>
 
-    @PerActivity
-    @ContributesAndroidInjector(modules = arrayOf(TestActivityModule::class))
-    abstract fun bindTestActivity(): TestActivity
+    @Binds
+    @IntoMap
+    @ActivityKey(TestActivity::class)
+    internal abstract fun bindTestActivity(builder: TestActivitySubComponent.Builder): AndroidInjector.Factory<out Activity>
 
 
 }

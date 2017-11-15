@@ -6,6 +6,7 @@ import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +56,7 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
     }
 
     override fun hideNotifications() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("hide","notifications")
     }
 
     override fun showErrorState() {

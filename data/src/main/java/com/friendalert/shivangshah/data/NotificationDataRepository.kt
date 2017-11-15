@@ -3,6 +3,7 @@ package com.friendalert.shivangshah.data
 import com.friendalert.shivangshah.data.mapper.NotificationMapper
 import com.friendalert.shivangshah.data.model.NotificationEntity
 import com.friendalert.shivangshah.data.source.NotificationDataStoreFactory
+import com.friendalert.shivangshah.data.source.NotificationRemoteDataStore
 import com.friendalert.shivangshah.domain.model.Notification
 import com.friendalert.shivangshah.domain.repository.NotificationRepository
 import io.reactivex.Completable
@@ -25,7 +26,20 @@ class NotificationDataRepository @Inject constructor(private val factory: Notifi
     }
 
     override fun getNotifications(): Single<List<Notification>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val dataStore = factory.retrieveDataStore()
+        return dataStore.getNotifications()
+                .flatMap {
+                    if (dataStore is NotificationRemoteDataStore) {
+                        saveNotificationEntities(it).toSingle { it }
+                    } else {
+                        Single.just(it)
+                    }
+                }
+                .map { list ->
+                    list.map { listItem ->
+                        notificationMapper.mapFromEntity(listItem)
+                    }
+                }
     }
 
     private fun saveNotificationEntities(notifications: List<NotificationEntity>): Completable {

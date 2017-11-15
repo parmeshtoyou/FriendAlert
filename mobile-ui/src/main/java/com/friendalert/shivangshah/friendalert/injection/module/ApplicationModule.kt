@@ -2,9 +2,14 @@ package com.friendalert.shivangshah.friendalert.injection.module
 
 import android.app.Application
 import android.content.Context
+import com.friendalert.shivangshah.cache.NotificationsCacheImpl
+import com.friendalert.shivangshah.cache.PreferencesHelper
+import com.friendalert.shivangshah.cache.db.DbOpenHelper
+import com.friendalert.shivangshah.cache.mapper.NotificationEntityMapper
 import com.friendalert.shivangshah.data.NotificationDataRepository
 import com.friendalert.shivangshah.data.executor.JobExecutor
 import com.friendalert.shivangshah.data.mapper.NotificationMapper
+import com.friendalert.shivangshah.data.repository.NotificationCache
 import com.friendalert.shivangshah.data.repository.NotificationRemote
 import com.friendalert.shivangshah.data.source.NotificationDataStoreFactory
 import com.friendalert.shivangshah.domain.executor.PostExecutionThread
@@ -37,11 +42,11 @@ open class ApplicationModule {
         return application
     }
 
-//    @Provides
-//    @PerApplication
-//    internal fun providePreferencesHelper(context: Context): PreferencesHelper {
-//        return PreferencesHelper(context)
-//    }
+    @Provides
+    @PerApplication
+    internal fun providePreferencesHelper(context: Context): PreferencesHelper {
+        return PreferencesHelper(context)
+    }
 
 
     @Provides
@@ -51,14 +56,14 @@ open class ApplicationModule {
         return NotificationDataRepository(factory, mapper)
     }
 
-//    @Provides
-//    @PerApplication
-//    internal fun provideNotificationsCache(factory: DbOpenHelper,
-//                                      entityMapper: NotificationEntityMapper,
-//                                      mapper: com.friendalert.shivangshah.cache.db.mapper.NotificationMapper,
-//                                      helper: PreferencesHelper): NotificationsCache {
-//        return NotificationCacheImpl(factory, entityMapper, mapper, helper)
-//    }
+    @Provides
+    @PerApplication
+    internal fun provideNotificationsCache(factory: DbOpenHelper,
+                                           entityMapper: NotificationEntityMapper,
+                                           mapper: com.friendalert.shivangshah.cache.db.mapper.NotificationMapper,
+                                           helper: PreferencesHelper): NotificationCache {
+        return NotificationsCacheImpl(factory, entityMapper, mapper, helper)
+    }
 
     @Provides
     @PerApplication

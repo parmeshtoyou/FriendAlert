@@ -14,7 +14,7 @@ interface NotificationCache {
     /**
      * Clear all Bufferoos from the cache
      */
-    fun clearBufferoos(): Completable
+    fun clearNotifications(): Completable
 
     /**
      * Save a given list of Bufferoos to the cache
