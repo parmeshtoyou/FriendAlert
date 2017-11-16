@@ -39,7 +39,8 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
     }
 
     override fun showProgress() {
-        Log.d("show","progress")    }
+        Log.d("show","progress")
+    }
 
     override fun hideProgress() {
         Log.d("hide","progress")
@@ -64,7 +65,7 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
     }
 
     override fun showEmptyState() {
-        Log.d("show","notifications")
+        Log.d("show","empty state")
     }
 
     override fun hideEmptyState() {

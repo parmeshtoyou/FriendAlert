@@ -17,5 +17,4 @@ open class NotificationMapper @Inject constructor(): Mapper<NotificationView, No
         return NotificationView(type.name, type.title, type.avatar)
     }
 
-
 }

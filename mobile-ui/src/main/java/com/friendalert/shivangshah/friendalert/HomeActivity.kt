@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.MenuItem
 import android.widget.FrameLayout
+import com.friendalert.shivangshah.friendalert.myplaces.MyPlacesFragment
 import com.friendalert.shivangshah.friendalert.notifications.NotificationsFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -44,8 +45,8 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
                     Log.d("","")
             R.id.menu_myplace ->
                 Log.d("","")
-            R.id.menu_friends ->
-                Log.d("","")
+            R.id.menu_friends -> switchToMyPlacesFragment()
+
             R.id.menu_notifications -> switchToNotificationsFragment()
         }
 
@@ -55,6 +56,11 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     fun switchToNotificationsFragment() {
         val manager = supportFragmentManager
         manager.beginTransaction().replace(R.id.containerLayout, NotificationsFragment().instantiate(Bundle())).commit()
+    }
+
+    fun switchToMyPlacesFragment() {
+        val manager = supportFragmentManager
+        manager.beginTransaction().replace(R.id.containerLayout, MyPlacesFragment().instantiate(Bundle())).commit()
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
