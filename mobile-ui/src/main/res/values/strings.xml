@@ -8,4 +8,7 @@
     <string name="menu_myplace">MyPlace</string>
     <string name="menu_friends">Friends</string>
     <string name="menu_notifications">Notifications</string>
+
+    <string name="facebook_app_id">124124281489708</string>
+    <string name="fb_login_protocol_scheme">fb124124281489708</string>
 </resources>

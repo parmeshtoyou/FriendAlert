@@ -23,11 +23,10 @@ import com.friendalert.shivangshah.domain.notifications.NotificationRepository
 import com.friendalert.shivangshah.friendalert.BuildConfig
 import com.friendalert.shivangshah.friendalert.UiThread
 import com.friendalert.shivangshah.friendalert.injection.component.HomeActivitySubComponent
-import com.friendalert.shivangshah.friendalert.injection.component.TestActivitySubComponent
+import com.friendalert.shivangshah.friendalert.injection.component.LoginActivitySubComponent
 import dagger.Module
 import dagger.Provides
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
-import com.friendalert.shivangshah.remote.myplaces.MyPlaceEntityMapper
 import com.friendalert.shivangshah.remote.myplaces.MyPlaceRemoteImpl
 import com.friendalert.shivangshah.remote.myplaces.MyPlaceService
 import com.friendalert.shivangshah.remote.myplaces.MyPlaceServiceFactory
@@ -42,7 +41,7 @@ import com.friendalert.shivangshah.remote.notifications.NotificationServiceFacto
  *
  */
 @Module(subcomponents = arrayOf(HomeActivitySubComponent::class,
-                                TestActivitySubComponent::class))
+                                LoginActivitySubComponent::class))
 open class ApplicationModule {
 
     @Provides

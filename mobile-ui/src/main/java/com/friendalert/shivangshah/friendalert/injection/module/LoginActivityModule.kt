@@ -6,7 +6,7 @@ import dagger.Module
  * Created by shivangshah on 11/13/17.
  */
 @Module
-abstract class TestActivityModule {
+abstract class LoginActivityModule {
 
 
 

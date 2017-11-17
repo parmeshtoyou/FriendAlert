@@ -87,6 +87,7 @@ dependencies {
     implementation mobileUiDependencies.dagger
     implementation mobileUiDependencies.daggerSupport
     implementation mobileUiDependencies.constraintLayout
+    implementation mobileUiDependencies.facebookSDK
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation mobileUiTestDependencies.kotlinJUnit
