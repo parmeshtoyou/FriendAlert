@@ -1,25 +1,28 @@
 package com.friendalert.shivangshah.friendalert.login
 
-import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
+import android.widget.Toast
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
-import com.facebook.login.widget.LoginButton
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
-import android.content.Intent
+import com.facebook.login.widget.LoginButton
+import com.friendalert.shivangshah.cache.PreferencesHelper
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.presentation.login.LoginContract
-import com.friendalert.shivangshah.presentation.myplaces.MyPlacesContract
+import com.friendalert.shivangshah.presentation.login.LoginPresenter
 import dagger.android.AndroidInjection
-import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     @Inject lateinit var loginPresenter : LoginContract.Presenter
+    @Inject lateinit var preferencesHelper: PreferencesHelper
 
     override fun setPresenter(presenter: LoginContract.Presenter) {
         loginPresenter = presenter;
@@ -31,7 +34,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
         AndroidInjection.inject(this)
 
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
@@ -41,7 +43,13 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                loginPresenter.loginUser()
+                loginPresenter.loginUser(loginResult.accessToken.userId,
+                        "Shivang",
+                        "Shah",
+                        "2013144410",
+                        "newToken",
+                        "oldToken",
+                        1)
             }
 
             override fun onCancel() {
@@ -52,10 +60,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
             }
         })
+
     }
 
     override fun loginUser() {
-
+        //Start Home Activity
+        Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_LONG).show();
     }
 
     override fun showProgress() {
@@ -67,7 +77,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun showErrorState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(getApplicationContext(), "Login Fail", Toast.LENGTH_LONG).show();
     }
 
     override fun hideErrorState() {

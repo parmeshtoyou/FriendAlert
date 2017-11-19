@@ -2,8 +2,10 @@ package com.friendalert.shivangshah.cache
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.friendalert.shivangshah.cache.user.CachedUser
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.google.gson.Gson
 
 /**
  * General Preferences Helper class, used for storing preference values using the Preference API
@@ -29,5 +31,7 @@ class PreferencesHelper @Inject constructor(context: Context) {
     var lastCacheTime: Long
         get() = bufferPref.getLong(PREF_KEY_LAST_CACHE, 0)
         set(lastCache) = bufferPref.edit().putLong(PREF_KEY_LAST_CACHE, lastCache).apply()
+
+    fun getSharedPreferences(): SharedPreferences { return bufferPref }
 
 }

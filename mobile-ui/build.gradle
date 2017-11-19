@@ -90,6 +90,7 @@ dependencies {
     implementation mobileUiDependencies.facebookSDK
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.google.firebase:firebase-messaging:11.0.4'
     testImplementation mobileUiTestDependencies.kotlinJUnit
 
     kapt mobileUiDependencies.daggerCompiler
@@ -125,3 +126,5 @@ dependencies {
     kaptTest mobileUiDependencies.daggerCompiler
     kaptAndroidTest mobileUiDependencies.daggerCompiler
 }
+
+apply plugin: 'com.google.gms.google-services'

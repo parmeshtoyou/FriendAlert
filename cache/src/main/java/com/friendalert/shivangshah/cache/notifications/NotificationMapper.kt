@@ -1,9 +1,9 @@
-package com.friendalert.shivangshah.cache.db.mapper
+package com.friendalert.shivangshah.cache.notifications
 
 import android.content.ContentValues
 import android.database.Cursor
 import com.friendalert.shivangshah.cache.db.Db
-import com.friendalert.shivangshah.cache.model.CachedNotification
+import com.friendalert.shivangshah.cache.db.ModelDbMapper
 import javax.inject.Inject
 
 /**

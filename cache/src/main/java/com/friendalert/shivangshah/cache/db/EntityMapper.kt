@@ -1,4 +1,4 @@
-package com.friendalert.shivangshah.cache.mapper
+package com.friendalert.shivangshah.cache.db
 
 /**
  * Interface for model mappers. It provides helper methods that facilitate

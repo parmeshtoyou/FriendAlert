@@ -1,4 +1,4 @@
-package com.friendalert.shivangshah.cache.db.mapper
+package com.friendalert.shivangshah.cache.db
 
 import android.content.ContentValues
 import android.database.Cursor

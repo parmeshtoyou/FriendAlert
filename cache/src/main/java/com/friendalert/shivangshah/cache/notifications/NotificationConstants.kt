@@ -1,4 +1,4 @@
-package com.friendalert.shivangshah.cache.db.constants
+package com.friendalert.shivangshah.cache.notifications
 
 import com.friendalert.shivangshah.cache.db.Db
 

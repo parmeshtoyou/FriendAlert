@@ -182,7 +182,7 @@ ext {
             daggerProcessor:    "com.google.dagger:dagger-android-processor:${daggerVersion}",
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
             constraintLayout:   'com.android.support.constraint:constraint-layout:1.0.2',
-            facebookSDK:         "com.facebook.android:facebook-android-sdk:${facebookSDKVersion}"
+            facebookSDK:        "com.facebook.android:facebook-android-sdk:${facebookSDKVersion}"
     ]
 
     mobileUiTestDependencies = [

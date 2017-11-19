@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "328770058023",
+    "firebase_url": "https://friendalert-d67b0.firebaseio.com",
+    "project_id": "friendalert-d67b0",
+    "storage_bucket": "friendalert-d67b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328770058023:android:ae18c006a1af15d7",
+        "android_client_info": {
+          "package_name": "com.ssbb.friendalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328770058023-mcuuc5640920g9h24bed6l0ioq22gbpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssbb.friendalert",
+            "certificate_hash": "25c76fd3f37a864edd750a9d134323b5159cf14d"
+          }
+        },
+        {
+          "client_id": "328770058023-k9enfikdmrhcbapsclm14q1m3amcbcl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4hPkcU-zph9IbSqkhVC-j1haE1snxpmg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328770058023-d2r6i9kn7gkpbvf8cufe2du56l5vq23g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.FriendAlert.friendalert"
+              }
+            },
+            {
+              "client_id": "328770058023-k9enfikdmrhcbapsclm14q1m3amcbcl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328770058023:android:c0d35ab2acdb4112",
+        "android_client_info": {
+          "package_name": "com.friendalert.shivangshah.friendalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328770058023-bdk2fvq0ccfvsalldqi5c3dhlfgdnq8p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.friendalert.shivangshah.friendalert",
+            "certificate_hash": "b1b0f2a9f7b3a4178d30d06b81ccbac3a5049377"
+          }
+        },
+        {
+          "client_id": "328770058023-k9enfikdmrhcbapsclm14q1m3amcbcl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4hPkcU-zph9IbSqkhVC-j1haE1snxpmg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328770058023-d2r6i9kn7gkpbvf8cufe2du56l5vq23g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.FriendAlert.friendalert"
+              }
+            },
+            {
+              "client_id": "328770058023-k9enfikdmrhcbapsclm14q1m3amcbcl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

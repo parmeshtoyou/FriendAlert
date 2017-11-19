@@ -1,12 +1,9 @@
-package com.friendalert.shivangshah.cache
+package com.friendalert.shivangshah.cache.notifications
 
 import android.database.sqlite.SQLiteDatabase
+import com.friendalert.shivangshah.cache.PreferencesHelper
 import com.friendalert.shivangshah.cache.db.Db
 import com.friendalert.shivangshah.cache.db.DbOpenHelper
-import com.friendalert.shivangshah.cache.db.constants.NotificationConstants
-import com.friendalert.shivangshah.cache.db.mapper.NotificationMapper
-import com.friendalert.shivangshah.cache.mapper.NotificationEntityMapper
-import com.friendalert.shivangshah.cache.model.CachedNotification
 import com.friendalert.shivangshah.data.notifications.NotificationEntity
 import com.friendalert.shivangshah.data.notifications.repository.NotificationCache
 import io.reactivex.Completable
@@ -44,7 +41,8 @@ class NotificationsCacheImpl @Inject constructor(dbOpenHelper: DbOpenHelper,
                 database.endTransaction()
             }
             Completable.complete()
-        }    }
+        }
+    }
 
     override fun saveNotifications(notifications: List<NotificationEntity>): Completable {
         return Completable.defer {

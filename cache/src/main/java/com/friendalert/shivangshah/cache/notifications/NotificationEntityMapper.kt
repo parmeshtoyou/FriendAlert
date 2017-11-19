@@ -1,6 +1,6 @@
-package com.friendalert.shivangshah.cache.mapper
+package com.friendalert.shivangshah.cache.notifications
 
-import com.friendalert.shivangshah.cache.model.CachedNotification
+import com.friendalert.shivangshah.cache.db.EntityMapper
 import com.friendalert.shivangshah.data.notifications.NotificationEntity
 import javax.inject.Inject
 

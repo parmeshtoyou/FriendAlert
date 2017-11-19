@@ -1,4 +1,4 @@
-package com.friendalert.shivangshah.cache.model
+package com.friendalert.shivangshah.cache.notifications
 
 /**
  * Model used solely for the caching of a bufferroo

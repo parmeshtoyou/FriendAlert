@@ -26,7 +26,13 @@ interface LoginContract {
 
     interface Presenter : BasePresenter {
 
-        fun loginUser()
+        fun loginUser(id: String,
+                      firstName: String,
+                      lastName: String,
+                      phoneNumber: String,
+                      newPushNotification: String,
+                      oldPushNotification: String,
+                      active: Int)
 
     }
 
