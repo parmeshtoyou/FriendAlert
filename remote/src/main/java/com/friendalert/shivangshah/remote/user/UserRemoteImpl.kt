@@ -16,11 +16,16 @@ class UserRemoteImpl @Inject constructor(private val userService: UserService,
         UserRemote {
 
     override fun createUser(user: UserEntity): Single<UserResponseModelEntity> {
-//        val requestModel : UserRequestModel = requestModelEntityMapper.mapFromEntity(user)
-//        return userService.createUser(requestModel).map { response -> responseModelEntityMapper.mapFromRemote(response.userResponseModel) }
+        val requestModel : UserRequestModel = requestModelEntityMapper.mapFromEntity(user)
 
-        var response = UserResponseModel(customCode = CustomResponseCodes.createSuccess)
-        return Single.just(response).map { userResponse -> responseModelEntityMapper.mapFromRemote(response) }
+        return userService.createUser(requestModel)
+                .map {
+                    response ->
+                        responseModelEntityMapper.mapFromRemote(response)
+                }
+//
+//        var response = UserResponseModel(customCode = CustomResponseCodes.createSuccess)
+//        return Single.just(response).map { userResponse -> responseModelEntityMapper.mapFromRemote(response) }
     }
 
     override fun updateUser(user: UserEntity): Single<UserResponseModelEntity> {

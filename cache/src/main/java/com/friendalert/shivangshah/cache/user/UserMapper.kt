@@ -14,14 +14,14 @@ open class UserMapper @Inject constructor(): Mapper<UserEntity, CachedUser> {
      * Map a [UserEntity] instance to a [User] instance
      */
     override fun mapFromEntity(type: UserEntity): CachedUser {
-        return CachedUser(type.userId, type.firstName, type.lastName, type.newPushNotificationToken, type.oldPushNotificationToken, type.phoneNumber, type.active)
+        return CachedUser(type.userId, type.firstName, type.lastName, type.phoneNumber, type.newPushNotificationToken, type.oldPushNotificationToken, type.active)
     }
 
     /**
      * Map a [Bufferoo] instance to a [BufferooEntity] instance
      */
     override fun mapToEntity(type: CachedUser): UserEntity {
-        return UserEntity(type.userId, type.firstName, type.lastName, type.newPushNotificationToken, type.oldPushNotificationToken, type.phoneNumber, type.active)
+        return UserEntity(type.userId, type.firstName, type.lastName, type.phoneNumber, type.newPushNotificationToken, type.oldPushNotificationToken, type.active)
     }
 
 

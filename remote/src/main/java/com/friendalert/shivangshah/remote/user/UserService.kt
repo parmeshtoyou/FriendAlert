@@ -1,10 +1,8 @@
 package com.friendalert.shivangshah.remote.user
 
-import com.friendalert.shivangshah.remote.notifications.NotificationModel
-import com.friendalert.shivangshah.remote.notifications.NotificationService
 import io.reactivex.Single
+import retrofit2.http.Body
 import retrofit2.http.DELETE
-import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -13,17 +11,17 @@ import retrofit2.http.PUT
  */
 interface UserService {
 
-    @POST("team.json")
-    fun createUser(user : UserRequestModel): Single<UserResponse>
+    @POST("login")
+    fun createUser(@Body user : UserRequestModel): Single<UserResponseModel>
 
     @PUT("")
-    fun updateUser(user : UserRequestModel): Single<UserResponse>
+    fun updateUser(user : UserRequestModel): Single<UserResponseModel>
 
     @DELETE("")
-    fun deleteUser(user : UserRequestModel): Single<UserResponse>
+    fun deleteUser(user : UserRequestModel): Single<UserResponseModel>
 
-    class UserResponse {
-        lateinit var userResponseModel: UserResponseModel
+    class BufferooResponse {
+        var customCode: Int = 1
     }
 
 }

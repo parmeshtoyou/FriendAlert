@@ -24,7 +24,7 @@ object UserServiceFactory {
 
     private fun makeUserService(okHttpClient: OkHttpClient, gson: Gson): UserService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://joe-birch-dsdb.squarespace.com/s/")
+                .baseUrl("https://x8w743ocle.execute-api.us-east-1.amazonaws.com/dev/api/users/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))

@@ -15,14 +15,14 @@ open class UserMapper @Inject constructor(): Mapper<UserEntity, User> {
      * Map a [UserEntity] instance to a [User] instance
      */
     override fun mapFromEntity(type: UserEntity): User {
-        return User(type.userId, type.firstName, type.lastName, type.newPushNotificationToken, type.oldPushNotificationToken, type.phoneNumber, type.active)
+        return User(type.userId, type.firstName, type.lastName, type.phoneNumber, type.newPushNotificationToken, type.oldPushNotificationToken, type.active)
     }
 
     /**
      * Map a [Bufferoo] instance to a [BufferooEntity] instance
      */
     override fun mapToEntity(type: User): UserEntity {
-        return UserEntity(type.userId, type.firstName, type.lastName, type.newPushNotificationToken, type.oldPushNotificationToken, type.phoneNumber, type.active)
+        return UserEntity(type.userId, type.firstName, type.lastName, type.phoneNumber, type.newPushNotificationToken, type.oldPushNotificationToken, type.active)
     }
 
 

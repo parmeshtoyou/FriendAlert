@@ -1,9 +1,7 @@
 package com.friendalert.shivangshah.remote.user
 
-import com.friendalert.shivangshah.data.notifications.NotificationEntity
 import com.friendalert.shivangshah.data.user.UserResponseModelEntity
 import com.friendalert.shivangshah.remote.EntityMapper
-import com.friendalert.shivangshah.remote.notifications.NotificationModel
 import javax.inject.Inject
 
 /**

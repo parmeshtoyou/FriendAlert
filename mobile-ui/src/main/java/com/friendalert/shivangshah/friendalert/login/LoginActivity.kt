@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                loginPresenter.loginUser(loginResult.accessToken.userId,
+                loginPresenter.loginUser("11",
                         "Shivang",
                         "Shah",
                         "2013144410",
