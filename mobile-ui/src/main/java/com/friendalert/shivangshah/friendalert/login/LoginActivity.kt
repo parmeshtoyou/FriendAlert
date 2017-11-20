@@ -29,7 +29,6 @@ import com.facebook.login.LoginManager
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     @Inject lateinit var loginPresenter : LoginContract.Presenter
-    @Inject lateinit var preferencesHelper: PreferencesHelper
 
     override fun setPresenter(presenter: LoginContract.Presenter) {
         loginPresenter = presenter;
@@ -52,6 +51,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
             override fun onSuccess(loginResult: LoginResult) {
 
                 val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
                 var newPushNotificationToken = preferences.getString("newPushNotificationToken", "")
                 var oldPushNotificationToken = preferences.getString("oldPushNotificationToken", "")
                 var firstName = ""

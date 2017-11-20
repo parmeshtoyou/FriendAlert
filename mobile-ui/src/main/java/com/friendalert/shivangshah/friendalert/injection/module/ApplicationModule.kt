@@ -33,6 +33,7 @@ import com.friendalert.shivangshah.friendalert.BuildConfig
 import com.friendalert.shivangshah.friendalert.UiThread
 import com.friendalert.shivangshah.friendalert.injection.component.HomeActivitySubComponent
 import com.friendalert.shivangshah.friendalert.injection.component.LoginActivitySubComponent
+import com.friendalert.shivangshah.friendalert.injection.component.SplashActivitySubComponent
 import dagger.Module
 import dagger.Provides
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
@@ -54,7 +55,8 @@ import com.friendalert.shivangshah.remote.user.UserServiceFactory
  *
  */
 @Module(subcomponents = arrayOf(HomeActivitySubComponent::class,
-                                LoginActivitySubComponent::class))
+                                LoginActivitySubComponent::class,
+                                SplashActivitySubComponent::class))
 open class ApplicationModule {
 
     @Provides

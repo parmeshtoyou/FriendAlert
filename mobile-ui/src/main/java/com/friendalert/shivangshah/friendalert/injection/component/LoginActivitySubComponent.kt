@@ -1,10 +1,7 @@
 package com.friendalert.shivangshah.friendalert.injection.component
 
-import com.friendalert.shivangshah.friendalert.login.LoginActivity
-import com.friendalert.shivangshah.friendalert.injection.module.HomeActivityModule
 import com.friendalert.shivangshah.friendalert.injection.module.LoginActivityModule
-import com.friendalert.shivangshah.friendalert.injection.module.MyPlacesFragmentModule
-import com.friendalert.shivangshah.friendalert.injection.scopes.PerActivity
+import com.friendalert.shivangshah.friendalert.login.LoginActivity
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 

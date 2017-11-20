@@ -61,7 +61,7 @@ class UserDataRepository @Inject constructor(private val factory: UserDataStoreF
     }
 
     override fun getUser(): Single<User> {
-        return factory.retrieveRemoteDataStore().getUser().map { user -> mapper.mapFromEntity(user) }
+        return factory.retrieveCacheDataStore().getUser().map { user -> mapper.mapFromEntity(user) }
     }
 
 }

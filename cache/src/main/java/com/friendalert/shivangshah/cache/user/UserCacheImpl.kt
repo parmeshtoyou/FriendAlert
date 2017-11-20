@@ -34,7 +34,7 @@ class UserCacheImpl @Inject constructor(private val preferencesHelper : Preferen
             val json = gson.toJson(mapper.mapFromEntity(user))
             preferencesHelper.getSharedPreferences().edit().putString("userObject", json).commit()
 
-            var response = UserResponseModel(customCode = 1)
+            var response = UserResponseModel(customCode = CustomResponseCodes.updateSuccess)
 
             Single.just(response).map { userResponse -> responseMapper.mapFromCached(response) }
         }
@@ -44,7 +44,7 @@ class UserCacheImpl @Inject constructor(private val preferencesHelper : Preferen
         return Single.defer{
             preferencesHelper.getSharedPreferences().edit().putString("", "").commit()
 
-            var response = UserResponseModel(customCode = 1)
+            var response = UserResponseModel(customCode = CustomResponseCodes.deleteSuccess)
 
             Single.just(response).map { userResponse -> responseMapper.mapFromCached(response) }
         }
@@ -58,8 +58,11 @@ class UserCacheImpl @Inject constructor(private val preferencesHelper : Preferen
             val json = preferencesHelper.getSharedPreferences().getString("userObject", "")
             val cachedUser = gson.fromJson<CachedUser>(json, CachedUser::class.java)
 
-            Single.just(mapper.mapToEntity(cachedUser))
-
+            if(cachedUser == null){
+                Single.just(mapper.mapToEntity(CachedUser("","","","","","",0)))
+            }else{
+                Single.just(mapper.mapToEntity(cachedUser))
+            }
         }
     }
 
