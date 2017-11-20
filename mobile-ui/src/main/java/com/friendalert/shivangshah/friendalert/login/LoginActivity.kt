@@ -2,7 +2,9 @@ package com.friendalert.shivangshah.friendalert.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.facebook.CallbackManager
@@ -17,6 +19,11 @@ import com.friendalert.shivangshah.presentation.login.LoginPresenter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
+import com.facebook.GraphResponse
+import org.json.JSONObject
+import com.facebook.GraphRequest
+import com.facebook.GraphRequestAsyncTask
+import com.facebook.login.LoginManager
 
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
@@ -39,17 +46,32 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
         callbackManager = CallbackManager.Factory.create()
         val loginButton = findViewById<LoginButton>(R.id.login_button)
-        loginButton.setReadPermissions("email")
+        loginButton.setReadPermissions("public_profile");
 
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                loginPresenter.loginUser("11",
-                        "Shivang",
-                        "Shah",
-                        "2013144410",
-                        "newToken",
-                        "oldToken",
-                        1)
+
+                val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                var newPushNotificationToken = preferences.getString("newPushNotificationToken", "")
+                var oldPushNotificationToken = preferences.getString("oldPushNotificationToken", "")
+                var firstName = ""
+                var lastName = ""
+
+                val request = GraphRequest.newMeRequest(loginResult.accessToken) { user, graphResponse ->
+                    var name = user.optString("name")
+                    firstName = name.split(' ')[0]
+                    lastName = name.split(' ')[1]
+
+                    Log.d("Name", user.optString("name"))
+                    loginPresenter.loginUser(loginResult.accessToken.userId,
+                            firstName,
+                            lastName,
+                            "2013144410",
+                            newPushNotificationToken,
+                            oldPushNotificationToken,
+                            1)
+                }.executeAsync()
+
             }
 
             override fun onCancel() {
@@ -78,6 +100,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override fun showErrorState() {
         Toast.makeText(getApplicationContext(), "Login Fail", Toast.LENGTH_LONG).show();
+        LoginManager.getInstance().logOut()
+
     }
 
     override fun hideErrorState() {
