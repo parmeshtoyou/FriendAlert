@@ -17,14 +17,6 @@ class MyPlaceDataRepository @Inject constructor(private val factory: MyPlaceData
     override fun getMyPlaces(userId: String): Single<MyPlaces> {
         val dataStore = factory.retrieveDataStore()
         return dataStore.getMyPlaces(userId)
-                .flatMap {
-//                    if (dataStore is MyPlaceRemoteDataStore) {
-//                        saveNotificationEntities(it).toSingle { it }
-//                    } else {
-//                        Single.just(it)
-//                    }
-                    Single.just(it)
-                }
                 .map {
                     responseEntity: MyPlacesResponseEntity -> myPlacesMapper.mapFromEntity(responseEntity)
                 }

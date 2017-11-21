@@ -11,7 +11,7 @@ import javax.inject.Inject
 open class MyPlaceEntityMapper @Inject constructor(): EntityMapper<MyPlacesResponseModel, MyPlacesResponseEntity> {
 
     /**
-     * Map an instance of a [MyPlaceModel] to a [MyPlacesResponseEntity] model
+     * Map an instance of a [MyPlaceRequestModel] to a [MyPlacesResponseEntity] model
      * remote -> data layer
      */
     override fun mapFromRemote(type: MyPlacesResponseModel): MyPlacesResponseEntity {
