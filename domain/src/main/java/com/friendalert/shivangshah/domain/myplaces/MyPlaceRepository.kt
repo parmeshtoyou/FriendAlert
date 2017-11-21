@@ -8,6 +8,6 @@ import io.reactivex.Single
  */
 interface MyPlaceRepository {
 
-    fun getMyPlaces(): Single<List<MyPlace>>
+    fun getMyPlaces(userId: String): Single<MyPlaces>
 
 }

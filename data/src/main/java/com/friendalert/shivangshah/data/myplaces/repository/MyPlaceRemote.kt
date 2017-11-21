@@ -1,6 +1,6 @@
 package com.friendalert.shivangshah.data.myplaces.repository
 
-import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
+import com.friendalert.shivangshah.data.myplaces.MyPlacesResponseEntity
 import io.reactivex.Single
 
 /**
@@ -11,6 +11,6 @@ interface MyPlaceRemote {
     /**
      * Retrieve a list of MyPlaces, from the service
      */
-    fun getMyPlaces(): Single<List<MyPlaceEntity>>
+    fun getMyPlaces(userId : String): Single<MyPlacesResponseEntity>
 
 }

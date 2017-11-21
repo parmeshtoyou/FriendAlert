@@ -1,11 +1,12 @@
-package com.friendalert.shivangshah.presentation.myplaces
+package com.friendalert.shivangshah.data.myplaces
 
 /**
- * Presentation Layer Model
+ * Data Layer Model
  */
-class MyPlaceView(var myPlaces: List<MyPlaceViewData>)
+class MyPlacesResponseEntity(var customCode: Int,
+                            var myPlaces: List<MyPlacesResponseEntityData>)
 
-class MyPlaceViewData(val base_camp_id: Int,
+class MyPlacesResponseEntityData(val base_camp_id: Int,
                                 val fk_user_id: String,
                                 val nickname: String,
                                 val address: String,

@@ -1,8 +1,8 @@
 package com.friendalert.shivangshah.data.myplaces
 
 import com.friendalert.shivangshah.data.myplaces.source.MyPlaceDataStoreFactory
-import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import com.friendalert.shivangshah.domain.myplaces.MyPlaceRepository
+import com.friendalert.shivangshah.domain.myplaces.MyPlaces
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -12,11 +12,11 @@ import javax.inject.Inject
  * cache data store will call local db
  */
 class MyPlaceDataRepository @Inject constructor(private val factory: MyPlaceDataStoreFactory,
-                                                private val myPlaceMapper: MyPlaceMapper) :
+                                                private val myPlacesMapper: MyPlacesMapper) :
         MyPlaceRepository {
-    override fun getMyPlaces(): Single<List<MyPlace>> {
+    override fun getMyPlaces(userId: String): Single<MyPlaces> {
         val dataStore = factory.retrieveDataStore()
-        return dataStore.getMyPlaces()
+        return dataStore.getMyPlaces(userId)
                 .flatMap {
 //                    if (dataStore is MyPlaceRemoteDataStore) {
 //                        saveNotificationEntities(it).toSingle { it }
@@ -25,10 +25,8 @@ class MyPlaceDataRepository @Inject constructor(private val factory: MyPlaceData
 //                    }
                     Single.just(it)
                 }
-                .map { list ->
-                    list.map { listItem ->
-                        myPlaceMapper.mapFromEntity(listItem)
-                    }
+                .map {
+                    responseEntity: MyPlacesResponseEntity -> myPlacesMapper.mapFromEntity(responseEntity)
                 }
     }
 }

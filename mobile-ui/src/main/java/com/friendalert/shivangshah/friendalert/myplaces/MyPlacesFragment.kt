@@ -20,7 +20,6 @@ import javax.inject.Inject
 class MyPlacesFragment : Fragment(), MyPlacesContract.View {
 
     @Inject lateinit var myPlacePresenter : MyPlacesContract.Presenter
-    @Inject lateinit var mapper : MyPlaceMapper
 
     override fun setPresenter(presenter: MyPlacesContract.Presenter) {
         myPlacePresenter = presenter;

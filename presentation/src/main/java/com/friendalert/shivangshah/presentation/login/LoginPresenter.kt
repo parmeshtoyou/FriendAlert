@@ -1,7 +1,6 @@
 package com.friendalert.shivangshah.presentation.login
 
 import com.friendalert.shivangshah.domain.SingleUseCase
-import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import com.friendalert.shivangshah.domain.user.User
 import com.friendalert.shivangshah.domain.user.UserResponse
 import com.friendalert.shivangshah.presentation.CustomResponseCodes

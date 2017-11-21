@@ -11,7 +11,7 @@ import com.friendalert.shivangshah.cache.user.UserResponseModelEntityMapper
 import com.friendalert.shivangshah.data.notifications.NotificationDataRepository
 import com.friendalert.shivangshah.data.JobExecutor
 import com.friendalert.shivangshah.data.myplaces.MyPlaceDataRepository
-import com.friendalert.shivangshah.data.myplaces.MyPlaceMapper
+import com.friendalert.shivangshah.data.myplaces.MyPlacesMapper
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
 import com.friendalert.shivangshah.data.myplaces.source.MyPlaceDataStoreFactory
 import com.friendalert.shivangshah.data.notifications.NotificationMapper
@@ -37,6 +37,7 @@ import com.friendalert.shivangshah.friendalert.injection.component.SplashActivit
 import dagger.Module
 import dagger.Provides
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
+import com.friendalert.shivangshah.presentation.myplaces.MyPlaceMapper
 import com.friendalert.shivangshah.remote.myplaces.MyPlaceRemoteImpl
 import com.friendalert.shivangshah.remote.myplaces.MyPlaceService
 import com.friendalert.shivangshah.remote.myplaces.MyPlaceServiceFactory
@@ -147,7 +148,7 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun provideMyPlacesRepository(factory: MyPlaceDataStoreFactory,
-                                           mapper: MyPlaceMapper): MyPlaceRepository {
+                                           mapper: MyPlacesMapper): MyPlaceRepository {
         return MyPlaceDataRepository(factory, mapper)
     }
 

@@ -1,6 +1,6 @@
 package com.friendalert.shivangshah.data.myplaces.repository
 
-import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
+import com.friendalert.shivangshah.data.myplaces.MyPlacesResponseEntity
 import io.reactivex.Single
 
 /**
@@ -9,6 +9,6 @@ import io.reactivex.Single
  */
 interface MyPlaceDataStore {
 
-    fun getMyPlaces(): Single<List<MyPlaceEntity>>
+    fun getMyPlaces(userId: String): Single<MyPlacesResponseEntity>
 
 }

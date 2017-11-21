@@ -43,10 +43,8 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
         when(item.itemId){
             R.id.menu_broadcast ->
                     Log.d("","")
-            R.id.menu_myplace ->
-                Log.d("","")
+            R.id.menu_myplace -> switchToMyPlacesFragment()
             R.id.menu_friends -> switchToMyPlacesFragment()
-
             R.id.menu_notifications -> switchToNotificationsFragment()
         }
 

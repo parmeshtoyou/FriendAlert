@@ -32,6 +32,7 @@ ext {
     daggerVersion = '2.11'
     glassfishAnnotationVersion = '10.0-b28'
     facebookSDKVersion = '[4,5)'
+    playServicesVersion = '11.0.4'
 
     //Testing
     robolectricVersion = '3.4.2'
@@ -182,7 +183,11 @@ ext {
             daggerProcessor:    "com.google.dagger:dagger-android-processor:${daggerVersion}",
             glassfishAnnotation: "org.glassfish:javax.annotation:${glassfishAnnotationVersion}",
             constraintLayout:   'com.android.support.constraint:constraint-layout:1.0.2',
-            facebookSDK:        "com.facebook.android:facebook-android-sdk:${facebookSDKVersion}"
+            facebookSDK:        "com.facebook.android:facebook-android-sdk:${facebookSDKVersion}",
+            mapsServices:       "com.google.android.gms:play-services-maps:${playServicesVersion}",
+            placesServices:     "com.google.android.gms:play-services-places:${playServicesVersion}",
+            firebaseMessaging:  "com.google.firebase:firebase-messaging:11.0.4"
+
     ]
 
     mobileUiTestDependencies = [

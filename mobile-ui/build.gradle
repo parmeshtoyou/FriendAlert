@@ -88,9 +88,11 @@ dependencies {
     implementation mobileUiDependencies.daggerSupport
     implementation mobileUiDependencies.constraintLayout
     implementation mobileUiDependencies.facebookSDK
+    implementation mobileUiDependencies.mapsServices
+    implementation mobileUiDependencies.placesServices
+    implementation mobileUiDependencies.firebaseMessaging
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.google.firebase:firebase-messaging:11.0.4'
     testImplementation mobileUiTestDependencies.kotlinJUnit
 
     kapt mobileUiDependencies.daggerCompiler
