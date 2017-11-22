@@ -1,11 +1,11 @@
-package com.friendalert.shivangshah.presentation.myplaces
+package com.friendalert.shivangshah.friendalert.myplaces
 
 /**
- * Presentation Layer Model
+ * Created by shivangshah on 11/21/17.
  */
-class MyPlaceView(var myPlaces: ArrayList<MyPlaceViewData>)
+class MyPlaceViewModel (var myPlaces: ArrayList<MyPlaceViewModelData>)
 
-class MyPlaceViewData(var base_camp_id: Int,
+class MyPlaceViewModelData(var base_camp_id: Int,
                       var fk_user_id: String,
                       var nickname: String,
                       var address: String,

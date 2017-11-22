@@ -14,7 +14,11 @@ interface MyPlacesContract {
 
         fun hideProgress()
 
-        fun showMyPlaces(myPlace: List<MyPlaceView>)
+        fun showMyPlaces(myPlace: List<MyPlaceViewData>)
+
+        fun addMyPlace(myPlace: MyPlaceViewData)
+
+        fun deleteMyPlace(myPlace: MyPlaceViewData)
 
         fun hideMyPlaces()
 
@@ -31,6 +35,8 @@ interface MyPlacesContract {
     interface Presenter : BasePresenter {
 
         fun retrieveMyPlaces()
+
+        fun createMyPlace(myPlace: MyPlaceViewData)
 
     }
 

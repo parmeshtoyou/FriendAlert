@@ -1,6 +1,5 @@
 package com.friendalert.shivangshah.domain.myplaces
 
-import com.friendalert.shivangshah.domain.notifications.Notification
 import io.reactivex.Single
 
 /**
@@ -9,5 +8,9 @@ import io.reactivex.Single
 interface MyPlaceRepository {
 
     fun getMyPlaces(userId: String): Single<MyPlaces>
+
+    fun createMyPlace(myPlace: MyPlace) : Single<MyPlaceResponse>
+
+    fun deleteMyPlace(myPlaceId: Int) : Single<MyPlaceResponse>
 
 }

@@ -21,11 +21,6 @@ open class GetMyPlaces @Inject constructor(val myPlaceRepository: MyPlaceReposit
 
         return userRepository.getUser().flatMap{
             user: User -> myPlaceRepository.getMyPlaces(user.userId) }
-//        }.flatMap {
-//            myPlaces: MyPlaces -> if(myPlaces.myPlaces.size == 0){
-//
-//            }
-//        }
 
     }
 

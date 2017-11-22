@@ -1,33 +1,21 @@
 package com.friendalert.shivangshah.remote.myplaces
 
-import com.friendalert.shivangshah.data.myplaces.MyPlacesResponseEntity
-import com.friendalert.shivangshah.data.myplaces.MyPlacesResponseEntityData
-import com.friendalert.shivangshah.remote.EntityMapper
+import com.friendalert.shivangshah.data.Mapper
+import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
+import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import javax.inject.Inject
 
 /**
- * Created by shivangshah on 11/15/17.
+ * Created by shivangshah on 11/21/17.
  */
-open class MyPlaceEntityMapper @Inject constructor(): EntityMapper<MyPlacesResponseModel, MyPlacesResponseEntity> {
+class MyPlaceEntityMapper @Inject constructor(): Mapper<MyPlaceEntity, MyPlaceRequestModel> {
 
-    /**
-     * Map an instance of a [MyPlaceRequestModel] to a [MyPlacesResponseEntity] model
-     * remote -> data layer
-     */
-    override fun mapFromRemote(type: MyPlacesResponseModel): MyPlacesResponseEntity {
+    override fun mapFromEntity(type: MyPlaceEntity): MyPlaceRequestModel {
+        return MyPlaceRequestModel(type.base_camp_id,type.fk_user_id,type.nickname,type.address,type.city,type.state,type.latitude,type.longitude,type.active)
+    }
 
-        var myPlaces : ArrayList<MyPlacesResponseEntityData> = ArrayList()
-
-        for (myPlace in type.myPlaces){
-            var myPlaceEntity = MyPlacesResponseEntityData(
-                    myPlace.base_camp_id,myPlace.fk_user_id, myPlace.nickname, myPlace.address, myPlace.city, myPlace.state,
-                    myPlace.latitude, myPlace.longitude, myPlace.active
-            )
-
-            myPlaces.add(myPlaceEntity)
-        }
-
-        return MyPlacesResponseEntity(type.customCode, myPlaces)
+    override fun mapToEntity(type: MyPlaceRequestModel): MyPlaceEntity {
+        return MyPlaceEntity(type.base_camp_id,type.fk_user_id,type.nickname,type.address,type.city,type.state,type.latitude,type.longitude,type.active)
     }
 
 }

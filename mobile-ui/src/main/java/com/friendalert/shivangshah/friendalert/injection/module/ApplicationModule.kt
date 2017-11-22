@@ -11,6 +11,8 @@ import com.friendalert.shivangshah.cache.user.UserResponseModelEntityMapper
 import com.friendalert.shivangshah.data.notifications.NotificationDataRepository
 import com.friendalert.shivangshah.data.JobExecutor
 import com.friendalert.shivangshah.data.myplaces.MyPlaceDataRepository
+import com.friendalert.shivangshah.data.myplaces.MyPlaceMapper
+import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntityMapper
 import com.friendalert.shivangshah.data.myplaces.MyPlacesMapper
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
 import com.friendalert.shivangshah.data.myplaces.source.MyPlaceDataStoreFactory
@@ -37,10 +39,8 @@ import com.friendalert.shivangshah.friendalert.injection.component.SplashActivit
 import dagger.Module
 import dagger.Provides
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
-import com.friendalert.shivangshah.presentation.myplaces.MyPlaceMapper
-import com.friendalert.shivangshah.remote.myplaces.MyPlaceRemoteImpl
-import com.friendalert.shivangshah.remote.myplaces.MyPlaceService
-import com.friendalert.shivangshah.remote.myplaces.MyPlaceServiceFactory
+import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
+import com.friendalert.shivangshah.remote.myplaces.*
 import com.friendalert.shivangshah.remote.notifications.NotificationRemoteImpl
 import com.friendalert.shivangshah.remote.notifications.NotificationService
 import com.friendalert.shivangshah.remote.notifications.NotificationServiceFactory
@@ -148,14 +148,16 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun provideMyPlacesRepository(factory: MyPlaceDataStoreFactory,
-                                           mapper: MyPlacesMapper): MyPlaceRepository {
-        return MyPlaceDataRepository(factory, mapper)
+                                           mapper: MyPlacesMapper,
+                                           myPlaceMapper: MyPlaceMapper,
+                                           myPlaceResponseEntityMapper: MyPlaceResponseEntityMapper): MyPlaceRepository {
+        return MyPlaceDataRepository(factory, mapper,myPlaceMapper,myPlaceResponseEntityMapper)
     }
 
 //    @Provides
 //    @PerApplication
 //    internal fun provideMyPlacesCache(factory: DbOpenHelper,
-//                                      entityMapper: MyPlaceEntityMapper,
+//                                      entityMapper: MyPlacesEntityMapper,
 //                                      mapper: com.friendalert.shivangshah.cache.db.mapper.MyPlaceMapper,
 //                                      helper: PreferencesHelper): MyPlaceCache {
 //        return MyPlaceCacheImpl(factory, entityMapper, mapper, helper)
@@ -164,14 +166,22 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun provideMyPlacesRemote(service: MyPlaceService,
-                                            factory: com.friendalert.shivangshah.remote.myplaces.MyPlaceEntityMapper): MyPlaceRemote {
-        return MyPlaceRemoteImpl(service, factory)
+                                       myPlacesEntityMapper: com.friendalert.shivangshah.remote.myplaces.MyPlacesEntityMapper,
+                                       myPlaceEntityMapper: MyPlaceEntityMapper,
+                                       myPlaceResponseModelMapper: MyPlaceResponseModelMapper): MyPlaceRemote {
+        return MyPlaceRemoteImpl(service, myPlacesEntityMapper, myPlaceEntityMapper, myPlaceResponseModelMapper)
     }
 
     @Provides
     @PerApplication
     internal fun provideMyPlacesService(): MyPlaceService {
         return MyPlaceServiceFactory.makeMyPlaceService(BuildConfig.DEBUG)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideMyPlacesPresentationModel(): MyPlacesPresentationModel{
+        return MyPlacesPresentationModel()
     }
 
 }

@@ -1,10 +1,13 @@
 package com.friendalert.shivangshah.friendalert.injection.module
 
+import com.friendalert.shivangshah.domain.myplaces.CreateMyPlace
+import com.friendalert.shivangshah.domain.myplaces.DeleteMyPlace
 import com.friendalert.shivangshah.domain.myplaces.GetMyPlaces
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerFragment
 import com.friendalert.shivangshah.friendalert.myplaces.MyPlacesFragment
 import com.friendalert.shivangshah.presentation.myplaces.MyPlaceMapper
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesContract
+import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresenter
 import dagger.Module
 import dagger.Provides
@@ -24,10 +27,13 @@ class MyPlacesFragmentModule {
     @PerFragment
     @Provides
     internal fun provideMyPlacesPresenter(mainView: MyPlacesContract.View,
-                                               getMyPlaces: GetMyPlaces,
-                                                    mapper: MyPlaceMapper):
+                                                    getMyPlaces: GetMyPlaces,
+                                                    createMyPlace: CreateMyPlace,
+                                                    deleteMyPlace: DeleteMyPlace,
+                                                    mapper: MyPlaceMapper,
+                                                    presentationModel: MyPlacesPresentationModel):
             MyPlacesContract.Presenter {
-        return MyPlacesPresenter(mainView, getMyPlaces, mapper)
+        return MyPlacesPresenter(mainView, getMyPlaces, createMyPlace, deleteMyPlace, mapper, presentationModel)
     }
 
 }
