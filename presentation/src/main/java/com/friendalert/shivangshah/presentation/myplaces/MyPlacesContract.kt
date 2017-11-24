@@ -38,6 +38,8 @@ interface MyPlacesContract {
 
         fun createMyPlace(myPlace: MyPlaceViewData)
 
+        fun deleteMyPlace(myPlaceId: Int)
+
     }
 
 }

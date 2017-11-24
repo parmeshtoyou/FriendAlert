@@ -15,6 +15,6 @@ interface MyPlaceService {
     @POST("basecamps")
     fun createMyPlace(@Body myPlaceRequestModel: MyPlaceRequestModel) : Single<MyPlaceResponseModel>
 
-    @DELETE("{id}")
+    @DELETE("basecamps/{id}")
     fun deleteMyPlace(@Path("id") myPlaceId: Int) : Single<MyPlaceResponseModel>
 }

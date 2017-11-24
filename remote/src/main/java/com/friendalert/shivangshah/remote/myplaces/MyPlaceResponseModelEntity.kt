@@ -11,7 +11,11 @@ import javax.inject.Inject
 class MyPlaceResponseModelMapper @Inject constructor(): EntityMapper<MyPlaceResponseModel, MyPlaceResponseEntity> {
 
     override fun mapFromRemote(type: MyPlaceResponseModel): MyPlaceResponseEntity {
-        return MyPlaceResponseEntity(type.customCode, MyPlaceResponseEntityData(type.data.insertId))
+        if(type.data == null){
+            return MyPlaceResponseEntity(type.customCode, MyPlaceResponseEntityData(0))
+        }else{
+            return MyPlaceResponseEntity(type.customCode, MyPlaceResponseEntityData(type.data?.insertId))
+        }
     }
 
 

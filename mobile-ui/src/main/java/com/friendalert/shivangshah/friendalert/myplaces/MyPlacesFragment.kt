@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.friendalert.notifications.NotificationMapper
 import com.friendalert.shivangshah.presentation.myplaces.MyPlaceViewData
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesContract
 import com.google.android.gms.common.api.Status
@@ -31,7 +30,7 @@ import javax.inject.Inject
 /**
  * Created by shivangshah on 11/15/17.
  */
-class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback {
+class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     lateinit var autocompleteFragment : SupportPlaceAutocompleteFragment
     lateinit var googleMap : GoogleMap
@@ -97,9 +96,29 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback {
 
     override fun onMapReady(p0: GoogleMap?) {
         googleMap = p0!!
+        googleMap.setOnMarkerClickListener(this)
 
         myPlacePresenter.start()
     }
+
+    override fun onMarkerClick(p0: Marker?): Boolean {
+
+        hashMapMarker.entries
+
+        var myPlaceId = 0
+
+        for(entry in hashMapMarker.entries){
+            if(entry.value == p0){
+                myPlaceId = entry.key
+            }
+        }
+
+        myPlacePresenter.deleteMyPlace(myPlaceId)
+
+
+        return true
+    }
+
 
     override fun showMyPlaces(myPlace: List<MyPlaceViewData>) {
 

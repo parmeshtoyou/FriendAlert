@@ -93,6 +93,11 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
     }
 
+    override fun deleteMyPlace(myPlaceId: Int) {
+        presentationModel.setToBeDeletedId(myPlaceId)
+        deleteMyPlaceUseCase.execute(DeleteMyPlaceSubscriber(), myPlaceId)
+    }
+
     inner class DeleteMyPlaceSubscriber: DisposableSingleObserver<MyPlaceResponse>(){
 
         override fun onSuccess(t: MyPlaceResponse) {
