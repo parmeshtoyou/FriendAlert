@@ -1,30 +1,20 @@
 package com.friendalert.shivangshah.presentation.myplaces
 
-import com.friendalert.shivangshah.domain.myplaces.MyPlaces
+import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import com.friendalert.shivangshah.presentation.Mapper
 import javax.inject.Inject
 
 /**
- * Created by shivangshah on 11/15/17.
+ * Created by shivangshah on 11/22/17.
  */
-class MyPlaceMapper @Inject constructor(): Mapper<MyPlaceView, MyPlaces> {
+class MyPlaceMapper @Inject constructor(): Mapper<MyPlaceViewData, MyPlace> {
 
-    /**
-     * Map a [Bufferoo] instance to a [BufferooView] instance
-     */
-    override fun mapToView(type: MyPlaces): MyPlaceView {
-        var myPlaces : ArrayList<MyPlaceViewData> = ArrayList()
+    fun mapFromView(type: MyPlaceViewData): MyPlace {
+        return MyPlace(type.base_camp_id,type.fk_user_id,type.nickname,type.address,type.city,type.state,type.latitude,type.longitude,type.active)
+    }
 
-        for (myPlace in type.myPlaces){
-            var myPlaceViewData = MyPlaceViewData(
-                    myPlace.base_camp_id,myPlace.fk_user_id, myPlace.nickname, myPlace.address, myPlace.city, myPlace.state,
-                    myPlace.latitude, myPlace.longitude, myPlace.active
-            )
-
-            myPlaces.add(myPlaceViewData)
-        }
-
-        return MyPlaceView(myPlaces)
+    override fun mapToView(type: MyPlace): MyPlaceViewData {
+        return MyPlaceViewData(type.base_camp_id,type.fk_user_id,type.nickname,type.address,type.city,type.state,type.latitude,type.longitude,type.active)
     }
 
 }

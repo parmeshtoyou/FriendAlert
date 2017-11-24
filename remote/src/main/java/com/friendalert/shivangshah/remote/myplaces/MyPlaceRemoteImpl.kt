@@ -18,7 +18,10 @@ class MyPlaceRemoteImpl @Inject constructor(private val myPlaceService: MyPlaceS
         MyPlaceRemote {
 
     override fun createMyPlace(myPlace: MyPlaceEntity): Single<MyPlaceResponseEntity> {
-        return myPlaceService.createMyPlace(myPlaceEntityMapper.mapFromEntity(myPlace)).map {
+
+        val myPlaceRequestModel = myPlaceEntityMapper.mapFromEntity(myPlace)
+
+        return myPlaceService.createMyPlace(myPlaceRequestModel).map {
             responseModel: MyPlaceResponseModel ->  responseModelEntityMapper.mapFromRemote(responseModel)
         }
     }

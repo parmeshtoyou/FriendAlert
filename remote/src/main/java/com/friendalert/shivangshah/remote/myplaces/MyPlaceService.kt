@@ -9,10 +9,10 @@ import retrofit2.http.*
  */
 interface MyPlaceService {
 
-    @GET("{id}")
+    @GET("basecamps/{id}")
     fun getMyPlaces(@Path("id") userId : String): Single<MyPlacesResponseModel>
 
-    @POST("")
+    @POST("basecamps")
     fun createMyPlace(@Body myPlaceRequestModel: MyPlaceRequestModel) : Single<MyPlaceResponseModel>
 
     @DELETE("{id}")

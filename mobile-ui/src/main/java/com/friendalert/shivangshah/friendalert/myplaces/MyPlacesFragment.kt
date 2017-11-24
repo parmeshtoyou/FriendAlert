@@ -9,20 +9,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.presentation.myplaces.MyPlaceView
+import com.friendalert.shivangshah.friendalert.notifications.NotificationMapper
 import com.friendalert.shivangshah.presentation.myplaces.MyPlaceViewData
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesContract
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 
 /**
@@ -32,6 +35,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback {
 
     lateinit var autocompleteFragment : SupportPlaceAutocompleteFragment
     lateinit var googleMap : GoogleMap
+    @Inject lateinit var mapper : MyPlaceMapper
 
     var hashMapMarker: HashMap<Int, Marker> = HashMap()
 
@@ -76,9 +80,9 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback {
                 var latitude = place.latLng.latitude.toString()
                 var longitude = place.latLng.longitude.toString()
 
-                var myPlaceViewModelData = MyPlaceViewModelData(0,"",nickname.toString(), address.toString(), city.country, "NJ", latitude, longitude, 1)
+                var myPlaceViewModelData = MyPlaceViewModelData(0,"", nickname.toString(), address.toString(), "Hackensack", "NJ", latitude, longitude, 1)
 
-                //myPlacePresenter.createMyPlace(myPlaceViewModelData)
+                myPlacePresenter.createMyPlace(mapper.mapFromViewModel(myPlaceViewModelData))
             }
 
             override fun onError(status: Status) {

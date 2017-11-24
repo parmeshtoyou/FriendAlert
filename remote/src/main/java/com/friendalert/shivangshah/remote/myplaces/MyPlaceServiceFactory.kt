@@ -24,7 +24,7 @@ object MyPlaceServiceFactory {
 
     private fun makeMyPlaceService(okHttpClient: OkHttpClient, gson: Gson): MyPlaceService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://x8w743ocle.execute-api.us-east-1.amazonaws.com/dev/api/basecamps/")
+                .baseUrl("https://x8w743ocle.execute-api.us-east-1.amazonaws.com/dev/api/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))

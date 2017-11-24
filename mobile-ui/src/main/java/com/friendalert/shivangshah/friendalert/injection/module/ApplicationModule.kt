@@ -158,7 +158,7 @@ open class ApplicationModule {
 //    @PerApplication
 //    internal fun provideMyPlacesCache(factory: DbOpenHelper,
 //                                      entityMapper: MyPlacesEntityMapper,
-//                                      mapper: com.friendalert.shivangshah.cache.db.mapper.MyPlaceMapper,
+//                                      mapper: com.friendalert.shivangshah.cache.db.mapper.MyPlacesMapper,
 //                                      helper: PreferencesHelper): MyPlaceCache {
 //        return MyPlaceCacheImpl(factory, entityMapper, mapper, helper)
 //    }

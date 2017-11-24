@@ -8,4 +8,4 @@ import com.google.gson.annotations.SerializedName
 class MyPlaceResponseModel(@SerializedName("customCode") val customCode: Int,
                            @SerializedName("data") val data: MyPlaceResponseModelData)
 
-class MyPlaceResponseModelData(val insertId: Int)
+class MyPlaceResponseModelData(@SerializedName("insertId") val insertId: Int)

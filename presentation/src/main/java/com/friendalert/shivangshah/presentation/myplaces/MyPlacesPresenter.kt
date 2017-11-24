@@ -1,7 +1,6 @@
 package com.friendalert.shivangshah.presentation.myplaces
 
 import com.friendalert.shivangshah.domain.SingleUseCase
-import com.friendalert.shivangshah.domain.myplaces.DeleteMyPlace
 import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import com.friendalert.shivangshah.domain.myplaces.MyPlaceResponse
 import com.friendalert.shivangshah.domain.myplaces.MyPlaces
@@ -16,13 +15,10 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
                                             val getMyPlacesUseCase: SingleUseCase<MyPlaces, Void>,
                                             val createMyPlaceUseCase: SingleUseCase<MyPlaceResponse, MyPlace>,
                                             val deleteMyPlaceUseCase: SingleUseCase<MyPlaceResponse, Int>,
+                                            val myPlacesMapper: MyPlacesMapper,
                                             val myPlaceMapper: MyPlaceMapper,
                                             val presentationModel: MyPlacesPresentationModel):
         MyPlacesContract.Presenter {
-
-    override fun createMyPlace(myPlace: MyPlaceViewData) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     init {
         myPlacesView.setPresenter(this)
@@ -47,7 +43,7 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
             if (myPlaces.customCode == CustomResponseCodes.getSuccess) {
 
                 // save retrieved data to presentation model (knows which data to show to user)
-                presentationModel.setMyPlaces(myPlaceMapper.mapToView(myPlaces))
+                presentationModel.setMyPlaces(myPlacesMapper.mapToView(myPlaces))
 
                 // show from presentation model
                 myPlacesView.showMyPlaces(presentationModel.getAllMyPlaces())
@@ -61,6 +57,13 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
 
         }
+
+    }
+
+    override fun createMyPlace(myPlace: MyPlaceViewData) {
+
+        presentationModel.addMyPlaceToListPending(myPlace)
+        createMyPlaceUseCase.execute(CreateMyPlaceSubscriber(), myPlaceMapper.mapFromView(myPlace))
 
     }
 
