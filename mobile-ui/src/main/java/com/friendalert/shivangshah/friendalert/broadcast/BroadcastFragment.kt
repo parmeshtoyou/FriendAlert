@@ -4,6 +4,7 @@ package com.friendalert.shivangshah.friendalert.broadcast
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.location.Location
@@ -19,17 +20,20 @@ import android.widget.Button
 import android.widget.Toast
 import com.facebook.FacebookSdk.getApplicationContext
 import com.friendalert.shivangshah.friendalert.R
+import com.friendalert.shivangshah.presentation.broadcast.BroadcastContract
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.location.*
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class BroadcastFragment : Fragment(), GoogleApiClient.ConnectionCallbacks,
+class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, FragmentCompat.OnRequestPermissionsResultCallback,
         PermissionUtils.PermissionResultCallback, LocationListener {
 
@@ -37,7 +41,7 @@ class BroadcastFragment : Fragment(), GoogleApiClient.ConnectionCallbacks,
 
     private val PLAY_SERVICES_REQUEST = 1000
     private val REQUEST_CHECK_SETTINGS = 2000
-    
+
     private var mGoogleApiClient: GoogleApiClient? = null
 
     var permissions: ArrayList<String> = ArrayList()
@@ -46,6 +50,8 @@ class BroadcastFragment : Fragment(), GoogleApiClient.ConnectionCallbacks,
     var isPermissionGranted: Boolean = false
 
     lateinit var mLocationRequest: LocationRequest
+
+    @Inject lateinit var broadcastPresenter : BroadcastContract.Presenter
 
     fun instantiate(@Nullable arguments: Bundle): BroadcastFragment {
         val broadcastFragment = BroadcastFragment()
@@ -74,8 +80,27 @@ class BroadcastFragment : Fragment(), GoogleApiClient.ConnectionCallbacks,
         return view
     }
 
+    override fun setPresenter(presenter: BroadcastContract.Presenter) {
+        broadcastPresenter = presenter
+    }
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
+
+    override fun showSuccess() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showFailure() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun onLocationChanged(p0: Location?) {
         mGoogleApiClient!!.disconnect()
+
+        broadcastPresenter.createBroadcast("", "Test Message", p0!!.latitude.toString(), p0!!.longitude.toString())
     }
 
     private fun getLocation() {
@@ -224,6 +249,12 @@ class BroadcastFragment : Fragment(), GoogleApiClient.ConnectionCallbacks,
         mLocationRequest.setInterval(10000)
         mLocationRequest.setFastestInterval(5000)
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+    }
+
+    override fun onStop() {
+
+        broadcastPresenter.stop()
+        super.onStop()
     }
 
 }// Required empty public constructor

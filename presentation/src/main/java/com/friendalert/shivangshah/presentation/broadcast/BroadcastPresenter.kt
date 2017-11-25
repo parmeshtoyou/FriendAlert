@@ -3,7 +3,6 @@ package com.friendalert.shivangshah.presentation.broadcast
 import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.broadcast.Broadcast
 import com.friendalert.shivangshah.domain.broadcast.CreateBroadcastResponse
-import com.friendalert.shivangshah.domain.myplaces.MyPlaceResponse
 import com.friendalert.shivangshah.presentation.CustomResponseCodes
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject

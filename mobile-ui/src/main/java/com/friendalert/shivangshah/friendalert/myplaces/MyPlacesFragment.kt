@@ -55,11 +55,6 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         super.onAttach(context)
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         var view = inflater!!.inflate(R.layout.fragment_myplaces, container, false)

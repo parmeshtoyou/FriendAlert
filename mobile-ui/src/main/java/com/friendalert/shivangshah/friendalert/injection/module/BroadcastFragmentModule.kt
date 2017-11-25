@@ -1,12 +1,11 @@
 package com.friendalert.shivangshah.friendalert.injection.module
 
-import com.friendalert.shivangshah.domain.notifications.GetNotifications
+import com.friendalert.shivangshah.domain.broadcast.CreateBroadcast
 import com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerFragment
-import com.friendalert.shivangshah.friendalert.notifications.NotificationsFragment
-import com.friendalert.shivangshah.presentation.notifications.NotificationMapper
-import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
-import com.friendalert.shivangshah.presentation.notifications.NotificationsPresenter
+import com.friendalert.shivangshah.presentation.broadcast.BroadcastContract
+import com.friendalert.shivangshah.presentation.broadcast.BroadcastMapper
+import com.friendalert.shivangshah.presentation.broadcast.BroadcastPresenter
 import dagger.Module
 import dagger.Provides
 
@@ -16,17 +15,17 @@ import dagger.Provides
 @Module
 class BroadcastFragmentModule {
 
-//    @PerFragment
-//    @Provides
-//    internal fun provideBroadcastView(broadcastFragment: BroadcastFragment): BroadcastContract.View {
-//        return broadcastFragment
-//    }
-//
-//    @PerFragment
-//    @Provides
-//    internal fun provideBroadcastPresenter(mainView: BroadcastContract.View):
-//            BroadcastContract.Presenter {
-//        return BroadcastPresenter(mainView)
-//    }
+    @PerFragment
+    @Provides
+    internal fun provideBroadcastView(broadcastFragment: BroadcastFragment): BroadcastContract.View {
+        return broadcastFragment
+    }
+
+    @PerFragment
+    @Provides
+    internal fun provideBroadcastPresenter(mainView: BroadcastContract.View, createBroadcast: CreateBroadcast, mapper: BroadcastMapper):
+            BroadcastContract.Presenter {
+        return BroadcastPresenter(mainView, createBroadcast, mapper)
+    }
 
 }

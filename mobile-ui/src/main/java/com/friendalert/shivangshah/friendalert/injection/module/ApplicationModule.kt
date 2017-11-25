@@ -10,6 +10,11 @@ import com.friendalert.shivangshah.cache.user.UserCacheImpl
 import com.friendalert.shivangshah.cache.user.UserResponseModelEntityMapper
 import com.friendalert.shivangshah.data.notifications.NotificationDataRepository
 import com.friendalert.shivangshah.data.JobExecutor
+import com.friendalert.shivangshah.data.broadcast.BroadcastDataRepository
+import com.friendalert.shivangshah.data.broadcast.BroadcastMapper
+import com.friendalert.shivangshah.data.broadcast.CreateBroadcastResponseEntityMapper
+import com.friendalert.shivangshah.data.broadcast.repository.BroadcastRemote
+import com.friendalert.shivangshah.data.broadcast.source.BroadcastDataStoreFactory
 import com.friendalert.shivangshah.data.myplaces.MyPlaceDataRepository
 import com.friendalert.shivangshah.data.myplaces.MyPlaceMapper
 import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntityMapper
@@ -28,6 +33,8 @@ import com.friendalert.shivangshah.data.user.repository.UserRemote
 import com.friendalert.shivangshah.data.user.source.UserDataStoreFactory
 import com.friendalert.shivangshah.domain.PostExecutionThread
 import com.friendalert.shivangshah.domain.ThreadExecutor
+import com.friendalert.shivangshah.domain.broadcast.Broadcast
+import com.friendalert.shivangshah.domain.broadcast.BroadcastRepository
 import com.friendalert.shivangshah.domain.myplaces.MyPlaceRepository
 import com.friendalert.shivangshah.domain.notifications.NotificationRepository
 import com.friendalert.shivangshah.domain.user.UserRepository
@@ -40,6 +47,10 @@ import dagger.Module
 import dagger.Provides
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
+import com.friendalert.shivangshah.remote.broadcast.BroadcastRemoteImpl
+import com.friendalert.shivangshah.remote.broadcast.BroadcastResponseModelEntityMapper
+import com.friendalert.shivangshah.remote.broadcast.BroadcastService
+import com.friendalert.shivangshah.remote.broadcast.BroadcastServiceFactory
 import com.friendalert.shivangshah.remote.myplaces.*
 import com.friendalert.shivangshah.remote.notifications.NotificationRemoteImpl
 import com.friendalert.shivangshah.remote.notifications.NotificationService
@@ -53,7 +64,6 @@ import com.friendalert.shivangshah.remote.user.UserServiceFactory
 /**
  * We provide retrofit, okhttp, persistence db, shared pref etc
  * We have to add our subcomponents to AppModule so our dagger graph will understand that
- *
  */
 @Module(subcomponents = arrayOf(HomeActivitySubComponent::class,
                                 LoginActivitySubComponent::class,
@@ -184,4 +194,26 @@ open class ApplicationModule {
         return MyPlacesPresentationModel()
     }
 
+    // Broadcast Dependencies ----------------------------------------------------------------------
+    @Provides
+    @PerApplication
+    internal fun provideBroadcastRepository(factory: BroadcastDataStoreFactory,
+                                            mapper: BroadcastMapper,
+                                            createBroadcastResponseEntityMapper: CreateBroadcastResponseEntityMapper): BroadcastRepository {
+        return BroadcastDataRepository(factory, mapper,createBroadcastResponseEntityMapper)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideBroadcastRemote(service: BroadcastService,
+                                       broadcastEntityMapper: com.friendalert.shivangshah.remote.broadcast.BroadcastEntityMapper,
+                                       broadcastResponseModelMapper: BroadcastResponseModelEntityMapper): BroadcastRemote {
+        return BroadcastRemoteImpl(service, broadcastEntityMapper, broadcastResponseModelMapper)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideBroadcastService(): BroadcastService {
+        return BroadcastServiceFactory.makeBroadcastService(BuildConfig.DEBUG)
+    }
 }
