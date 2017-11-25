@@ -100,4 +100,8 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
         notificationsRecyclerView?.adapter = notificationsAdapter
     }
 
+    override fun onDestroy() {
+        notificationsPresenter.stop()
+        super.onDestroy()
+    }
 }// Required empty public constructor

@@ -200,4 +200,10 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     override fun hideEmptyState() {
         Log.d("hide","empty state")
     }
+
+    override fun onStop() {
+
+        myPlacePresenter.stop()
+        super.onStop()
+    }
 }

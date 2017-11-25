@@ -90,6 +90,7 @@ dependencies {
     implementation mobileUiDependencies.facebookSDK
     implementation mobileUiDependencies.mapsServices
     implementation mobileUiDependencies.placesServices
+    implementation mobileUiDependencies.locationServices
     implementation mobileUiDependencies.firebaseMessaging
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'

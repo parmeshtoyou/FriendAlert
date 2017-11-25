@@ -30,6 +30,8 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
     override fun stop() {
         getMyPlacesUseCase.dispose()
+        createMyPlaceUseCase.dispose()
+        deleteMyPlaceUseCase.dispose()
     }
 
     override fun retrieveMyPlaces() {

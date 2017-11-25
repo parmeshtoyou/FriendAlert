@@ -1,5 +1,6 @@
 package com.friendalert.shivangshah.friendalert.injection.module
 
+import com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerActivity
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerFragment
 import com.friendalert.shivangshah.friendalert.myplaces.MyPlacesFragment
@@ -20,5 +21,9 @@ abstract class FragmentBuilderModule {
     @PerFragment
     @ContributesAndroidInjector(modules = arrayOf(MyPlacesFragmentModule::class))
     abstract fun bindMyPlacesFragment(): MyPlacesFragment
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = arrayOf(BroadcastFragmentModule::class))
+    abstract fun bindBroadcastFragment(): BroadcastFragment
 
 }

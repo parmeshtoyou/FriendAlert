@@ -186,8 +186,8 @@ ext {
             facebookSDK:        "com.facebook.android:facebook-android-sdk:${facebookSDKVersion}",
             mapsServices:       "com.google.android.gms:play-services-maps:${playServicesVersion}",
             placesServices:     "com.google.android.gms:play-services-places:${playServicesVersion}",
+            locationServices:   "com.google.android.gms:play-services-location:${playServicesVersion}",
             firebaseMessaging:  "com.google.firebase:firebase-messaging:11.0.4"
-
     ]
 
     mobileUiTestDependencies = [
