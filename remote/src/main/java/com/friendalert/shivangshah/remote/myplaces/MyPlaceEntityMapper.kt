@@ -2,7 +2,6 @@ package com.friendalert.shivangshah.remote.myplaces
 
 import com.friendalert.shivangshah.data.Mapper
 import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
-import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import javax.inject.Inject
 
 /**

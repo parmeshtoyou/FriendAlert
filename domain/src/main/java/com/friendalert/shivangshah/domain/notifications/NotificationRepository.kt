@@ -1,6 +1,5 @@
 package com.friendalert.shivangshah.domain.notifications
 
-import com.friendalert.shivangshah.domain.notifications.Notification
 import io.reactivex.Completable
 import io.reactivex.Single
 

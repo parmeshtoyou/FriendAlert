@@ -2,32 +2,26 @@ package com.friendalert.shivangshah.friendalert.broadcast
 
 
 import android.Manifest
+import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.Intent
+import android.content.IntentSender
+import android.location.Location
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.friendalert.notifications.NotificationsFragment
-import android.widget.Toast
-import android.content.pm.PackageManager
-import android.app.Activity
-import android.content.Intent
-import android.location.Location
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.content.ContentValues.TAG
-import android.content.IntentSender
-import android.support.v13.app.FragmentCompat
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.widget.Button
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
+import android.widget.Toast
 import com.facebook.FacebookSdk.getApplicationContext
+import com.friendalert.shivangshah.friendalert.R
+import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.location.*
 
@@ -43,9 +37,7 @@ class BroadcastFragment : Fragment(), GoogleApiClient.ConnectionCallbacks,
 
     private val PLAY_SERVICES_REQUEST = 1000
     private val REQUEST_CHECK_SETTINGS = 2000
-
-    private var mLastLocation: Location? = null
-
+    
     private var mGoogleApiClient: GoogleApiClient? = null
 
     var permissions: ArrayList<String> = ArrayList()
