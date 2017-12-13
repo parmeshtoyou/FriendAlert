@@ -5,6 +5,7 @@ import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -20,15 +21,11 @@ import com.friendalert.shivangshah.presentation.friends.FriendsContract
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
-
-
-
-
 /**
  * A simple [Fragment] subclass.
  */
 class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnRequestPermissionsResultCallback,
-        PermissionUtils.PermissionResultCallback {
+        PermissionUtils.PermissionResultCallback, TabLayout.OnTabSelectedListener {
 
     @Inject lateinit var friendsPresenter : FriendsContract.Presenter
 
@@ -41,6 +38,7 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     var sectionAdapter = SectionedRecyclerViewAdapter()
     private var friendsRecyclerView: RecyclerView? = null
+    private var tabLayout: TabLayout? = null
 
     fun instantiate(@Nullable arguments: Bundle): FriendsFragment {
         val friendsFragment = FriendsFragment()
@@ -64,18 +62,85 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
         friendsRecyclerView = view.findViewById<RecyclerView>(R.id.friendsRecyclerView)
 
+        tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
+
+        setupTabs()
+
         return view
     }
 
     override fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>) {
 
-        sectionAdapter.addSection(FriendsSection("Friends", friendsDictionary["Friends"]!!, FriendType.MyFriend))
-        sectionAdapter.addSection(FriendsSection("Requests", friendsDictionary["Requests"]!!, FriendType.Request))
-        sectionAdapter.addSection(FriendsSection("Suggested", friendsDictionary["Suggested"]!!, FriendType.Suggested))
+//        sectionAdapter.addSection(FriendsSection("Friends", friendsDictionary["Friends"]!!, FriendType.MyFriend))
+//        sectionAdapter.addSection(FriendsSection("RequestsFragment", friendsDictionary["Requests"]!!, FriendType.Request))
+//        sectionAdapter.addSection(FriendsSection("Suggested", friendsDictionary["Suggested"]!!, FriendType.Suggested))
+//
+//        friendsRecyclerView!!.setLayoutManager(LinearLayoutManager(getContext()));
+//        friendsRecyclerView!!.setAdapter(sectionAdapter);
 
-        friendsRecyclerView!!.setLayoutManager(LinearLayoutManager(getContext()));
-        friendsRecyclerView!!.setAdapter(sectionAdapter);
+        var tab = tabLayout!!.getTabAt(0)
+        tab!!.select()
+    }
 
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        when(tab!!.position){
+            0 -> friendsPresenter.getMyFriends()
+            1 -> friendsPresenter.getRequests()
+            2 -> friendsPresenter.getSuggested()
+            3 -> friendsPresenter.getInvites()
+        }
+    }
+
+    override fun showMyFriends(myFriends: ArrayList<FriendModel>) {
+        var fragment = MyFriendsFragment()
+        fragment.setData(myFriends)
+        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    }
+
+    override fun showRequests(requests: ArrayList<FriendModel>) {
+        var fragment = RequestsFragment()
+        fragment.setData(requests)
+        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    }
+
+    override fun showSuggested(suggested: ArrayList<FriendModel>) {
+        var fragment = SuggestFragment()
+        fragment.setData(suggested)
+        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    }
+
+    override fun showInvites(invites: ArrayList<FriendModel>) {
+        var fragment = InviteFragment()
+        fragment.setData(invites)
+        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    }
+
+    fun setupTabs(){
+        val friendsTab = tabLayout!!.newTab()
+        friendsTab.text = "Friends"
+        tabLayout!!.addTab(friendsTab)
+
+        val requestsTab = tabLayout!!.newTab()
+        requestsTab.text = "Requests"
+        tabLayout!!.addTab(requestsTab)
+
+        val suggestedTab = tabLayout!!.newTab()
+        suggestedTab.text = "Suggested"
+        tabLayout!!.addTab(suggestedTab)
+
+        val inviteTab = tabLayout!!.newTab()
+        inviteTab.text = "Invite"
+        tabLayout!!.addTab(inviteTab)
+
+        tabLayout!!.addOnTabSelectedListener(this)
     }
 
     override fun PermissionGranted(request_code: Int) {
@@ -118,4 +183,4 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         super.onDestroy()
     }
 
-}// Required empty public constructor
+}

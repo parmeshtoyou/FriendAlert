@@ -88,6 +88,22 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     }
 
+    override fun getMyFriends() {
+        friendsView.showMyFriends(presentationModel.getFriendsDictionary()["Friends"]!!)
+    }
+
+    override fun getRequests() {
+        friendsView.showRequests(presentationModel.getFriendsDictionary()["Requests"]!!)
+    }
+
+    override fun getSuggested() {
+        friendsView.showSuggested(presentationModel.getFriendsDictionary()["Suggested"]!!)
+    }
+
+    override fun getInvites() {
+        friendsView.showInvites(presentationModel.getFriendsDictionary()["Invite"]!!)
+    }
+
 
     override fun stop() {
 
