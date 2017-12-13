@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,9 @@ import com.friendalert.shivangshah.model.friends.response.FriendModel
 import com.friendalert.shivangshah.presentation.friends.FriendsContract
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
+
+
 
 
 /**
@@ -33,6 +38,9 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
     var permissionUtils: PermissionUtils? = null
 
     var isPermissionGranted: Boolean = false
+
+    var sectionAdapter = SectionedRecyclerViewAdapter()
+    private var friendsRecyclerView: RecyclerView? = null
 
     fun instantiate(@Nullable arguments: Bundle): FriendsFragment {
         val friendsFragment = FriendsFragment()
@@ -54,10 +62,19 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
         permissionUtils!!.check_permission(permissions,"Need access to contacts",READ_CONTACTS_REQUEST)
 
+        friendsRecyclerView = view.findViewById<RecyclerView>(R.id.friendsRecyclerView)
+
         return view
     }
 
     override fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>) {
+
+        sectionAdapter.addSection(FriendsSection("Friends", friendsDictionary["Friends"]!!, FriendType.MyFriend))
+        sectionAdapter.addSection(FriendsSection("Requests", friendsDictionary["Requests"]!!, FriendType.Request))
+        sectionAdapter.addSection(FriendsSection("Suggested", friendsDictionary["Suggested"]!!, FriendType.Suggested))
+
+        friendsRecyclerView!!.setLayoutManager(LinearLayoutManager(getContext()));
+        friendsRecyclerView!!.setAdapter(sectionAdapter);
 
     }
 
