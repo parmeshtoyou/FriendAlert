@@ -8,6 +8,7 @@ dependencies {
     def dataTestDependencies = rootProject.ext.dataTestDependencies
 
     compile project(':domain')
+    compile project(':model')
 
     compile dataDependencies.javaxAnnotation
 

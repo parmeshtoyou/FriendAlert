@@ -1,0 +1,12 @@
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+dependencies {
+    def modelDependencies = rootProject.ext.modelDependencies
+
+    implementation modelDependencies.kotlin
+    implementation modelDependencies.gson
+
+}

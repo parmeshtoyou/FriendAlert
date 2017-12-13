@@ -19,6 +19,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import com.facebook.FacebookSdk.getApplicationContext
+import com.friendalert.shivangshah.friendalert.PermissionUtils
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.presentation.broadcast.BroadcastContract
 import com.google.android.gms.common.ConnectionResult
@@ -59,23 +60,21 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         return broadcastFragment
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_broadcast, container, false)
 
         createLocationRequest()
-        permissionUtils = PermissionUtils(activity, this)
+        permissionUtils = PermissionUtils(context!!, this)
 
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
 
         sendBroadcastButton = view.findViewById<Button>(R.id.sendBroadcastButton)
         sendBroadcastButton.setOnClickListener { v ->
-            permissionUtils!!.check_permission(permissions,"Need GPS permission for getting your location",1)
+            permissionUtils!!.check_permission(permissions,"Need GPS permission for getting your location",PLAY_SERVICES_REQUEST)
         }
-
-
 
         return view
     }
@@ -90,11 +89,11 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
     }
 
     override fun showSuccess() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun showFailure() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onLocationChanged(p0: Location?) {
@@ -188,7 +187,7 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
                 Toast.makeText(getApplicationContext(),
                         "This device is not supported.", Toast.LENGTH_LONG)
                         .show()
-                activity.finish()
+                activity?.finish()
             }
             return false
         }
@@ -202,7 +201,7 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     fun buildGoogleApiClient() {
         if (mGoogleApiClient == null) {
-            mGoogleApiClient = GoogleApiClient.Builder(activity)
+            mGoogleApiClient = GoogleApiClient.Builder(context!!)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this).build()

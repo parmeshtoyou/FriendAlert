@@ -2,10 +2,7 @@ package com.friendalert.shivangshah.friendalert.injection.module
 
 import android.support.v7.app.AppCompatActivity
 import com.friendalert.shivangshah.friendalert.HomeActivity
-import com.friendalert.shivangshah.friendalert.injection.component.BroadcastFragmentSubComponent
-import com.friendalert.shivangshah.friendalert.injection.component.HomeActivitySubComponent
-import com.friendalert.shivangshah.friendalert.injection.component.MyPlacesFragmentSubComponent
-import com.friendalert.shivangshah.friendalert.injection.component.NotificationsFragmentSubComponent
+import com.friendalert.shivangshah.friendalert.injection.component.*
 import dagger.Module
 import dagger.Provides
 
@@ -17,7 +14,8 @@ import dagger.Provides
  */
 @Module(subcomponents = arrayOf(NotificationsFragmentSubComponent::class,
                                 MyPlacesFragmentSubComponent::class,
-                                BroadcastFragmentSubComponent::class))
+                                BroadcastFragmentSubComponent::class,
+                                FriendsFragmentSubComponent::class))
 class HomeActivityModule {
 
 

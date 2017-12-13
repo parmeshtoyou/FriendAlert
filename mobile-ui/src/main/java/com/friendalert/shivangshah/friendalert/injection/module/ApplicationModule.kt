@@ -2,9 +2,11 @@ package com.friendalert.shivangshah.friendalert.injection.module
 
 import android.app.Application
 import android.content.Context
+import com.friendalert.shivangshah.cache.ContactsHelper
 import com.friendalert.shivangshah.cache.notifications.NotificationsCacheImpl
 import com.friendalert.shivangshah.cache.PreferencesHelper
 import com.friendalert.shivangshah.cache.db.DbOpenHelper
+import com.friendalert.shivangshah.cache.friends.ContactsLocalImpl
 import com.friendalert.shivangshah.cache.notifications.NotificationEntityMapper
 import com.friendalert.shivangshah.cache.user.UserCacheImpl
 import com.friendalert.shivangshah.cache.user.UserResponseModelEntityMapper
@@ -15,6 +17,11 @@ import com.friendalert.shivangshah.data.broadcast.BroadcastMapper
 import com.friendalert.shivangshah.data.broadcast.CreateBroadcastResponseEntityMapper
 import com.friendalert.shivangshah.data.broadcast.repository.BroadcastRemote
 import com.friendalert.shivangshah.data.broadcast.source.BroadcastDataStoreFactory
+import com.friendalert.shivangshah.data.friends.FriendsDataRepository
+import com.friendalert.shivangshah.data.friends.repository.ContactsLocal
+import com.friendalert.shivangshah.data.friends.repository.FriendsRemote
+import com.friendalert.shivangshah.data.friends.source.FriendsDataStoreFactory
+import com.friendalert.shivangshah.data.friends.source.FriendsRemoteDataStore
 import com.friendalert.shivangshah.data.myplaces.MyPlaceDataRepository
 import com.friendalert.shivangshah.data.myplaces.MyPlaceMapper
 import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntityMapper
@@ -35,6 +42,7 @@ import com.friendalert.shivangshah.domain.PostExecutionThread
 import com.friendalert.shivangshah.domain.ThreadExecutor
 import com.friendalert.shivangshah.domain.broadcast.Broadcast
 import com.friendalert.shivangshah.domain.broadcast.BroadcastRepository
+import com.friendalert.shivangshah.domain.friends.FriendsRepository
 import com.friendalert.shivangshah.domain.myplaces.MyPlaceRepository
 import com.friendalert.shivangshah.domain.notifications.NotificationRepository
 import com.friendalert.shivangshah.domain.user.UserRepository
@@ -51,6 +59,9 @@ import com.friendalert.shivangshah.remote.broadcast.BroadcastRemoteImpl
 import com.friendalert.shivangshah.remote.broadcast.BroadcastResponseModelEntityMapper
 import com.friendalert.shivangshah.remote.broadcast.BroadcastService
 import com.friendalert.shivangshah.remote.broadcast.BroadcastServiceFactory
+import com.friendalert.shivangshah.remote.friends.FriendsRemoteImpl
+import com.friendalert.shivangshah.remote.friends.FriendsService
+import com.friendalert.shivangshah.remote.friends.FriendsServiceFactory
 import com.friendalert.shivangshah.remote.myplaces.*
 import com.friendalert.shivangshah.remote.notifications.NotificationRemoteImpl
 import com.friendalert.shivangshah.remote.notifications.NotificationService
@@ -80,6 +91,12 @@ open class ApplicationModule {
     @PerApplication
     internal fun providePreferencesHelper(context: Context): PreferencesHelper {
         return PreferencesHelper(context)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideContactsHelper(context: Context): ContactsHelper {
+        return ContactsHelper(context)
     }
 
     @Provides
@@ -215,5 +232,30 @@ open class ApplicationModule {
     @PerApplication
     internal fun provideBroadcastService(): BroadcastService {
         return BroadcastServiceFactory.makeBroadcastService(BuildConfig.DEBUG)
+    }
+
+    // Friends Dependencies
+    @Provides
+    @PerApplication
+    internal fun provideFriendsRepository(factory: FriendsDataStoreFactory): FriendsRepository {
+        return FriendsDataRepository(factory)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideFriendsRemote(service: FriendsService): FriendsRemote {
+        return FriendsRemoteImpl(service)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideContactsLocal(helper: ContactsHelper): ContactsLocal {
+        return ContactsLocalImpl(helper)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideFriendsService(): FriendsService {
+        return FriendsServiceFactory.makeFriendsService(BuildConfig.DEBUG)
     }
 }

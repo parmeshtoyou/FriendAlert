@@ -49,6 +49,11 @@ ext {
     dexmakerMockitoversion = '2.2.0'
     runnerVersion = '0.5'
 
+    modelDependencies = [
+            gson:               "com.google.code.gson:gson:${gsonVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}"
+    ]
+
     domainDependencies = [
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",

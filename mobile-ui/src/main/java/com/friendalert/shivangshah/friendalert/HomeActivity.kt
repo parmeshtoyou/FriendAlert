@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.FrameLayout
 import com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment
+import com.friendalert.shivangshah.friendalert.friends.FriendsFragment
 import com.friendalert.shivangshah.friendalert.myplaces.MyPlacesFragment
 import com.friendalert.shivangshah.friendalert.notifications.NotificationsFragment
 import dagger.android.AndroidInjection
@@ -21,6 +22,10 @@ import javax.inject.Inject
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavigationView.OnNavigationItemSelectedListener {
 
     @Inject lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
+    private val PLAY_SERVICES_REQUEST = 1000
+    private val REQUEST_CHECK_SETTINGS = 2000
+    private val READ_CONTACTS_REQUEST = 3000
 
     private var bottomNavigationView: BottomNavigationView? = null
     private var containerLayout : FrameLayout? = null
@@ -44,7 +49,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
         when(item.itemId){
             R.id.menu_broadcast -> switchToBroadcastFragment()
             R.id.menu_myplace -> switchToMyPlacesFragment()
-            R.id.menu_friends -> switchToMyPlacesFragment()
+            R.id.menu_friends -> switchToFriendsFragment()
             R.id.menu_notifications -> switchToNotificationsFragment()
         }
 
@@ -58,8 +63,14 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        val fragment : Fragment = supportFragmentManager.findFragmentByTag("BroadcastFragment")
-        fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == PLAY_SERVICES_REQUEST){
+            val fragment : Fragment = supportFragmentManager.findFragmentByTag("BroadcastFragment")
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }else if(requestCode == READ_CONTACTS_REQUEST){
+            val fragment : Fragment = supportFragmentManager.findFragmentByTag("FriendsFragment")
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
 
@@ -70,12 +81,17 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
 
     fun switchToNotificationsFragment() {
         val manager = supportFragmentManager
-        manager.beginTransaction().replace(R.id.containerLayout, NotificationsFragment().instantiate(Bundle())).addToBackStack("NotificationsFragment").commit()
+        manager.beginTransaction().replace(R.id.containerLayout, NotificationsFragment().instantiate(Bundle()), "NotificationsFragment").commit()
     }
 
     fun switchToMyPlacesFragment() {
         val manager = supportFragmentManager
-        manager.beginTransaction().replace(R.id.containerLayout, MyPlacesFragment().instantiate(Bundle())).addToBackStack("MyPlacesFragment").commit()
+        manager.beginTransaction().replace(R.id.containerLayout, MyPlacesFragment().instantiate(Bundle()), "MyPlacesFragment").commit()
+    }
+
+    fun switchToFriendsFragment() {
+        val manager = supportFragmentManager
+        manager.beginTransaction().replace(R.id.containerLayout, FriendsFragment().instantiate(Bundle()), "FriendsFragment").commit()
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {

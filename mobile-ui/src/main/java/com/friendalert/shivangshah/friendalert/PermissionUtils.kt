@@ -1,4 +1,4 @@
-package com.friendalert.shivangshah.friendalert.broadcast
+package com.friendalert.shivangshah.friendalert
 
 import android.app.Activity
 import android.content.Context
@@ -115,56 +115,56 @@ class PermissionUtils {
      * @param permissions
      * @param grantResults
      */
+
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode) {
-            1 -> if (grantResults.size > 0) {
-                val perms = HashMap<String, Int>()
+         if (grantResults.size > 0) {
+            val perms = HashMap<String, Int>()
 
-                for (i in permissions.indices) {
-                    perms.put(permissions[i], grantResults[i])
-                }
+            for (i in permissions.indices) {
+                perms.put(permissions[i], grantResults[i])
+            }
 
-                val pending_permissions = ArrayList<String>()
+            val pending_permissions = ArrayList<String>()
 
-                for (i in 0 until listPermissionsNeeded.size) {
-                    if (perms.get(listPermissionsNeeded[i]) != PackageManager.PERMISSION_GRANTED) {
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(current_activity, listPermissionsNeeded[i]))
-                            pending_permissions.add(listPermissionsNeeded[i])
-                        else {
-                            Log.i("Go to settings", "and enable permissions")
-                            permissionResultCallback.NeverAskAgain(req_code)
-                            Toast.makeText(current_activity, "Go to settings and enable permissions", Toast.LENGTH_LONG).show()
-                            return
-                        }
+            for (i in 0 until listPermissionsNeeded.size) {
+                if (perms.get(listPermissionsNeeded[i]) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(current_activity, listPermissionsNeeded[i]))
+                        pending_permissions.add(listPermissionsNeeded[i])
+                    else {
+                        Log.i("Go to settings", "and enable permissions")
+                        permissionResultCallback.NeverAskAgain(req_code)
+                        Toast.makeText(current_activity, "Go to settings and enable permissions", Toast.LENGTH_LONG).show()
+                        return
                     }
-
                 }
-
-                if (pending_permissions.size > 0) {
-                    showMessageOKCancel(dialog_content,
-                            DialogInterface.OnClickListener { dialog, which ->
-                                when (which) {
-                                    DialogInterface.BUTTON_POSITIVE -> check_permission(permission_list, dialog_content, req_code)
-                                    DialogInterface.BUTTON_NEGATIVE -> {
-                                        Log.i("permisson", "not fully given")
-                                        if (permission_list.size === pending_permissions.size)
-                                            permissionResultCallback.PermissionDenied(req_code)
-                                        else
-                                            permissionResultCallback.PartialPermissionGranted(req_code, pending_permissions)
-                                    }
-                                }
-                            })
-
-                } else {
-                    Log.i("all", "permissions granted")
-                    Log.i("proceed", "to next step")
-                    permissionResultCallback.PermissionGranted(req_code)
-
-                }
-
 
             }
+
+            if (pending_permissions.size > 0) {
+                showMessageOKCancel(dialog_content,
+                        DialogInterface.OnClickListener { dialog, which ->
+                            when (which) {
+                                DialogInterface.BUTTON_POSITIVE -> check_permission(permission_list, dialog_content, req_code)
+                                DialogInterface.BUTTON_NEGATIVE -> {
+                                    Log.i("permisson", "not fully given")
+                                    if (permission_list.size === pending_permissions.size)
+                                        permissionResultCallback.PermissionDenied(req_code)
+                                    else
+                                        permissionResultCallback.PartialPermissionGranted(req_code, pending_permissions)
+                                }
+                            }
+                        })
+
+            } else {
+                Log.i("all", "permissions granted")
+                Log.i("proceed", "to next step")
+                permissionResultCallback.PermissionGranted(req_code)
+
+            }
+
+
         }
+
     }
 
 
