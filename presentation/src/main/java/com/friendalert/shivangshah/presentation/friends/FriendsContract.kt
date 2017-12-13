@@ -1,5 +1,6 @@
 package com.friendalert.shivangshah.presentation.friends
 
+import com.friendalert.shivangshah.model.friends.response.FriendModel
 import com.friendalert.shivangshah.presentation.BasePresenter
 import com.friendalert.shivangshah.presentation.BaseView
 import com.friendalert.shivangshah.presentation.myplaces.MyPlaceViewData
@@ -12,7 +13,7 @@ interface FriendsContract {
 
     interface View : BaseView<FriendsContract.Presenter> {
 
-
+        fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>)
 
     }
 

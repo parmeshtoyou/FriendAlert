@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.friendalert.shivangshah.friendalert.PermissionUtils
 
 import com.friendalert.shivangshah.friendalert.R
+import com.friendalert.shivangshah.model.friends.response.FriendModel
 import com.friendalert.shivangshah.presentation.friends.FriendsContract
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -54,6 +55,10 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         permissionUtils!!.check_permission(permissions,"Need access to contacts",READ_CONTACTS_REQUEST)
 
         return view
+    }
+
+    override fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>) {
+
     }
 
     override fun PermissionGranted(request_code: Int) {

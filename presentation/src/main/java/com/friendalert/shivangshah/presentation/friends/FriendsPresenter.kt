@@ -4,6 +4,7 @@ import com.friendalert.shivangshah.domain.friends.GetFriends
 import com.friendalert.shivangshah.domain.myplaces.MyPlaces
 import com.friendalert.shivangshah.model.friends.response.FriendsResponseModel
 import com.friendalert.shivangshah.presentation.CustomResponseCodes
+import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
@@ -11,7 +12,8 @@ import javax.inject.Inject
  * Created by shivangshah on 12/12/17.
  */
 class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View,
-                                           val getFriends: GetFriends)
+                                           val getFriends: GetFriends,
+                                           val presentationModel: FriendsPresentationModel)
     : FriendsContract.Presenter{
 
     init {
@@ -33,6 +35,15 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
             if(t.customCode == CustomResponseCodes.getSuccess)
             {
+
+                presentationModel.setFriendsDictionary(
+                        t.friendsData,
+                        t.requestsData,
+                        t.suggestedData,
+                        t.inviteData
+                )
+
+                friendsView.showFriends(presentationModel.getFriendsDictionary())
 
             }else{
 

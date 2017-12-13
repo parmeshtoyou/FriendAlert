@@ -95,6 +95,7 @@ dependencies {
     implementation mobileUiDependencies.firebaseMessaging
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.afollestad:sectioned-recyclerview:0.5.0'
     testImplementation mobileUiTestDependencies.kotlinJUnit
 
     kapt mobileUiDependencies.daggerCompiler
