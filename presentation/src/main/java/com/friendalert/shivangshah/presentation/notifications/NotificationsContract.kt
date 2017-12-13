@@ -1,5 +1,6 @@
 package com.friendalert.shivangshah.presentation.notifications
 
+import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.presentation.BasePresenter
 import com.friendalert.shivangshah.presentation.BaseView
 
@@ -14,7 +15,7 @@ interface NotificationsContract {
 
         fun hideProgress()
 
-        fun showNotifications(notifications: List<NotificationView>)
+        fun showNotifications(notifications: List<NotificationModel>)
 
         fun hideNotifications()
 

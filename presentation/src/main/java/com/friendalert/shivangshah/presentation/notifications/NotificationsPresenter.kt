@@ -1,7 +1,8 @@
 package com.friendalert.shivangshah.presentation.notifications
 
 import com.friendalert.shivangshah.domain.SingleUseCase
-import com.friendalert.shivangshah.domain.notifications.Notification
+import com.friendalert.shivangshah.model.notifications.response.NotificationModel
+import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
@@ -9,8 +10,7 @@ import javax.inject.Inject
  * Created by shivangshah on 11/11/17.
  */
 class NotificationsPresenter @Inject constructor(val notificationsView: NotificationsContract.View,
-                                                 val getNotificationsUseCase: SingleUseCase<List<Notification>, Void>,
-                                                 val notificationMapper: NotificationMapper):
+                                                 val getNotificationsUseCase: SingleUseCase<NotificationResponseModel, Void>):
         NotificationsContract.Presenter {
 
     init {
@@ -21,29 +21,14 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
         retrieveNotifications()
     }
 
-    override fun stop() {
-        getNotificationsUseCase.dispose()
-    }
-
     override fun retrieveNotifications() {
         getNotificationsUseCase.execute(NotificationSubscriber())
     }
 
-    internal fun handleGetNotificationsSuccess(notifications: List<Notification>) {
-        notificationsView.hideErrorState()
-        if (notifications.isNotEmpty()) {
-            notificationsView.hideEmptyState()
-            notificationsView.showNotifications(notifications.map { notificationMapper.mapToView(it) })
-        } else {
-            notificationsView.hideNotifications()
-            notificationsView.showEmptyState()
-        }
-    }
+    inner class NotificationSubscriber: DisposableSingleObserver<NotificationResponseModel>() {
 
-    inner class NotificationSubscriber: DisposableSingleObserver<List<Notification>>() {
+        override fun onSuccess(t: NotificationResponseModel) {
 
-        override fun onSuccess(t: List<Notification>) {
-            handleGetNotificationsSuccess(t)
         }
 
         override fun onError(exception: Throwable) {
@@ -52,6 +37,10 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
             notificationsView.showErrorState()
         }
 
+    }
+
+    override fun stop() {
+        getNotificationsUseCase.dispose()
     }
 
 }

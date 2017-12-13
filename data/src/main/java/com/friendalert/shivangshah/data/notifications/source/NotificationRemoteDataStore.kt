@@ -1,8 +1,8 @@
 package com.friendalert.shivangshah.data.notifications.source
 
-import com.friendalert.shivangshah.data.notifications.NotificationEntity
 import com.friendalert.shivangshah.data.notifications.repository.NotificationDataStore
 import com.friendalert.shivangshah.data.notifications.repository.NotificationRemote
+import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -14,16 +14,9 @@ import javax.inject.Inject
 class NotificationRemoteDataStore @Inject constructor(private val notificationRemote: NotificationRemote) :
         NotificationDataStore {
 
-    override fun clearNotifications(): Completable {
-        throw UnsupportedOperationException()
-    }
 
-    override fun saveNotifications(notifications: List<NotificationEntity>): Completable {
-        throw UnsupportedOperationException()
-    }
-
-    override fun getNotifications(): Single<List<NotificationEntity>> {
-        return notificationRemote.getNotifications()
+    override fun getNotifications(userId: String): Single<NotificationResponseModel> {
+        return notificationRemote.getNotifications(userId)
     }
 
 }

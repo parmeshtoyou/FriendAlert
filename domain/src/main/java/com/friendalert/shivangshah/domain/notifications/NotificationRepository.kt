@@ -1,5 +1,6 @@
 package com.friendalert.shivangshah.domain.notifications
 
+import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -10,10 +11,6 @@ import io.reactivex.Single
  */
 interface NotificationRepository {
 
-    fun clearNotifications(): Completable
-
-    fun saveNotifications(notifications: List<Notification>): Completable
-
-    fun getNotifications(): Single<List<Notification>>
+    fun getNotifications(userId: String): Single<NotificationResponseModel>
 
 }

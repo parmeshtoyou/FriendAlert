@@ -1,7 +1,7 @@
 package com.friendalert.shivangshah.remote.notifications
 
-import com.friendalert.shivangshah.data.notifications.NotificationEntity
 import com.friendalert.shivangshah.data.notifications.repository.NotificationRemote
+import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -10,18 +10,11 @@ import javax.inject.Inject
  * [BufferooRemote] from the Data layer as it is that layers responsibility for defining the
  * operations in which data store implementation layers can carry out.
  */
-class NotificationRemoteImpl @Inject constructor(private val notificationService: NotificationService,
-                                                 private val entityMapper: NotificationEntityMapper) :
+class NotificationRemoteImpl @Inject constructor(private val notificationService: NotificationService) :
         NotificationRemote {
 
-    override fun getNotifications(): Single<List<NotificationEntity>> {
-        return notificationService.getNotifications()
-                .map {
-                    it.team.map { listItem ->
-                        entityMapper.mapFromRemote(listItem)
-                    }
-                }
+    override fun getNotifications(userId: String): Single<NotificationResponseModel> {
+        return notificationService.getNotifications(userId)
     }
-
 
 }

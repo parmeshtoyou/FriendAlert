@@ -1,6 +1,6 @@
 package com.friendalert.shivangshah.cache.user
 
-import com.friendalert.shivangshah.cache.db.EntityMapper
+import com.friendalert.shivangshah.cache.EntityMapper
 import com.friendalert.shivangshah.data.user.UserResponseModelEntity
 import javax.inject.Inject
 

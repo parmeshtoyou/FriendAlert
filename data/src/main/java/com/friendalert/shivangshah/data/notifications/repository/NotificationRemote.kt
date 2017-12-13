@@ -1,6 +1,6 @@
 package com.friendalert.shivangshah.data.notifications.repository
 
-import com.friendalert.shivangshah.data.notifications.NotificationEntity
+import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
 import io.reactivex.Single
 
 /**
@@ -12,6 +12,6 @@ interface NotificationRemote {
     /**
      * Retrieve a list of Notifications, from the service
      */
-    fun getNotifications(): Single<List<NotificationEntity>>
+    fun getNotifications(userId: String): Single<NotificationResponseModel>
 
 }

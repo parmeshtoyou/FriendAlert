@@ -1,10 +1,12 @@
 package com.friendalert.shivangshah.presentation.friends
 
+import com.friendalert.shivangshah.domain.friends.CreateFriendRequest
 import com.friendalert.shivangshah.domain.friends.GetFriends
-import com.friendalert.shivangshah.domain.myplaces.MyPlaces
+import com.friendalert.shivangshah.domain.friends.UpdateFriend
+import com.friendalert.shivangshah.model.friends.request.UpdateFriendRequestModel
+import com.friendalert.shivangshah.model.friends.response.CreateFriendRequestResponseModel
 import com.friendalert.shivangshah.model.friends.response.FriendsResponseModel
 import com.friendalert.shivangshah.presentation.CustomResponseCodes
-import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
@@ -13,6 +15,8 @@ import javax.inject.Inject
  */
 class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View,
                                            val getFriends: GetFriends,
+                                           val createFriendRequest: CreateFriendRequest,
+                                           val updateFriend: UpdateFriend,
                                            val presentationModel: FriendsPresentationModel)
     : FriendsContract.Presenter{
 
@@ -58,8 +62,39 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     }
 
+    inner class CreateFriendRequestSubscriber: DisposableSingleObserver<CreateFriendRequestResponseModel>() {
+
+
+        override fun onSuccess(t: CreateFriendRequestResponseModel) {
+
+        }
+
+        override fun onError(e: Throwable) {
+
+        }
+
+    }
+
+    inner class UpdateFriendSubscriber: DisposableSingleObserver<UpdateFriendRequestModel>() {
+
+
+        override fun onSuccess(t: UpdateFriendRequestModel) {
+
+        }
+
+        override fun onError(e: Throwable) {
+
+        }
+
+    }
+
+
     override fun stop() {
+
         getFriends.dispose()
+        createFriendRequest.dispose()
+        updateFriend.dispose()
+
     }
 
 

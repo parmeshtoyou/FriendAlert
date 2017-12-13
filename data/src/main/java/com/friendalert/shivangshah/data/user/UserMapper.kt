@@ -1,8 +1,6 @@
 package com.friendalert.shivangshah.data.user
 
 import com.friendalert.shivangshah.data.Mapper
-import com.friendalert.shivangshah.data.notifications.NotificationEntity
-import com.friendalert.shivangshah.domain.notifications.Notification
 import com.friendalert.shivangshah.domain.user.User
 import javax.inject.Inject
 

@@ -23,7 +23,7 @@ object NotificationServiceFactory {
 
     private fun makeNotificationService(okHttpClient: OkHttpClient, gson: Gson): NotificationService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://joe-birch-dsdb.squarespace.com/s/")
+                .baseUrl("https://x8w743ocle.execute-api.us-east-1.amazonaws.com/dev/api/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))

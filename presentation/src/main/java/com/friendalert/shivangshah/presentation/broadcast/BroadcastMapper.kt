@@ -1,9 +1,7 @@
 package com.friendalert.shivangshah.presentation.broadcast
 
 import com.friendalert.shivangshah.domain.broadcast.Broadcast
-import com.friendalert.shivangshah.domain.notifications.Notification
 import com.friendalert.shivangshah.presentation.Mapper
-import com.friendalert.shivangshah.presentation.notifications.NotificationView
 import javax.inject.Inject
 
 /**

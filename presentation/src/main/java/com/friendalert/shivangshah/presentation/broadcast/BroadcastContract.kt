@@ -2,8 +2,6 @@ package com.friendalert.shivangshah.presentation.broadcast
 
 import com.friendalert.shivangshah.presentation.BasePresenter
 import com.friendalert.shivangshah.presentation.BaseView
-import com.friendalert.shivangshah.presentation.notifications.NotificationView
-import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
 
 /**
  * Created by shivangshah on 11/25/17.

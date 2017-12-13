@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.friendalert.shivangshah.friendalert.R
+import com.friendalert.shivangshah.model.friends.response.FriendModel
 
 
 /**
@@ -14,12 +15,65 @@ import com.friendalert.shivangshah.friendalert.R
  */
 class FriendsAdapter : SectionedRecyclerViewAdapter<FriendsAdapter.MainVH>() {
 
+    var friendsDict = HashMap<String, ArrayList<FriendModel>>()
+
+    fun setData(friendsDictionary: HashMap<String, ArrayList<FriendModel>>){
+        friendsDict = friendsDictionary
+    }
+
     override fun getSectionCount(): Int {
-        return 4
+        return friendsDict.size
     }
 
     override fun getItemCount(sectionIndex: Int): Int {
-        return 8 // number of items in section, you could also pull this from a map of lists
+
+        when(sectionIndex){
+            0 -> return friendsDict["Friends"]!!.size
+            1 -> return friendsDict["Requests"]!!.size
+            2 -> return friendsDict["Suggested"]!!.size
+            3 -> return friendsDict["Invite"]!!.size
+            else -> return 0
+        }
+    }
+
+    override fun getItemViewType(section: Int, relativePosition: Int, absolutePosition: Int): Int {
+
+        if(section == 0){
+
+            if(absolutePosition == 0){
+                // header
+            }else{
+                // child
+            }
+
+        }else if(section == 1){
+
+            if(absolutePosition == friendsDict["Friends"]!!.size + 1){
+                // header
+            }else{
+                // child
+            }
+
+
+        }else if(section == 2){
+
+            if(absolutePosition == friendsDict["Friends"]!!.size + friendsDict["Requests"]!!.size + 2){
+                // header
+            }else{
+                // child
+            }
+
+        }else if(section == 3){
+
+            if(absolutePosition == friendsDict["Friends"]!!.size + friendsDict["Requests"]!!.size + friendsDict["Suggested"]!!.size + 3){
+                // header
+            }else{
+                // child
+            }
+
+        }
+
+        return 0
     }
 
     override fun onBindHeaderViewHolder(holder: MainVH, section: Int, expanded: Boolean) {
@@ -42,7 +96,7 @@ class FriendsAdapter : SectionedRecyclerViewAdapter<FriendsAdapter.MainVH>() {
         // Change inflated layout based on type
         val layoutRes: Int
         when (viewType) {
-            SectionedRecyclerViewAdapter.VIEW_TYPE_HEADER -> layoutRes = R.layout.abc_action_menu_item_layout
+            0 -> layoutRes = R.layout.row_friends_header
             else -> layoutRes = R.layout.abc_action_menu_item_layout
         }
         val v = LayoutInflater.from(parent.context)

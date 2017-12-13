@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.friendalert.shivangshah.friendalert.R
+import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import javax.inject.Inject
 
 /**
@@ -14,12 +15,12 @@ import javax.inject.Inject
 
 class NotificationsAdapter @Inject constructor(): RecyclerView.Adapter<NotificationsAdapter.ViewHolder>() {
 
-    var notifications: List<NotificationsViewModel> = arrayListOf()
+    var notifications: List<NotificationModel> = arrayListOf()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val notification = notifications[position]
-        holder.nameText.text = notification.name
-        holder.titleText.text = notification.title
+        holder.nameText.text = notification.fk_user_id
+        holder.titleText.text = notification.message
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

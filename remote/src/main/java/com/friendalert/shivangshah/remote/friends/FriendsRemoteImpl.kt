@@ -2,7 +2,9 @@ package com.friendalert.shivangshah.remote.friends
 
 import com.friendalert.shivangshah.data.friends.repository.FriendsRemote
 import com.friendalert.shivangshah.model.friends.request.ContactsRequestModel
+import com.friendalert.shivangshah.model.friends.response.CreateFriendRequestResponseModel
 import com.friendalert.shivangshah.model.friends.response.FriendsResponseModel
+import com.friendalert.shivangshah.model.friends.response.UpdateFriendResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -22,6 +24,14 @@ class FriendsRemoteImpl  @Inject constructor(private val friendsService: Friends
         return friendsService.getFriends("10155348650147990", ContactsRequestModel(contacts2))
 
         //return friendsService.getFriends(userId, contacts)
+    }
+
+    override fun createFriendRequest(senderId: String, receiverId: String): Single<CreateFriendRequestResponseModel> {
+        return friendsService.createFriendRequest(senderId, receiverId)
+    }
+
+    override fun updateFriend(id: String, status: Int): Single<UpdateFriendResponseModel> {
+        return friendsService.updateFriend(id, status)
     }
 
 }

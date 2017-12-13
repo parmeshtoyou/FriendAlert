@@ -4,7 +4,9 @@ import com.friendalert.shivangshah.data.friends.repository.ContactsLocal
 import com.friendalert.shivangshah.data.friends.repository.FriendsDataStore
 import com.friendalert.shivangshah.data.friends.repository.FriendsRemote
 import com.friendalert.shivangshah.model.friends.request.ContactsRequestModel
+import com.friendalert.shivangshah.model.friends.response.CreateFriendRequestResponseModel
 import com.friendalert.shivangshah.model.friends.response.FriendsResponseModel
+import com.friendalert.shivangshah.model.friends.response.UpdateFriendResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -21,6 +23,14 @@ class ContactsLocalDataStore @Inject constructor(private val contactsLocal: Cont
     }
 
     override fun getFriends(userId: String, contacts: ContactsRequestModel): Single<FriendsResponseModel> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun createFriendRequest(senderId: String, receiverId: String): Single<CreateFriendRequestResponseModel> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun updateFriend(id: String, status: Int): Single<UpdateFriendResponseModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.presentation.notifications.NotificationView
+import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -24,7 +24,6 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
 
     @Inject lateinit var notificationsPresenter : NotificationsContract.Presenter
     @Inject lateinit var notificationsAdapter : NotificationsAdapter
-    @Inject lateinit var mapper : NotificationMapper
 
     private var notificationsRecyclerView: RecyclerView? = null
 
@@ -46,8 +45,8 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
         Log.d("hide","progress")
     }
 
-    override fun showNotifications(notifications: List<NotificationView>) {
-        notificationsAdapter.notifications = notifications.map { mapper.mapToViewModel(it) }
+    override fun showNotifications(notifications: List<NotificationModel>) {
+        notificationsAdapter.notifications = notifications
         notificationsAdapter.notifyDataSetChanged()
         notificationsRecyclerView?.visibility = View.VISIBLE
     }

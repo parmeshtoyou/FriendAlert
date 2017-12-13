@@ -3,14 +3,10 @@ package com.friendalert.shivangshah.friendalert.injection.module
 import android.app.Application
 import android.content.Context
 import com.friendalert.shivangshah.cache.ContactsHelper
-import com.friendalert.shivangshah.cache.notifications.NotificationsCacheImpl
 import com.friendalert.shivangshah.cache.PreferencesHelper
-import com.friendalert.shivangshah.cache.db.DbOpenHelper
 import com.friendalert.shivangshah.cache.friends.ContactsLocalImpl
-import com.friendalert.shivangshah.cache.notifications.NotificationEntityMapper
 import com.friendalert.shivangshah.cache.user.UserCacheImpl
 import com.friendalert.shivangshah.cache.user.UserResponseModelEntityMapper
-import com.friendalert.shivangshah.data.notifications.NotificationDataRepository
 import com.friendalert.shivangshah.data.JobExecutor
 import com.friendalert.shivangshah.data.broadcast.BroadcastDataRepository
 import com.friendalert.shivangshah.data.broadcast.BroadcastMapper
@@ -21,15 +17,13 @@ import com.friendalert.shivangshah.data.friends.FriendsDataRepository
 import com.friendalert.shivangshah.data.friends.repository.ContactsLocal
 import com.friendalert.shivangshah.data.friends.repository.FriendsRemote
 import com.friendalert.shivangshah.data.friends.source.FriendsDataStoreFactory
-import com.friendalert.shivangshah.data.friends.source.FriendsRemoteDataStore
 import com.friendalert.shivangshah.data.myplaces.MyPlaceDataRepository
 import com.friendalert.shivangshah.data.myplaces.MyPlaceMapper
 import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntityMapper
 import com.friendalert.shivangshah.data.myplaces.MyPlacesMapper
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
 import com.friendalert.shivangshah.data.myplaces.source.MyPlaceDataStoreFactory
-import com.friendalert.shivangshah.data.notifications.NotificationMapper
-import com.friendalert.shivangshah.data.notifications.repository.NotificationCache
+import com.friendalert.shivangshah.data.notifications.NotificationDataRepository
 import com.friendalert.shivangshah.data.notifications.repository.NotificationRemote
 import com.friendalert.shivangshah.data.notifications.source.NotificationDataStoreFactory
 import com.friendalert.shivangshah.data.user.UserDataRepository
@@ -40,7 +34,6 @@ import com.friendalert.shivangshah.data.user.repository.UserRemote
 import com.friendalert.shivangshah.data.user.source.UserDataStoreFactory
 import com.friendalert.shivangshah.domain.PostExecutionThread
 import com.friendalert.shivangshah.domain.ThreadExecutor
-import com.friendalert.shivangshah.domain.broadcast.Broadcast
 import com.friendalert.shivangshah.domain.broadcast.BroadcastRepository
 import com.friendalert.shivangshah.domain.friends.FriendsRepository
 import com.friendalert.shivangshah.domain.myplaces.MyPlaceRepository
@@ -51,9 +44,8 @@ import com.friendalert.shivangshah.friendalert.UiThread
 import com.friendalert.shivangshah.friendalert.injection.component.HomeActivitySubComponent
 import com.friendalert.shivangshah.friendalert.injection.component.LoginActivitySubComponent
 import com.friendalert.shivangshah.friendalert.injection.component.SplashActivitySubComponent
-import dagger.Module
-import dagger.Provides
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
+import com.friendalert.shivangshah.presentation.friends.FriendsPresentationModel
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import com.friendalert.shivangshah.remote.broadcast.BroadcastRemoteImpl
 import com.friendalert.shivangshah.remote.broadcast.BroadcastResponseModelEntityMapper
@@ -70,6 +62,8 @@ import com.friendalert.shivangshah.remote.user.UserRemoteImpl
 import com.friendalert.shivangshah.remote.user.UserRequestModelEntityMapper
 import com.friendalert.shivangshah.remote.user.UserService
 import com.friendalert.shivangshah.remote.user.UserServiceFactory
+import dagger.Module
+import dagger.Provides
 
 
 /**
@@ -144,25 +138,14 @@ open class ApplicationModule {
     // Notifications Dependencies ------------------------------------------------------------------
     @Provides
     @PerApplication
-    internal fun provideNotificationsRepository(factory: NotificationDataStoreFactory,
-                                                mapper: NotificationMapper): NotificationRepository {
-        return NotificationDataRepository(factory, mapper)
+    internal fun provideNotificationsRepository(factory: NotificationDataStoreFactory): NotificationRepository {
+        return NotificationDataRepository(factory)
     }
 
     @Provides
     @PerApplication
-    internal fun provideNotificationsCache(factory: DbOpenHelper,
-                                           entityMapper: NotificationEntityMapper,
-                                           mapper: com.friendalert.shivangshah.cache.notifications.NotificationMapper,
-                                           helper: PreferencesHelper): NotificationCache {
-        return NotificationsCacheImpl(factory, entityMapper, mapper, helper)
-    }
-
-    @Provides
-    @PerApplication
-    internal fun provideNotificationsRemote(service: NotificationService,
-                                            factory: com.friendalert.shivangshah.remote.notifications.NotificationEntityMapper): NotificationRemote {
-        return NotificationRemoteImpl(service, factory)
+    internal fun provideNotificationsRemote(service: NotificationService): NotificationRemote {
+        return NotificationRemoteImpl(service)
     }
 
     @Provides
@@ -180,15 +163,6 @@ open class ApplicationModule {
                                            myPlaceResponseEntityMapper: MyPlaceResponseEntityMapper): MyPlaceRepository {
         return MyPlaceDataRepository(factory, mapper,myPlaceMapper,myPlaceResponseEntityMapper)
     }
-
-//    @Provides
-//    @PerApplication
-//    internal fun provideMyPlacesCache(factory: DbOpenHelper,
-//                                      entityMapper: MyPlacesEntityMapper,
-//                                      mapper: com.friendalert.shivangshah.cache.db.mapper.MyPlacesMapper,
-//                                      helper: PreferencesHelper): MyPlaceCache {
-//        return MyPlaceCacheImpl(factory, entityMapper, mapper, helper)
-//    }
 
     @Provides
     @PerApplication
@@ -257,5 +231,11 @@ open class ApplicationModule {
     @PerApplication
     internal fun provideFriendsService(): FriendsService {
         return FriendsServiceFactory.makeFriendsService(BuildConfig.DEBUG)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideFriendsPresentationModel(): FriendsPresentationModel{
+        return FriendsPresentationModel()
     }
 }
