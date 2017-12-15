@@ -60,7 +60,7 @@ class FriendsPresentationModel {
 
     }
 
-    fun successCreateFriendRequest(){
+    fun successCreateFriendRequest(requestId: Int){
 
         // remove from suggested
         var suggestedFriends = friendsDictionary["Suggested"]
@@ -73,6 +73,7 @@ class FriendsPresentationModel {
 
         // add to requests
         createFriendRequestModel!!.request_status = "pending"
+        createFriendRequestModel!!.request_id = requestId
         friendsDictionary["Requests"]!!.add(createFriendRequestModel!!)
 
         createFriendRequestModel = null
