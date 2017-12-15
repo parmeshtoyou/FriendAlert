@@ -1,4 +1,4 @@
-package com.friendalert.shivangshah.friendalert.friends
+package com.friendalert.shivangshah.friendalert.friends.requests
 
 
 import android.os.Bundle
@@ -15,18 +15,18 @@ import java.util.ArrayList
 /**
  * A simple [Fragment] subclass.
  */
-class SuggestFragment : Fragment() {
+class RequestsFragment : Fragment() {
 
-    var suggested = ArrayList<FriendModel>()
+    var requests = ArrayList<FriendModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_suggest, container, false)
+        return inflater.inflate(R.layout.fragment_requests, container, false)
     }
 
     fun setData(data: ArrayList<FriendModel>){
-        suggested = data
+        requests = data
     }
 
 }// Required empty public constructor

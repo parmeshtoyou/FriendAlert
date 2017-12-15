@@ -14,18 +14,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.friendalert.shivangshah.friendalert.PermissionUtils
-
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.friends.response.FriendModel
 import com.friendalert.shivangshah.presentation.friends.FriendsContract
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
+
 /**
  * A simple [Fragment] subclass.
  */
 class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnRequestPermissionsResultCallback,
-        PermissionUtils.PermissionResultCallback, TabLayout.OnTabSelectedListener {
+        PermissionUtils.PermissionResultCallback, TabLayout.OnTabSelectedListener, FriendsActionListener {
 
     @Inject lateinit var friendsPresenter : FriendsContract.Presenter
 
@@ -36,9 +35,11 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     var isPermissionGranted: Boolean = false
 
-    var sectionAdapter = SectionedRecyclerViewAdapter()
+    var friendsAdapter = FriendsAdapter(this)
     private var friendsRecyclerView: RecyclerView? = null
     private var tabLayout: TabLayout? = null
+
+    var screenType : FriendType = FriendType.MyFriend
 
     fun instantiate(@Nullable arguments: Bundle): FriendsFragment {
         val friendsFragment = FriendsFragment()
@@ -61,6 +62,8 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         permissionUtils!!.check_permission(permissions,"Need access to contacts",READ_CONTACTS_REQUEST)
 
         friendsRecyclerView = view.findViewById<RecyclerView>(R.id.friendsRecyclerView)
+        friendsRecyclerView!!.setLayoutManager(LinearLayoutManager(getContext()));
+        friendsRecyclerView!!.adapter = friendsAdapter
 
         tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
 
@@ -71,15 +74,20 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     override fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>) {
 
-//        sectionAdapter.addSection(FriendsSection("Friends", friendsDictionary["Friends"]!!, FriendType.MyFriend))
-//        sectionAdapter.addSection(FriendsSection("RequestsFragment", friendsDictionary["Requests"]!!, FriendType.Request))
-//        sectionAdapter.addSection(FriendsSection("Suggested", friendsDictionary["Suggested"]!!, FriendType.Suggested))
-//
-//        friendsRecyclerView!!.setLayoutManager(LinearLayoutManager(getContext()));
-//        friendsRecyclerView!!.setAdapter(sectionAdapter);
+        when(screenType){
 
-        var tab = tabLayout!!.getTabAt(0)
-        tab!!.select()
+            FriendType.MyFriend -> friendsAdapter.setData(friendsDictionary["Friends"]!!, screenType)
+
+            FriendType.Suggested -> friendsAdapter.setData(friendsDictionary["Suggested"]!!, screenType)
+
+            FriendType.Request -> friendsAdapter.setData(friendsDictionary["Requests"]!!, screenType)
+
+            FriendType.Invite -> friendsAdapter.setData(friendsDictionary["Invite"]!!, screenType)
+
+        }
+
+        friendsAdapter.notifyDataSetChanged()
+
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -92,41 +100,44 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         when(tab!!.position){
-            0 -> friendsPresenter.getMyFriends()
-            1 -> friendsPresenter.getRequests()
-            2 -> friendsPresenter.getSuggested()
-            3 -> friendsPresenter.getInvites()
+
+            0 -> screenType = FriendType.MyFriend
+
+            1 -> screenType = FriendType.Request
+
+            2 -> screenType = FriendType.Suggested
+
+            3 -> screenType = FriendType.Invite
+
         }
+
+        friendsPresenter.getFriendsByType()
     }
 
-    override fun showMyFriends(myFriends: ArrayList<FriendModel>) {
-        var fragment = MyFriendsFragment()
-        fragment.setData(myFriends)
-        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    override fun DeleteFriendClicked(position: Int, friendModel: FriendModel?) {
+        friendsPresenter.deleteFriend(position, friendModel!!)
     }
 
-    override fun showRequests(requests: ArrayList<FriendModel>) {
-        var fragment = RequestsFragment()
-        fragment.setData(requests)
-        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    override fun AcceptFriendRequestClicked(position: Int, friendModel: FriendModel?) {
+        friendsPresenter.acceptFriendRequest(position, friendModel!!)
     }
 
-    override fun showSuggested(suggested: ArrayList<FriendModel>) {
-        var fragment = SuggestFragment()
-        fragment.setData(suggested)
-        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    override fun DeclineFriendRequestClicked(position: Int, friendModel: FriendModel?) {
+        friendsPresenter.declineFriendRequest(position, friendModel!!)
     }
 
-    override fun showInvites(invites: ArrayList<FriendModel>) {
-        var fragment = InviteFragment()
-        fragment.setData(invites)
-        childFragmentManager.beginTransaction().replace(R.id.friendsFrame, fragment).commit()
+    override fun SendFriendRequestClicked(position: Int, friendModel: FriendModel?) {
+        friendsPresenter.sendFriendRequest(position, friendModel!!)
+    }
+
+    override fun InviteFriendClicked() {
+
     }
 
     fun setupTabs(){
         val friendsTab = tabLayout!!.newTab()
         friendsTab.text = "Friends"
-        tabLayout!!.addTab(friendsTab)
+        tabLayout!!.addTab(friendsTab, true)
 
         val requestsTab = tabLayout!!.newTab()
         requestsTab.text = "Requests"
@@ -155,15 +166,15 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
     }
 
     override fun PartialPermissionGranted(request_code: Int, granted_permissions: ArrayList<String>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun PermissionDenied(request_code: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun NeverAskAgain(request_code: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onAttach(context: Context?) {

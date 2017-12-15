@@ -36,7 +36,7 @@ class MyPlacesPresentationModel {
                         myPlace.address, myPlace.city, myPlace.state, myPlace.latitude, myPlace.longitude, myPlace.active)
 
                 myPlaceView.myPlaces.remove(myPlace)
-                break;
+                break
 
             }
 

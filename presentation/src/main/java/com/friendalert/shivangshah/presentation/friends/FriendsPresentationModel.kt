@@ -9,6 +9,11 @@ class FriendsPresentationModel {
 
     private var friendsDictionary =  HashMap<String, ArrayList<FriendModel>>()
 
+    private var deleteFriendRequestModel : FriendModel? = null
+    private var createFriendRequestModel : FriendModel? = null
+    private var acceptFriendRequestModel : FriendModel? = null
+    private var declineFriendRequestModel : FriendModel? = null
+
     fun setFriendsDictionary(friends: ArrayList<FriendModel>,
                              requests: ArrayList<FriendModel>,
                              suggested: ArrayList<FriendModel>,
@@ -22,6 +27,90 @@ class FriendsPresentationModel {
 
     fun getFriendsDictionary() : HashMap<String, ArrayList<FriendModel>>{
         return friendsDictionary
+    }
+
+    fun setDeleteFriendRequestModel(friendModel: FriendModel){
+        deleteFriendRequestModel = friendModel
+    }
+
+    fun setCreateFriendRequestModel(friendModel: FriendModel){
+        createFriendRequestModel = friendModel
+    }
+
+    fun setAcceptFriendRequestModel(friendModel: FriendModel){
+        acceptFriendRequestModel = friendModel
+    }
+
+    fun setDeclineFriendRequestModel(friendModel: FriendModel){
+        declineFriendRequestModel = friendModel
+    }
+
+    fun successDeleteFriend(){
+
+        // remove from friends
+        var friends = friendsDictionary["Friends"]
+        for(friend in friends!!){
+            if(friend.request_id == deleteFriendRequestModel!!.request_id){
+                friends.remove(friend)
+                break
+            }
+        }
+
+        deleteFriendRequestModel = null
+
+    }
+
+    fun successCreateFriendRequest(){
+
+        // remove from suggested
+        var suggestedFriends = friendsDictionary["Suggested"]
+        for(suggestedFriend in suggestedFriends!!){
+            if(suggestedFriend.request_id == createFriendRequestModel!!.request_id){
+                suggestedFriends.remove(suggestedFriend)
+                break
+            }
+        }
+
+        // add to requests
+        createFriendRequestModel!!.request_status = "pending"
+        friendsDictionary["Requests"]!!.add(createFriendRequestModel!!)
+
+        createFriendRequestModel = null
+
+    }
+
+    fun successAcceptFriendRequest(){
+
+        // remove from requests
+        var requestsFriends = friendsDictionary["Requests"]
+        for(requestFriend in requestsFriends!!){
+            if(requestFriend.request_id == acceptFriendRequestModel!!.request_id){
+                requestsFriends.remove(requestFriend)
+                break
+            }
+        }
+
+        // add to my friends
+        acceptFriendRequestModel!!.request_status = "accepted"
+        friendsDictionary["Friends"]!!.add(acceptFriendRequestModel!!)
+
+        acceptFriendRequestModel = null
+
+    }
+
+    fun successDeclineFriendRequest(){
+
+        // remove from requests
+        var requestsFriends = friendsDictionary["Requests"]
+        for(requestFriend in requestsFriends!!){
+            if(requestFriend.request_id == declineFriendRequestModel!!.request_id){
+                requestsFriends.remove(requestFriend)
+                break
+            }
+        }
+
+        declineFriendRequestModel = null
+
     }
 
 }

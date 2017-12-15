@@ -3,6 +3,7 @@ package com.friendalert.shivangshah.presentation.friends
 import com.friendalert.shivangshah.model.friends.response.FriendModel
 import com.friendalert.shivangshah.presentation.BasePresenter
 import com.friendalert.shivangshah.presentation.BaseView
+import java.text.FieldPosition
 
 /**
  * Created by shivangshah on 12/12/17.
@@ -13,28 +14,21 @@ interface FriendsContract {
 
         fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>)
 
-        fun showMyFriends(myFriends: java.util.ArrayList<FriendModel>)
-
-        fun showRequests(requests: java.util.ArrayList<FriendModel>)
-
-        fun showSuggested(suggested: java.util.ArrayList<FriendModel>)
-
-        fun showInvites(invites: java.util.ArrayList<FriendModel>)
-
     }
 
     interface Presenter : BasePresenter {
 
         fun getFriends()
 
-        fun getMyFriends()
+        fun getFriendsByType()
 
-        fun getRequests()
+        fun deleteFriend(position: Int, friendModel: FriendModel)
 
-        fun getSuggested()
+        fun sendFriendRequest(position: Int, friendModel: FriendModel)
 
-        fun getInvites()
+        fun acceptFriendRequest(position: Int, friendModel: FriendModel)
 
+        fun declineFriendRequest(position: Int, friendModel: FriendModel)
     }
 
 }

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.friendalert.shivangshah.friendalert.friends.InviteFragment">
+    tools:context="com.friendalert.shivangshah.friendalert.friends.invite.InviteFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

@@ -1,4 +1,4 @@
-package com.friendalert.shivangshah.friendalert.friends
+package com.friendalert.shivangshah.friendalert.friends.invite
 
 
 import android.os.Bundle

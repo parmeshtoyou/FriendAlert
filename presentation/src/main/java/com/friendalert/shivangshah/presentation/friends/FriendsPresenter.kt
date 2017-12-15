@@ -5,7 +5,9 @@ import com.friendalert.shivangshah.domain.friends.GetFriends
 import com.friendalert.shivangshah.domain.friends.UpdateFriend
 import com.friendalert.shivangshah.model.friends.request.UpdateFriendRequestModel
 import com.friendalert.shivangshah.model.friends.response.CreateFriendRequestResponseModel
+import com.friendalert.shivangshah.model.friends.response.FriendModel
 import com.friendalert.shivangshah.model.friends.response.FriendsResponseModel
+import com.friendalert.shivangshah.model.friends.response.UpdateFriendResponseModel
 import com.friendalert.shivangshah.presentation.CustomResponseCodes
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
@@ -62,11 +64,26 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     }
 
+    override fun sendFriendRequest(position: Int, friendModel: FriendModel) {
+
+        presentationModel.setCreateFriendRequestModel(friendModel)
+        createFriendRequest.execute(CreateFriendRequestSubscriber(), friendModel.receiver_id)
+
+    }
+
     inner class CreateFriendRequestSubscriber: DisposableSingleObserver<CreateFriendRequestResponseModel>() {
 
 
         override fun onSuccess(t: CreateFriendRequestResponseModel) {
 
+            if(t.customCode == CustomResponseCodes.createSuccess){
+
+                presentationModel.successCreateFriendRequest()
+                friendsView.showFriends(presentationModel.getFriendsDictionary())
+
+            }else{
+
+            }
         }
 
         override fun onError(e: Throwable) {
@@ -75,10 +92,32 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     }
 
-    inner class UpdateFriendSubscriber: DisposableSingleObserver<UpdateFriendRequestModel>() {
+    override fun deleteFriend(position: Int, friendModel: FriendModel) {
+
+        presentationModel.setDeleteFriendRequestModel(friendModel)
+        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 0))
+
+    }
+
+    override fun acceptFriendRequest(position: Int, friendModel: FriendModel) {
+
+        presentationModel.setAcceptFriendRequestModel(friendModel)
+        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 1))
+
+    }
+
+    override fun declineFriendRequest(position: Int, friendModel: FriendModel) {
+
+        presentationModel.setDeclineFriendRequestModel(friendModel)
+        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 2))
+
+    }
+
+    inner class UpdateFriendSubscriber: DisposableSingleObserver<UpdateFriendResponseModel>() {
 
 
-        override fun onSuccess(t: UpdateFriendRequestModel) {
+        override fun onSuccess(t: UpdateFriendResponseModel) {
+
 
         }
 
@@ -88,20 +127,8 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     }
 
-    override fun getMyFriends() {
-        friendsView.showMyFriends(presentationModel.getFriendsDictionary()["Friends"]!!)
-    }
-
-    override fun getRequests() {
-        friendsView.showRequests(presentationModel.getFriendsDictionary()["Requests"]!!)
-    }
-
-    override fun getSuggested() {
-        friendsView.showSuggested(presentationModel.getFriendsDictionary()["Suggested"]!!)
-    }
-
-    override fun getInvites() {
-        friendsView.showInvites(presentationModel.getFriendsDictionary()["Invite"]!!)
+    override fun getFriendsByType() {
+        friendsView.showFriends(presentationModel.getFriendsDictionary())
     }
 
 
