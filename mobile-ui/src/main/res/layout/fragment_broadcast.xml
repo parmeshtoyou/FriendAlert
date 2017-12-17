@@ -1,14 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment">
+    tools:context="com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment"
+    android:background="@color/whiteColor">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/broadcastTitle"
+        android:textColor="@color/primaryColor"
+        android:textSize="35dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add a note..."
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColorHint="@color/primaryColor"
+        android:layout_below="@+id/titleTextView"
+        android:background="@drawable/edittext_box_background"
+        android:padding="10dp"
+        android:id="@+id/noteEditText"
+        />
 
     <!-- TODO: Update blank fragment layout -->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send Broadcast"
-        android:id="@+id/sendBroadcastButton"/>
+        android:id="@+id/sendBroadcastButton"
+        android:layout_centerInParent="true"
+        />
 
-</FrameLayout>
+</RelativeLayout>

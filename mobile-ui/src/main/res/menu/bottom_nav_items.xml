@@ -1,20 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_broadcast"
-        android:title="@string/menu_broadcast"
+        android:title=""
+        android:icon="@drawable/places_ic_search"
+        android:iconTint="@color/darkGreyColor"
         />
     <item
         android:id="@+id/menu_myplace"
-        android:title="@string/menu_myplace"
+        android:title=""
+        android:icon="@drawable/places_ic_search"
+        android:iconTint="@color/darkGreyColor"
         />
 
     <item
         android:id="@+id/menu_friends"
-        android:title="@string/menu_friends"
+        android:title=""
+        android:icon="@drawable/places_ic_search"
+        android:iconTint="@color/darkGreyColor"
         />
 
     <item
         android:id="@+id/menu_notifications"
-        android:title="@string/menu_notifications"
+        android:title=""
+        android:icon="@drawable/places_ic_search"
+        android:iconTint="@color/darkGreyColor"
         />
 </menu>

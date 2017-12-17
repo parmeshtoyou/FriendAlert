@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.location.Location
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.support.annotation.Nullable
 import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
@@ -17,8 +18,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.facebook.FacebookSdk.getApplicationContext
+import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.PermissionUtils
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.presentation.broadcast.BroadcastContract
@@ -39,6 +42,7 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         PermissionUtils.PermissionResultCallback, LocationListener {
 
     lateinit var sendBroadcastButton : Button
+    lateinit var noteEditText: EditText
 
     private val PLAY_SERVICES_REQUEST = 1000
     private val REQUEST_CHECK_SETTINGS = 2000
@@ -47,6 +51,8 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     var permissions: ArrayList<String> = ArrayList()
     var permissionUtils: PermissionUtils? = null
+
+    var dataLoadingListener: DataLoadingListener? = null
 
     var isPermissionGranted: Boolean = false
 
@@ -76,6 +82,8 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
             permissionUtils!!.check_permission(permissions,"Need GPS permission for getting your location",PLAY_SERVICES_REQUEST)
         }
 
+        noteEditText = view.findViewById<EditText>(R.id.noteEditText)
+
         return view
     }
 
@@ -85,21 +93,29 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
+        dataLoadingListener = activity as DataLoadingListener
         super.onAttach(context)
     }
 
     override fun showSuccess() {
 
+        dataLoadingListener!!.dataLoadingStop()
+        Toast.makeText(getApplicationContext(),"Broadcast sent to nearby friends!",Toast.LENGTH_LONG).show();
+
     }
 
     override fun showFailure() {
+
+        dataLoadingListener!!.dataLoadingStop()
+        Toast.makeText(getApplicationContext(),"Broadcast failed to send. Please try again.",Toast.LENGTH_LONG).show();
 
     }
 
     override fun onLocationChanged(p0: Location?) {
         mGoogleApiClient!!.disconnect()
 
-        broadcastPresenter.createBroadcast("", "Test Message", p0!!.latitude.toString(), p0!!.longitude.toString())
+        broadcastPresenter.createBroadcast("", noteEditText.text.toString(), p0!!.latitude.toString(), p0!!.longitude.toString())
+        dataLoadingListener!!.dataLoadingStart()
     }
 
     private fun getLocation() {

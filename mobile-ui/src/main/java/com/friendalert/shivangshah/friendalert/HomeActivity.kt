@@ -1,14 +1,18 @@
 package com.friendalert.shivangshah.friendalert
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment
 import com.friendalert.shivangshah.friendalert.friends.FriendsFragment
 import com.friendalert.shivangshah.friendalert.myplaces.MyPlacesFragment
@@ -18,8 +22,15 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
+import android.view.WindowManager
+import android.R.color.transparent
+import android.graphics.drawable.Drawable
 
-class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavigationView.OnNavigationItemSelectedListener {
+
+
+
+
+class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavigationView.OnNavigationItemSelectedListener, DataLoadingListener {
 
     @Inject lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
@@ -30,8 +41,19 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
 
     private var bottomNavigationView: BottomNavigationView? = null
     private var containerLayout : FrameLayout? = null
+    private var toolbar : Toolbar? = null
+    private var progressBar : ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = this.getWindow()
+            val background = this.getResources().getDrawable(R.drawable.main_gradient)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.setStatusBarColor(this.getResources().getColor(R.color.transparent))
+            window.setBackgroundDrawable(background)
+        }
+
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
@@ -41,6 +63,11 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
         bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         containerLayout = findViewById<FrameLayout>(R.id.containerLayout);
+
+        toolbar = findViewById<Toolbar>(R.id.appToolbar)
+        setSupportActionBar(toolbar)
+
+        progressBar = findViewById<ProgressBar>(R.id.progress_bar)
 
         bottomNavigationView?.setOnNavigationItemSelectedListener(this)
     }
@@ -80,23 +107,42 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
         }
     }
 
+    override fun dataLoadingStart() {
+        showLoading("")
+    }
+
+    override fun dataLoadingStop() {
+        hideLoading()
+    }
+
+    fun showLoading(title: String){
+        progressBar!!.visibility = View.VISIBLE
+    }
+
+    fun hideLoading(){
+        progressBar!!.visibility = View.GONE
+    }
 
     fun switchToBroadcastFragment() {
+        supportActionBar!!.title = "Broadcast"
         val manager = supportFragmentManager
         manager.beginTransaction().add(R.id.containerLayout, BroadcastFragment().instantiate(Bundle()), "BroadcastFragment").commit()
     }
 
     fun switchToNotificationsFragment() {
+        supportActionBar!!.title = "Notifications"
         val manager = supportFragmentManager
         manager.beginTransaction().replace(R.id.containerLayout, NotificationsFragment().instantiate(Bundle()), "NotificationsFragment").commit()
     }
 
     fun switchToMyPlacesFragment() {
+        supportActionBar!!.title = "My Places"
         val manager = supportFragmentManager
         manager.beginTransaction().replace(R.id.containerLayout, MyPlacesFragment().instantiate(Bundle()), "MyPlacesFragment").commit()
     }
 
     fun switchToFriendsFragment() {
+        supportActionBar!!.title = "Friends"
         val manager = supportFragmentManager
         manager.beginTransaction().replace(R.id.containerLayout, FriendsFragment().instantiate(Bundle()), "FriendsFragment").commit()
     }
