@@ -3,9 +3,6 @@ package com.friendalert.shivangshah.domain.broadcast
 import com.friendalert.shivangshah.domain.PostExecutionThread
 import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.ThreadExecutor
-import com.friendalert.shivangshah.domain.myplaces.MyPlace
-import com.friendalert.shivangshah.domain.myplaces.MyPlaceRepository
-import com.friendalert.shivangshah.domain.myplaces.MyPlaceResponse
 import com.friendalert.shivangshah.domain.user.User
 import com.friendalert.shivangshah.domain.user.UserRepository
 import io.reactivex.Single

@@ -1,8 +1,8 @@
 package com.friendalert.shivangshah.data.myplaces.repository
 
-import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
-import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntity
-import com.friendalert.shivangshah.data.myplaces.MyPlacesResponseEntity
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlacesResponseModel
 import io.reactivex.Single
 
 /**
@@ -11,9 +11,9 @@ import io.reactivex.Single
  */
 interface MyPlaceDataStore {
 
-    fun getMyPlaces(userId: String): Single<MyPlacesResponseEntity>
+    fun getMyPlaces(userId: String): Single<MyPlacesResponseModel>
 
-    fun createMyPlace(myPlace: MyPlaceEntity) : Single<MyPlaceResponseEntity>
+    fun createMyPlace(myPlace: MyPlaceRequestModel) : Single<MyPlaceResponseModel>
 
-    fun deleteMyPlace(myPlaceId: Int) : Single<MyPlaceResponseEntity>
+    fun deleteMyPlace(myPlaceId: Int) : Single<MyPlaceResponseModel>
 }

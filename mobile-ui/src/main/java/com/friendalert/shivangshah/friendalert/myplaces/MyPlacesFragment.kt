@@ -1,6 +1,10 @@
 package com.friendalert.shivangshah.friendalert.myplaces
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -8,11 +12,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.presentation.myplaces.MyPlaceViewData
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceModel
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesContract
+import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
+import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,9 +40,10 @@ import javax.inject.Inject
  */
 class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    lateinit var autocompleteFragment : SupportPlaceAutocompleteFragment
     lateinit var googleMap : GoogleMap
-    @Inject lateinit var mapper : MyPlaceMapper
+    lateinit var searchButton : Button
+
+    var PLACE_AUTOCOMPLETE_REQUEST = 4000
 
     var hashMapMarker: HashMap<Int, Marker> = HashMap()
 
@@ -59,14 +68,32 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
                               savedInstanceState: Bundle?): View? {
         var view = inflater!!.inflate(R.layout.fragment_myplaces, container, false)
 
-        autocompleteFragment = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment) as SupportPlaceAutocompleteFragment
+        searchButton = view.findViewById(R.id.searchButton)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
+        searchButton.setOnClickListener { v ->
+            try {
+                var intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                .build(activity);
+                activity!!.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST);
+            } catch (e: GooglePlayServicesRepairableException) {
+                // TODO: Handle the error.
+            } catch (e: GooglePlayServicesRepairableException) {
+                // TODO: Handle the error.
+            }
+        }
+
+        return view;
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                var place = PlaceAutocomplete.getPlace(activity, data);
+                Log.i(TAG, "Place: " + place.getName());
 
                 var nickname = place.name
                 var address = place.address;
@@ -74,19 +101,19 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
                 var latitude = place.latLng.latitude.toString()
                 var longitude = place.latLng.longitude.toString()
 
-                var myPlaceViewModelData = MyPlaceViewModelData(0,"", nickname.toString(), address.toString(), "Hackensack", "NJ", latitude, longitude, 1)
+                var myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), "Hackensack", "NJ", latitude, longitude, 1)
 
-                myPlacePresenter.createMyPlace(mapper.mapFromViewModel(myPlaceViewModelData))
-            }
+                myPlacePresenter.createMyPlace(myPlaceViewModelData)
 
-            override fun onError(status: Status) {
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                var status = PlaceAutocomplete.getStatus(activity, data);
                 // TODO: Handle the error.
-                Log.i("", "An error occurred: " + status)
+                Log.i(TAG, status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
             }
-        })
-
-
-        return view;
+        }
     }
 
     override fun onMapReady(p0: GoogleMap?) {
@@ -115,7 +142,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     }
 
 
-    override fun showMyPlaces(myPlace: List<MyPlaceViewData>) {
+    override fun showMyPlaces(myPlace: List<MyPlaceModel>) {
 
         for(myPlaceObj in myPlace){
 
@@ -131,7 +158,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     }
 
-    override fun addMyPlace(myPlace: MyPlaceViewData) {
+    override fun addMyPlace(myPlace: MyPlaceModel) {
 
         val latlng = LatLng(myPlace.latitude.toDouble(), myPlace.longitude.toDouble())
 
@@ -143,7 +170,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     }
 
-    override fun deleteMyPlace(myPlace: MyPlaceViewData) {
+    override fun deleteMyPlace(myPlace: MyPlaceModel) {
 
         val marker = hashMapMarker[myPlace.base_camp_id]
         marker?.remove()

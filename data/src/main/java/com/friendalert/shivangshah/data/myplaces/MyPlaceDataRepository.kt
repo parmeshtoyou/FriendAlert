@@ -1,10 +1,10 @@
 package com.friendalert.shivangshah.data.myplaces
 
 import com.friendalert.shivangshah.data.myplaces.source.MyPlaceDataStoreFactory
-import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import com.friendalert.shivangshah.domain.myplaces.MyPlaceRepository
-import com.friendalert.shivangshah.domain.myplaces.MyPlaceResponse
-import com.friendalert.shivangshah.domain.myplaces.MyPlaces
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlacesResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -13,33 +13,27 @@ import javax.inject.Inject
  * remote data store will call api
  * cache data store will call local db
  */
-class MyPlaceDataRepository @Inject constructor(private val factory: MyPlaceDataStoreFactory,
-                                                private val myPlacesMapper: MyPlacesMapper,
-                                                private val myPlaceMapper: MyPlaceMapper,
-                                                private val myPlaceResponseEntityMapper: MyPlaceResponseEntityMapper) :
+class MyPlaceDataRepository @Inject constructor(private val factory: MyPlaceDataStoreFactory) :
         MyPlaceRepository {
 
-    override fun createMyPlace(myPlace: MyPlace): Single<MyPlaceResponse> {
+    override fun createMyPlace(myPlace: MyPlaceRequestModel): Single<MyPlaceResponseModel> {
+
         val dataStore = factory.retrieveDataStore()
-        return dataStore.createMyPlace(myPlaceMapper.mapToEntity(myPlace)).map {
-            myPlaceResponseEntity: MyPlaceResponseEntity ->
-                myPlaceResponseEntityMapper.mapFromEntity(myPlaceResponseEntity)
-        }
+        return dataStore.createMyPlace(myPlace)
+
     }
 
-    override fun deleteMyPlace(myPlaceId: Int): Single<MyPlaceResponse> {
+    override fun deleteMyPlace(myPlaceId: Int): Single<MyPlaceResponseModel> {
+
         val dataStore = factory.retrieveDataStore()
-        return dataStore.deleteMyPlace(myPlaceId).map {
-            myPlaceResponseEntity: MyPlaceResponseEntity ->
-            myPlaceResponseEntityMapper.mapFromEntity(myPlaceResponseEntity)
-        }
+        return dataStore.deleteMyPlace(myPlaceId)
+
     }
 
-    override fun getMyPlaces(userId: String): Single<MyPlaces> {
+    override fun getMyPlaces(userId: String): Single<MyPlacesResponseModel> {
+
         val dataStore = factory.retrieveDataStore()
         return dataStore.getMyPlaces(userId)
-                .map {
-                    responseEntity: MyPlacesResponseEntity -> myPlacesMapper.mapFromEntity(responseEntity)
-                }
+
     }
 }

@@ -27,11 +27,9 @@ class MyPlacesFragmentModule {
                                           getMyPlaces: GetMyPlaces,
                                           createMyPlace: CreateMyPlace,
                                           deleteMyPlace: DeleteMyPlace,
-                                          myPlacesMapper: MyPlacesMapper,
-                                          myPlaceMapper: MyPlaceMapper,
                                           presentationModel: MyPlacesPresentationModel):
             MyPlacesContract.Presenter {
-        return MyPlacesPresenter(mainView, getMyPlaces, createMyPlace, deleteMyPlace, myPlacesMapper, myPlaceMapper, presentationModel)
+        return MyPlacesPresenter(mainView, getMyPlaces, createMyPlace, deleteMyPlace, presentationModel)
     }
 
 }

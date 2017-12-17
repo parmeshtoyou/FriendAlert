@@ -1,10 +1,10 @@
 package com.friendalert.shivangshah.data.myplaces.source
 
-import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
-import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntity
-import com.friendalert.shivangshah.data.myplaces.MyPlacesResponseEntity
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceDataStore
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlacesResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -15,15 +15,15 @@ import javax.inject.Inject
 class MyPlaceRemoteDataStore @Inject constructor(private val myPlaceRemote: MyPlaceRemote) :
         MyPlaceDataStore {
 
-    override fun createMyPlace(myPlace: MyPlaceEntity): Single<MyPlaceResponseEntity> {
+    override fun createMyPlace(myPlace: MyPlaceRequestModel): Single<MyPlaceResponseModel> {
         return myPlaceRemote.createMyPlace(myPlace)
     }
 
-    override fun deleteMyPlace(myPlaceId: Int): Single<MyPlaceResponseEntity> {
+    override fun deleteMyPlace(myPlaceId: Int): Single<MyPlaceResponseModel> {
         return myPlaceRemote.deleteMyPlace(myPlaceId)
     }
 
-    override fun getMyPlaces(userId: String): Single<MyPlacesResponseEntity> {
+    override fun getMyPlaces(userId: String): Single<MyPlacesResponseModel> {
         return myPlaceRemote.getMyPlaces(userId)
     }
 

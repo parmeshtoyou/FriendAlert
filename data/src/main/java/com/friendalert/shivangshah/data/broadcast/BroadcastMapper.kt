@@ -1,9 +1,7 @@
 package com.friendalert.shivangshah.data.broadcast
 
 import com.friendalert.shivangshah.data.Mapper
-import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
 import com.friendalert.shivangshah.domain.broadcast.Broadcast
-import com.friendalert.shivangshah.domain.myplaces.MyPlace
 import javax.inject.Inject
 
 /**

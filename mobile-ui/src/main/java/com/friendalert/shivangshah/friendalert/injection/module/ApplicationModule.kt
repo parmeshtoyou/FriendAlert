@@ -18,9 +18,6 @@ import com.friendalert.shivangshah.data.friends.repository.ContactsLocal
 import com.friendalert.shivangshah.data.friends.repository.FriendsRemote
 import com.friendalert.shivangshah.data.friends.source.FriendsDataStoreFactory
 import com.friendalert.shivangshah.data.myplaces.MyPlaceDataRepository
-import com.friendalert.shivangshah.data.myplaces.MyPlaceMapper
-import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntityMapper
-import com.friendalert.shivangshah.data.myplaces.MyPlacesMapper
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
 import com.friendalert.shivangshah.data.myplaces.source.MyPlaceDataStoreFactory
 import com.friendalert.shivangshah.data.notifications.NotificationDataRepository
@@ -157,20 +154,14 @@ open class ApplicationModule {
     // MyPlaces Dependencies -----------------------------------------------------------------------
     @Provides
     @PerApplication
-    internal fun provideMyPlacesRepository(factory: MyPlaceDataStoreFactory,
-                                           mapper: MyPlacesMapper,
-                                           myPlaceMapper: MyPlaceMapper,
-                                           myPlaceResponseEntityMapper: MyPlaceResponseEntityMapper): MyPlaceRepository {
-        return MyPlaceDataRepository(factory, mapper,myPlaceMapper,myPlaceResponseEntityMapper)
+    internal fun provideMyPlacesRepository(factory: MyPlaceDataStoreFactory): MyPlaceRepository {
+        return MyPlaceDataRepository(factory)
     }
 
     @Provides
     @PerApplication
-    internal fun provideMyPlacesRemote(service: MyPlaceService,
-                                       myPlacesEntityMapper: com.friendalert.shivangshah.remote.myplaces.MyPlacesEntityMapper,
-                                       myPlaceEntityMapper: MyPlaceEntityMapper,
-                                       myPlaceResponseModelMapper: MyPlaceResponseModelMapper): MyPlaceRemote {
-        return MyPlaceRemoteImpl(service, myPlacesEntityMapper, myPlaceEntityMapper, myPlaceResponseModelMapper)
+    internal fun provideMyPlacesRemote(service: MyPlaceService): MyPlaceRemote {
+        return MyPlaceRemoteImpl(service)
     }
 
     @Provides

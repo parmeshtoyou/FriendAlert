@@ -5,6 +5,8 @@ import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.ThreadExecutor
 import com.friendalert.shivangshah.domain.user.User
 import com.friendalert.shivangshah.domain.user.UserRepository
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -15,15 +17,15 @@ class CreateMyPlace @Inject constructor(val myPlaceRepository: MyPlaceRepository
                                         val userRepository: UserRepository,
                                         threadExecutor: ThreadExecutor,
                                         postExecutionThread: PostExecutionThread):
-        SingleUseCase<MyPlaceResponse, MyPlace>(threadExecutor, postExecutionThread) {
+        SingleUseCase<MyPlaceResponseModel, MyPlaceRequestModel>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(myPlace: MyPlace?): Single<MyPlaceResponse> {
+    override fun buildUseCaseObservable(myPlace: MyPlaceRequestModel?): Single<MyPlaceResponseModel> {
 
-        var localMyPlace : MyPlace;
+        var localMyPlace : MyPlaceRequestModel;
 
         return userRepository.getUser().flatMap{
             user: User ->
-                localMyPlace = MyPlace(myPlace!!.base_camp_id, user.userId, myPlace!!.nickname, myPlace!!.address,
+                localMyPlace = MyPlaceRequestModel(myPlace!!.base_camp_id, user.userId, myPlace!!.nickname, myPlace!!.address,
                         myPlace!!.city, myPlace!!.state, myPlace!!.latitude, myPlace!!.longitude, myPlace!!.active)
                 myPlaceRepository.createMyPlace(localMyPlace)
         }

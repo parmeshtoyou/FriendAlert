@@ -1,7 +1,5 @@
 package com.friendalert.shivangshah.remote.broadcast
 
-import com.friendalert.shivangshah.remote.myplaces.MyPlaceRequestModel
-import com.friendalert.shivangshah.remote.myplaces.MyPlaceResponseModel
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.POST

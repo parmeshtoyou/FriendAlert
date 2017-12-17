@@ -1,9 +1,9 @@
-package com.friendalert.shivangshah.remote.myplaces
+package com.friendalert.shivangshah.model.myplaces.request
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * MyPlace model returned from service
+ * Created by shivangshah on 12/15/17.
  */
 class MyPlaceRequestModel(@SerializedName("base_camp_id") val base_camp_id: Int,
                           @SerializedName("fk_user_id") val fk_user_id: String,

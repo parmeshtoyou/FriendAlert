@@ -5,6 +5,7 @@ import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.ThreadExecutor
 import com.friendalert.shivangshah.domain.user.User
 import com.friendalert.shivangshah.domain.user.UserRepository
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -14,9 +15,9 @@ import javax.inject.Inject
 class DeleteMyPlace @Inject constructor(val myPlaceRepository: MyPlaceRepository,
                                         threadExecutor: ThreadExecutor,
                                         postExecutionThread: PostExecutionThread):
-        SingleUseCase<MyPlaceResponse, Int>(threadExecutor, postExecutionThread) {
+        SingleUseCase<MyPlaceResponseModel, Int>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(myPlaceId: Int?): Single<MyPlaceResponse> {
+    override fun buildUseCaseObservable(myPlaceId: Int?): Single<MyPlaceResponseModel> {
 
         return myPlaceRepository.deleteMyPlace(myPlaceId!!)
 

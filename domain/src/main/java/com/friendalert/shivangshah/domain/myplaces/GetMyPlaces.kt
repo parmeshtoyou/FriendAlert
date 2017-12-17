@@ -5,6 +5,7 @@ import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.ThreadExecutor
 import com.friendalert.shivangshah.domain.user.User
 import com.friendalert.shivangshah.domain.user.UserRepository
+import com.friendalert.shivangshah.model.myplaces.response.MyPlacesResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -15,9 +16,9 @@ open class GetMyPlaces @Inject constructor(val myPlaceRepository: MyPlaceReposit
                                            val userRepository: UserRepository,
                                       threadExecutor: ThreadExecutor,
                                       postExecutionThread: PostExecutionThread):
-        SingleUseCase<MyPlaces, Void?>(threadExecutor, postExecutionThread) {
+        SingleUseCase<MyPlacesResponseModel, Void?>(threadExecutor, postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Void?): Single<MyPlaces> {
+    public override fun buildUseCaseObservable(params: Void?): Single<MyPlacesResponseModel> {
 
         return userRepository.getUser().flatMap{
             user: User -> myPlaceRepository.getMyPlaces(user.userId) }

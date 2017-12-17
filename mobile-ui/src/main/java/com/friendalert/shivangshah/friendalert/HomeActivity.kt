@@ -26,6 +26,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     private val PLAY_SERVICES_REQUEST = 1000
     private val REQUEST_CHECK_SETTINGS = 2000
     private val READ_CONTACTS_REQUEST = 3000
+    private val PLACE_AUTOCOMPLETE_REQUEST = 4000
 
     private var bottomNavigationView: BottomNavigationView? = null
     private var containerLayout : FrameLayout? = null
@@ -57,8 +58,14 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val fragment = supportFragmentManager.findFragmentByTag("BroadcastFragment")
-        fragment.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_CHECK_SETTINGS) {
+            val fragment = supportFragmentManager.findFragmentByTag("BroadcastFragment")
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
+      else if(requestCode == PLACE_AUTOCOMPLETE_REQUEST){
+            val fragment = supportFragmentManager.findFragmentByTag("MyPlacesFragment")
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

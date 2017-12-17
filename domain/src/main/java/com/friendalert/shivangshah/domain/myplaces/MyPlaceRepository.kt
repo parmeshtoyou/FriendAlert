@@ -1,5 +1,8 @@
 package com.friendalert.shivangshah.domain.myplaces
 
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlacesResponseModel
 import io.reactivex.Single
 
 /**
@@ -7,10 +10,10 @@ import io.reactivex.Single
  */
 interface MyPlaceRepository {
 
-    fun getMyPlaces(userId: String): Single<MyPlaces>
+    fun getMyPlaces(userId: String): Single<MyPlacesResponseModel>
 
-    fun createMyPlace(myPlace: MyPlace) : Single<MyPlaceResponse>
+    fun createMyPlace(myPlace: MyPlaceRequestModel) : Single<MyPlaceResponseModel>
 
-    fun deleteMyPlace(myPlaceId: Int) : Single<MyPlaceResponse>
+    fun deleteMyPlace(myPlaceId: Int) : Single<MyPlaceResponseModel>
 
 }

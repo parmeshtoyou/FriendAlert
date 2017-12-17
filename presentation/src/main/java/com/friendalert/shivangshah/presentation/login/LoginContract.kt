@@ -2,8 +2,6 @@ package com.friendalert.shivangshah.presentation.login
 
 import com.friendalert.shivangshah.presentation.BasePresenter
 import com.friendalert.shivangshah.presentation.BaseView
-import com.friendalert.shivangshah.presentation.myplaces.MyPlaceView
-import com.friendalert.shivangshah.presentation.myplaces.MyPlacesContract
 
 /**
  * Created by shivangshah on 11/16/17.

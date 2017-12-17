@@ -1,5 +1,7 @@
 package com.friendalert.shivangshah.presentation.myplaces
 
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceModel
 import com.friendalert.shivangshah.presentation.BasePresenter
 import com.friendalert.shivangshah.presentation.BaseView
 
@@ -14,11 +16,11 @@ interface MyPlacesContract {
 
         fun hideProgress()
 
-        fun showMyPlaces(myPlace: List<MyPlaceViewData>)
+        fun showMyPlaces(myPlace: List<MyPlaceModel>)
 
-        fun addMyPlace(myPlace: MyPlaceViewData)
+        fun addMyPlace(myPlace: MyPlaceModel)
 
-        fun deleteMyPlace(myPlace: MyPlaceViewData)
+        fun deleteMyPlace(myPlace: MyPlaceModel)
 
         fun hideMyPlaces()
 
@@ -36,7 +38,7 @@ interface MyPlacesContract {
 
         fun retrieveMyPlaces()
 
-        fun createMyPlace(myPlace: MyPlaceViewData)
+        fun createMyPlace(myPlaceRequestModel: MyPlaceRequestModel)
 
         fun deleteMyPlace(myPlaceId: Int)
 

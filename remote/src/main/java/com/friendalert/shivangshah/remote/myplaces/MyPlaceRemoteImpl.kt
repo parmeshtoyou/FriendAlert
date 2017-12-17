@@ -1,41 +1,32 @@
 package com.friendalert.shivangshah.remote.myplaces
 
-import com.friendalert.shivangshah.data.myplaces.MyPlaceEntity
-import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntity
-import com.friendalert.shivangshah.data.myplaces.MyPlaceResponseEntityMapper
-import com.friendalert.shivangshah.data.myplaces.MyPlacesResponseEntity
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlacesResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
 /**
  * Created by shivangshah on 11/15/17.
  */
-class MyPlaceRemoteImpl @Inject constructor(private val myPlaceService: MyPlaceService,
-                                            private val entityMapper: MyPlacesEntityMapper,
-                                            private val myPlaceEntityMapper: MyPlaceEntityMapper,
-                                            private val responseModelEntityMapper: MyPlaceResponseModelMapper) :
+class MyPlaceRemoteImpl @Inject constructor(private val myPlaceService: MyPlaceService) :
         MyPlaceRemote {
 
-    override fun createMyPlace(myPlace: MyPlaceEntity): Single<MyPlaceResponseEntity> {
+    override fun createMyPlace(myPlace: MyPlaceRequestModel): Single<MyPlaceResponseModel> {
 
-        val myPlaceRequestModel = myPlaceEntityMapper.mapFromEntity(myPlace)
-
-        return myPlaceService.createMyPlace(myPlaceRequestModel).map {
-            responseModel: MyPlaceResponseModel ->  responseModelEntityMapper.mapFromRemote(responseModel)
-        }
+        return myPlaceService.createMyPlace(myPlace)
     }
 
-    override fun deleteMyPlace(myPlaceId: Int): Single<MyPlaceResponseEntity> {
-        return myPlaceService.deleteMyPlace(myPlaceId).map {
-            responseModel: MyPlaceResponseModel ->  responseModelEntityMapper.mapFromRemote(responseModel)
-        }
+    override fun deleteMyPlace(myPlaceId: Int): Single<MyPlaceResponseModel> {
+
+        return myPlaceService.deleteMyPlace(myPlaceId)
+
     }
 
-    // this method gets my places from service, converts it to MyPlaceEntity (data layer) and returns it to data layer
-    override fun getMyPlaces(userId:String): Single<MyPlacesResponseEntity> {
-        return myPlaceService.getMyPlaces(userId).map {
-            response: MyPlacesResponseModel ->  entityMapper.mapFromRemote(response)
-        }
+    override fun getMyPlaces(userId:String): Single<MyPlacesResponseModel> {
+
+        return myPlaceService.getMyPlaces(userId)
+
     }
 }

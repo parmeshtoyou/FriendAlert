@@ -1,6 +1,8 @@
 package com.friendalert.shivangshah.remote.myplaces
 
-import com.friendalert.shivangshah.remote.user.UserRequestModel
+import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
+import com.friendalert.shivangshah.model.myplaces.response.MyPlacesResponseModel
 import io.reactivex.Single
 import retrofit2.http.*
 
