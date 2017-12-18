@@ -3,16 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_gradient">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchButton"
-        android:text="Search"
-        android:textAlignment="viewStart"
-        android:gravity="start"
-        android:foregroundGravity="center_vertical"
-        android:background="@drawable/main_gradient"
-        android:visibility="invisible"/>
 
     <EditText
         android:layout_width="match_parent"

@@ -26,7 +26,7 @@ class CreateMyPlace @Inject constructor(val myPlaceRepository: MyPlaceRepository
         return userRepository.getUser().flatMap{
             user: User ->
                 localMyPlace = MyPlaceRequestModel(myPlace!!.base_camp_id, user.userId, myPlace!!.nickname, myPlace!!.address,
-                        myPlace!!.city, myPlace!!.state, myPlace!!.latitude, myPlace!!.longitude, myPlace!!.active)
+                        myPlace!!.city, myPlace!!.state, myPlace!!.latitude, myPlace!!.longitude, myPlace!!.active, myPlace!!.radius)
                 myPlaceRepository.createMyPlace(localMyPlace)
         }
     }

@@ -1,0 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.friendalert.shivangshah.friendalert.myplaces.CreateMyPlaceFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Create New MyPlace"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="25dp"
+        android:textColor="@color/primaryColor"/>
+
+    <TextView
+        android:id="@+id/locationTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleTextView"
+        android:text="Location"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textColor="@color/primaryColor"/>
+
+    <TextView
+        android:id="@+id/locationValueTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/locationTitleTextView"
+        android:text="Location Value"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/primaryColor"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/nicknameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MyPlace Nickname"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/primaryColor"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:layout_below="@+id/locationValueTextView"
+        />
+
+    <EditText
+        android:id="@+id/nicknameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nicknameTextView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="Optional"
+        android:textSize="16dp"
+        android:background="@color/transparent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radiusText"
+        android:text="Radius"
+        android:layout_below="@+id/nicknameEditText"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/primaryColor"
+        android:textStyle="bold"
+        android:textSize="16dp"/>
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/radiusSpinner"
+        android:layout_below="@+id/radiusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+    </android.support.v7.widget.AppCompatSpinner>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radiusSpinner"
+        android:text="Cancel"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/radiusSpinner"
+        android:text="Save"
+        android:textAllCaps="false"/>
+
+</RelativeLayout>

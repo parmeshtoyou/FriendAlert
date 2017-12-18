@@ -38,7 +38,6 @@ import javax.inject.Inject
 class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     lateinit var googleMap : GoogleMap
-    lateinit var searchButton : Button
     lateinit var searchEditText : EditText
 
     var PLACE_AUTOCOMPLETE_REQUEST = 4000
@@ -67,7 +66,6 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
                               savedInstanceState: Bundle?): View? {
         var view = inflater!!.inflate(R.layout.fragment_myplaces, container, false)
 
-        searchButton = view.findViewById(R.id.searchButton)
         searchEditText = view.findViewById(R.id.searchEditText)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -101,9 +99,13 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
                 var latitude = place.latLng.latitude.toString()
                 var longitude = place.latLng.longitude.toString()
 
-                var myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), "Hackensack", "NJ", latitude, longitude, 1)
+                // TODO : Show create new myplace popup
 
-                myPlacePresenter.createMyPlace(myPlaceViewModelData)
+                var myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), "Hackensack", "NJ", latitude, longitude, 1, "5")
+
+                //myPlacePresenter.createMyPlace(myPlaceViewModelData)
+                var createMyPlaceFragment = CreateMyPlaceFragment().newInstance(myPlaceViewModelData)
+                createMyPlaceFragment.show(activity!!.supportFragmentManager, "")
 
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 var status = PlaceAutocomplete.getStatus(activity, data);
@@ -148,12 +150,14 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
             val latlng = LatLng(myPlaceObj.latitude.toDouble(), myPlaceObj.longitude.toDouble())
 
-            var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.defaultMarker(189f))
+            var customBitmapDescriptorFactory = CustomBitmapDescriptorFactory.getHsvFromColor("#107F93")
+
+            var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.defaultMarker(customBitmapDescriptorFactory[0]))
             val marker = googleMap.addMarker(markerOptions)
             hashMapMarker.put(myPlaceObj.base_camp_id, marker)
 
             myPlaceObj.radius = "5.0"
-            var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(Color.GREEN).strokeColor(Color.GREEN).strokeWidth(2f);
+            var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(Color.TRANSPARENT).strokeColor(Color.parseColor("#107F93")).strokeWidth(10f);
             val circle = googleMap.addCircle(circleOptions)
             hashMapCircle.put(myPlaceObj.base_camp_id, circle)
 
@@ -195,25 +199,27 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     private fun updateCamera(){
 
-        var builder = LatLngBounds.Builder()
-        val values = hashMapCircle.values
-        for(circle in values){
-            //builder.include(marker.getPosition());
+        if(hashMapCircle.values.count() > 0){
 
-            var targetNorthEast = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 45.0);
-            var targetSouthWest = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 225.0);
+            var builder = LatLngBounds.Builder()
+            val values = hashMapCircle.values
+            for(circle in values){
+                //builder.include(marker.getPosition());
 
-            builder.include(targetNorthEast)
-            builder.include(targetSouthWest)
+                var targetNorthEast = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 45.0);
+                var targetSouthWest = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 225.0);
+
+                builder.include(targetNorthEast)
+                builder.include(targetSouthWest)
+            }
+
+            var bounds = builder.build();
+
+            var padding = 100;
+            var cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            googleMap.animateCamera(cu);
+
         }
-
-        var bounds = builder.build();
-
-        var padding = 100;
-        var cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.animateCamera(cu);
-
-
     }
 
     override fun showProgress() {
