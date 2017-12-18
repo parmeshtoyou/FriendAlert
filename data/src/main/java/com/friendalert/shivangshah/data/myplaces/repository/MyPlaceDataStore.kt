@@ -16,4 +16,6 @@ interface MyPlaceDataStore {
     fun createMyPlace(myPlace: MyPlaceRequestModel) : Single<MyPlaceResponseModel>
 
     fun deleteMyPlace(myPlaceId: Int) : Single<MyPlaceResponseModel>
+
+    fun editMyPlace(myPlace: MyPlaceRequestModel) : Single<MyPlaceResponseModel>
 }

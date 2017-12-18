@@ -1,6 +1,7 @@
 package com.friendalert.shivangshah.presentation.myplaces
 
 import com.friendalert.shivangshah.domain.SingleUseCase
+import com.friendalert.shivangshah.domain.myplaces.EditMyPlace
 import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
 import com.friendalert.shivangshah.model.myplaces.response.MyPlaceModel
 import com.friendalert.shivangshah.model.myplaces.response.MyPlaceResponseModel
@@ -16,6 +17,7 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
                                             val getMyPlacesUseCase: SingleUseCase<MyPlacesResponseModel, Void>,
                                             val createMyPlaceUseCase: SingleUseCase<MyPlaceResponseModel, MyPlaceRequestModel>,
                                             val deleteMyPlaceUseCase: SingleUseCase<MyPlaceResponseModel, Int>,
+                                            val editMyPlaceUseCase: SingleUseCase<MyPlaceResponseModel, MyPlaceRequestModel>,
                                             val presentationModel: MyPlacesPresentationModel):
         MyPlacesContract.Presenter {
 
@@ -89,6 +91,37 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
             // error - remove last object added from list
             presentationModel.getAllMyPlaces().removeAt(presentationModel.getAllMyPlaces().size - 1)
+
+        }
+
+    }
+
+    override fun editMyPlace(myPlaceRequestModel: MyPlaceRequestModel) {
+
+        // presentation model - set to be editted
+        presentationModel.setToBeEditted(myPlaceRequestModel)
+
+        editMyPlaceUseCase.execute(EditMyPlaceSubscriber(), myPlaceRequestModel)
+
+    }
+
+    inner class EditMyPlaceSubscriber: DisposableSingleObserver<MyPlaceResponseModel>(){
+
+        override fun onSuccess(t: MyPlaceResponseModel) {
+            if(t.customCode == CustomResponseCodes.updateSuccess){
+
+                // presentation model - update to be editted
+                var myPlace = presentationModel.editMyPlace()
+                myPlacesView.editMyPlace(myPlace!!)
+
+            }else{
+
+
+            }
+        }
+
+        override fun onError(e: Throwable) {
+
 
         }
 

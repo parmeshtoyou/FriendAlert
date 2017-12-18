@@ -37,40 +37,6 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
         return notificationsFragment
     }
 
-    override fun showProgress() {
-        Log.d("show","progress")
-    }
-
-    override fun hideProgress() {
-        Log.d("hide","progress")
-    }
-
-    override fun showNotifications(notifications: List<NotificationModel>) {
-        notificationsAdapter.notifications = notifications
-        notificationsAdapter.notifyDataSetChanged()
-        notificationsRecyclerView?.visibility = View.VISIBLE
-    }
-
-    override fun hideNotifications() {
-        Log.d("hide","notifications")
-    }
-
-    override fun showErrorState() {
-        Log.d("show","error state")
-    }
-
-    override fun hideErrorState() {
-        Log.d("hide","error state")
-    }
-
-    override fun showEmptyState() {
-        Log.d("show","empty state")
-    }
-
-    override fun hideEmptyState() {
-        Log.d("hide","empty state")
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -79,8 +45,13 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
         notificationsRecyclerView = view.findViewById<RecyclerView>(R.id.notificationsRecyclerView)
         setupNotificationsRecyclerView()
 
-
         return view;
+    }
+
+    override fun showNotifications(notifications: List<NotificationModel>) {
+        notificationsAdapter.notifications = notifications
+        notificationsAdapter.notifyDataSetChanged()
+        notificationsRecyclerView?.visibility = View.VISIBLE
     }
 
     override fun onAttach(context: Context?) {

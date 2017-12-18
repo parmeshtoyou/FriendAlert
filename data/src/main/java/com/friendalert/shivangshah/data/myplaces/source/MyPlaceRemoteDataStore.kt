@@ -27,5 +27,8 @@ class MyPlaceRemoteDataStore @Inject constructor(private val myPlaceRemote: MyPl
         return myPlaceRemote.getMyPlaces(userId)
     }
 
+    override fun editMyPlace(myPlace: MyPlaceRequestModel): Single<MyPlaceResponseModel> {
+        return myPlaceRemote.editMyPlace(myPlace)
+    }
 
 }

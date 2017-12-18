@@ -19,4 +19,6 @@ interface MyPlaceRemote {
 
     fun deleteMyPlace(myPlaceId: Int) : Single<MyPlaceResponseModel>
 
+    fun editMyPlace(myPlace: MyPlaceRequestModel) : Single<MyPlaceResponseModel>
+
 }

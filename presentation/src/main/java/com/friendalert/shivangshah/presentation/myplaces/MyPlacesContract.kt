@@ -22,6 +22,8 @@ interface MyPlacesContract {
 
         fun deleteMyPlace(myPlace: MyPlaceModel)
 
+        fun editMyPlace(myPlace: MyPlaceModel)
+
         fun hideMyPlaces()
 
         fun showErrorState()
@@ -41,6 +43,8 @@ interface MyPlacesContract {
         fun createMyPlace(myPlaceRequestModel: MyPlaceRequestModel)
 
         fun deleteMyPlace(myPlaceId: Int)
+
+        fun editMyPlace(myPlaceRequestModel: MyPlaceRequestModel)
 
     }
 

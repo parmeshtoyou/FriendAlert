@@ -36,4 +36,11 @@ class MyPlaceDataRepository @Inject constructor(private val factory: MyPlaceData
         return dataStore.getMyPlaces(userId)
 
     }
+
+    override fun editMyPlace(myPlace: MyPlaceRequestModel): Single<MyPlaceResponseModel> {
+
+        val dataStore = factory.retrieveDataStore()
+        return dataStore.editMyPlace(myPlace)
+
+    }
 }

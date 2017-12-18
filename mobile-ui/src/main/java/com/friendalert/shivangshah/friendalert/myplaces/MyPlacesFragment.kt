@@ -193,6 +193,27 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         updateCamera()
     }
 
+    override fun editMyPlace(myPlace: MyPlaceModel) {
+
+        // update viewmodel object with updated myplace object (updated nickname/radius)
+        hashMapMyPlace[myPlace.base_camp_id]!!.myPlace = myPlace
+
+        // remove old initials_circle from google map
+        hashMapMyPlace[myPlace.base_camp_id]!!.circle.remove()
+
+        // create new initials_circle with updated radius
+        var circleOptions = CircleOptions().center(LatLng(myPlace.latitude.toDouble(), myPlace.longitude.toDouble())).radius(myPlace.radius.toDouble() * 1609.34).fillColor(Color.TRANSPARENT).strokeColor(Color.parseColor("#107F93")).strokeWidth(10f);
+
+        // add new initials_circle to google map
+        val circle = googleMap.addCircle(circleOptions)
+
+        // update viewmodel object with new initials_circle
+        hashMapMyPlace[myPlace.base_camp_id]!!.circle = circle
+
+        updateCamera()
+
+    }
+
     private fun updateCamera(){
 
         if(hashMapMyPlace.values.count() > 0){
@@ -200,7 +221,6 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
             var builder = LatLngBounds.Builder()
             val values = hashMapMyPlace.values
             for(myPlaceValue in values){
-                //builder.include(marker.getPosition());
 
                 var targetNorthEast = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 45.0);
                 var targetSouthWest = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 225.0);
@@ -223,7 +243,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     }
 
     override fun editMyPlacePressed(myPlace: MyPlaceRequestModel) {
-
+        myPlacePresenter.editMyPlace(myPlace)
     }
 
     override fun deleteMyPlacePressed(myPlace: MyPlaceRequestModel) {

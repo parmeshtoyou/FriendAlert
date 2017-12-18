@@ -29,4 +29,10 @@ class MyPlaceRemoteImpl @Inject constructor(private val myPlaceService: MyPlaceS
         return myPlaceService.getMyPlaces(userId)
 
     }
+
+    override fun editMyPlace(myPlace: MyPlaceRequestModel): Single<MyPlaceResponseModel> {
+
+        return myPlaceService.editMyPlace(myPlace)
+
+    }
 }

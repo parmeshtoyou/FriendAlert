@@ -2,6 +2,7 @@ package com.friendalert.shivangshah.friendalert.injection.module
 
 import com.friendalert.shivangshah.domain.myplaces.CreateMyPlace
 import com.friendalert.shivangshah.domain.myplaces.DeleteMyPlace
+import com.friendalert.shivangshah.domain.myplaces.EditMyPlace
 import com.friendalert.shivangshah.domain.myplaces.GetMyPlaces
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerFragment
 import com.friendalert.shivangshah.friendalert.myplaces.MyPlacesFragment
@@ -27,9 +28,10 @@ class MyPlacesFragmentModule {
                                           getMyPlaces: GetMyPlaces,
                                           createMyPlace: CreateMyPlace,
                                           deleteMyPlace: DeleteMyPlace,
+                                          editMyPlace: EditMyPlace,
                                           presentationModel: MyPlacesPresentationModel):
             MyPlacesContract.Presenter {
-        return MyPlacesPresenter(mainView, getMyPlaces, createMyPlace, deleteMyPlace, presentationModel)
+        return MyPlacesPresenter(mainView, getMyPlaces, createMyPlace, deleteMyPlace, editMyPlace, presentationModel)
     }
 
 }

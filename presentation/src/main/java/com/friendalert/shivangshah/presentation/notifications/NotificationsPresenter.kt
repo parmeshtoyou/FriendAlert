@@ -29,12 +29,12 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
 
         override fun onSuccess(t: NotificationResponseModel) {
 
+            notificationsView.showNotifications(t.data)
+
         }
 
         override fun onError(exception: Throwable) {
-            notificationsView.hideNotifications()
-            notificationsView.hideEmptyState()
-            notificationsView.showErrorState()
+
         }
 
     }

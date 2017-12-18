@@ -11,21 +11,7 @@ interface NotificationsContract {
 
     interface View : BaseView<Presenter> {
 
-        fun showProgress()
-
-        fun hideProgress()
-
         fun showNotifications(notifications: List<NotificationModel>)
-
-        fun hideNotifications()
-
-        fun showErrorState()
-
-        fun hideErrorState()
-
-        fun showEmptyState()
-
-        fun hideEmptyState()
 
     }
 

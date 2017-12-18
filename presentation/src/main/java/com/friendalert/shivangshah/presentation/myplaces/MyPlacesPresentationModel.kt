@@ -10,6 +10,7 @@ class MyPlacesPresentationModel {
 
     private var myPlaces = ArrayList<MyPlaceModel>()
     private var toBeDeletedId = 0
+    private var toBeEdittedMyPlace : MyPlaceModel? = null
 
     fun setMyPlaces(myPlaces: ArrayList<MyPlaceModel>) {
         this.myPlaces = myPlaces
@@ -48,6 +49,24 @@ class MyPlacesPresentationModel {
 
         return toBeDeletedMyPlace
 
+    }
+
+    fun setToBeEditted(myPlaceRequestModel: MyPlaceRequestModel){
+        toBeEdittedMyPlace = MyPlaceModel(myPlaceRequestModel.base_camp_id, myPlaceRequestModel.fk_user_id, myPlaceRequestModel.nickname, myPlaceRequestModel.address, myPlaceRequestModel.city, myPlaceRequestModel.state, myPlaceRequestModel.latitude, myPlaceRequestModel.longitude, myPlaceRequestModel.active, myPlaceRequestModel.radius)
+    }
+
+    fun editMyPlace() : MyPlaceModel? {
+
+        for(myPlace in getAllMyPlaces()){
+            if(toBeEdittedMyPlace!!.base_camp_id == myPlace.base_camp_id){
+                myPlace.nickname = toBeEdittedMyPlace!!.nickname
+                myPlace.radius = toBeEdittedMyPlace!!.radius
+
+                return myPlace
+            }
+        }
+
+        return null
     }
 
 }
