@@ -23,12 +23,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 import android.view.WindowManager
-import android.R.color.transparent
-import android.graphics.drawable.Drawable
-
-
-
-
 
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavigationView.OnNavigationItemSelectedListener, DataLoadingListener {
 
@@ -43,6 +37,11 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     private var containerLayout : FrameLayout? = null
     private var toolbar : Toolbar? = null
     private var progressBar : ProgressBar? = null
+
+    private var broadcastFragment : BroadcastFragment? = null
+    private var myPlacesFragment : MyPlacesFragment? = null
+    private var friendsFragment : FriendsFragment? = null
+    private var notificationsFragment : NotificationsFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -73,6 +72,21 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        val manager = supportFragmentManager
+
+        if (broadcastFragment != null && broadcastFragment!!.isVisible()) {
+            manager.beginTransaction().hide(broadcastFragment).commit()
+        }
+        if (myPlacesFragment != null && myPlacesFragment!!.isVisible()) {
+            manager.beginTransaction().hide(myPlacesFragment).commit()
+        }
+        if (friendsFragment != null && friendsFragment!!.isVisible()) {
+            manager.beginTransaction().hide(friendsFragment).commit()
+        }
+        if (notificationsFragment != null && notificationsFragment!!.isVisible()) {
+            manager.beginTransaction().hide(notificationsFragment).commit()
+        }
 
         when(item.itemId){
             R.id.menu_broadcast -> switchToBroadcastFragment()
@@ -126,25 +140,49 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     fun switchToBroadcastFragment() {
         supportActionBar!!.title = "Broadcast"
         val manager = supportFragmentManager
-        manager.beginTransaction().add(R.id.containerLayout, BroadcastFragment().instantiate(Bundle()), "BroadcastFragment").commit()
+
+        if(broadcastFragment == null){
+            broadcastFragment = BroadcastFragment().instantiate(Bundle())
+            manager.beginTransaction().add(R.id.containerLayout, broadcastFragment, "BroadcastFragment").commit()
+        }else{
+            manager.beginTransaction().show(broadcastFragment).commit()
+        }
     }
 
     fun switchToNotificationsFragment() {
         supportActionBar!!.title = "Notifications"
         val manager = supportFragmentManager
-        manager.beginTransaction().replace(R.id.containerLayout, NotificationsFragment().instantiate(Bundle()), "NotificationsFragment").commit()
+
+        if(notificationsFragment == null){
+            notificationsFragment = NotificationsFragment().instantiate(Bundle())
+            manager.beginTransaction().add(R.id.containerLayout, notificationsFragment, "NotificationsFragment").commit()
+        }else{
+            manager.beginTransaction().show(notificationsFragment).commit()
+        }
     }
 
     fun switchToMyPlacesFragment() {
         supportActionBar!!.title = "My Places"
         val manager = supportFragmentManager
-        manager.beginTransaction().replace(R.id.containerLayout, MyPlacesFragment().instantiate(Bundle()), "MyPlacesFragment").commit()
+
+        if(myPlacesFragment == null){
+            myPlacesFragment = MyPlacesFragment().instantiate(Bundle())
+            manager.beginTransaction().add(R.id.containerLayout, myPlacesFragment, "MyPlacesFragment").commit()
+        }else{
+            manager.beginTransaction().show(myPlacesFragment).commit()
+        }
     }
 
     fun switchToFriendsFragment() {
         supportActionBar!!.title = "Friends"
         val manager = supportFragmentManager
-        manager.beginTransaction().replace(R.id.containerLayout, FriendsFragment().instantiate(Bundle()), "FriendsFragment").commit()
+
+        if(friendsFragment == null){
+            friendsFragment = FriendsFragment().instantiate(Bundle())
+            manager.beginTransaction().add(R.id.containerLayout, friendsFragment, "FriendsFragment").commit()
+        }else{
+            manager.beginTransaction().show(friendsFragment).commit()
+        }
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
