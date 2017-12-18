@@ -2,9 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.friendalert.shivangshah.friendalert.myplaces.CreateMyPlaceFragment">
+    tools:context="com.friendalert.shivangshah.friendalert.myplaces.ActionMyPlaceDialogFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"
@@ -63,6 +62,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:hint="Optional"
+        android:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
         android:textSize="16dp"
         android:background="@color/transparent"/>
 
@@ -85,24 +86,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:entries="@array/radius_array"
+        android:backgroundTint="@color/primaryColor"
+        android:foregroundTint="@color/primaryColor"
+        android:spinnerMode="dialog">
     </android.support.v7.widget.AppCompatSpinner>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radiusSpinner"
-        android:text="Cancel"
-        android:textAllCaps="false"/>
+        android:weightSum="2"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/radiusSpinner"
-        android:text="Save"
-        android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/actionButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background_white"
+            android:textColor="@color/primaryColor"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"/>
+
+        <Button
+            android:id="@+id/actionButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:background="@drawable/button_background_color"
+            android:textColor="@color/whiteColor"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"/>
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

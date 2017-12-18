@@ -20,7 +20,7 @@ class MyPlacesPresentationModel {
     }
 
     fun addMyPlaceToListPending(myPlaceRequestModel: MyPlaceRequestModel){
-        var myPlace = MyPlaceModel(myPlaceRequestModel.base_camp_id, myPlaceRequestModel.fk_user_id, myPlaceRequestModel.nickname, myPlaceRequestModel.address, myPlaceRequestModel.city, myPlaceRequestModel.state, myPlaceRequestModel.latitude, myPlaceRequestModel.longitude, myPlaceRequestModel.active)
+        var myPlace = MyPlaceModel(myPlaceRequestModel.base_camp_id, myPlaceRequestModel.fk_user_id, myPlaceRequestModel.nickname, myPlaceRequestModel.address, myPlaceRequestModel.city, myPlaceRequestModel.state, myPlaceRequestModel.latitude, myPlaceRequestModel.longitude, myPlaceRequestModel.active, myPlaceRequestModel.radius)
         this.myPlaces.add(myPlace)
     }
 
@@ -30,14 +30,14 @@ class MyPlacesPresentationModel {
 
     fun deleteMyPlace() : MyPlaceModel{
 
-        var toBeDeletedMyPlace = MyPlaceModel(0,"","","","","","","",0)
+        var toBeDeletedMyPlace = MyPlaceModel(0,"","","","","","","",0, "")
 
         for (myPlace in myPlaces){
 
             if(myPlace.base_camp_id == toBeDeletedId){
 
                 toBeDeletedMyPlace = MyPlaceModel(myPlace.base_camp_id,myPlace.fk_user_id,myPlace.nickname,
-                        myPlace.address, myPlace.city, myPlace.state, myPlace.latitude, myPlace.longitude, myPlace.active)
+                        myPlace.address, myPlace.city, myPlace.state, myPlace.latitude, myPlace.longitude, myPlace.active, myPlace.radius)
 
                 myPlaces.remove(myPlace)
                 break

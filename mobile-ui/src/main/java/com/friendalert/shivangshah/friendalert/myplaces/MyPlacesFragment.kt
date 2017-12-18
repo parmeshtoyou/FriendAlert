@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
@@ -28,22 +27,20 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.SphericalUtil
 import dagger.android.support.AndroidSupportInjection
-import java.util.ArrayList
 import javax.inject.Inject
 
 
 /**
  * Created by shivangshah on 11/15/17.
  */
-class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, MyPlaceActionListener {
 
     lateinit var googleMap : GoogleMap
     lateinit var searchEditText : EditText
 
     var PLACE_AUTOCOMPLETE_REQUEST = 4000
 
-    var hashMapMarker: HashMap<Int, Marker> = HashMap()
-    var hashMapCircle: HashMap<Int, Circle> = HashMap()
+    var hashMapMyPlace: HashMap<Int, MyPlaceViewModel> = HashMap()
 
     @Inject lateinit var myPlacePresenter : MyPlacesContract.Presenter
 
@@ -103,9 +100,8 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
                 var myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), "Hackensack", "NJ", latitude, longitude, 1, "5")
 
-                //myPlacePresenter.createMyPlace(myPlaceViewModelData)
-                var createMyPlaceFragment = CreateMyPlaceFragment().newInstance(myPlaceViewModelData)
-                createMyPlaceFragment.show(activity!!.supportFragmentManager, "")
+                var actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceViewModelData, true, this)
+                actionMyPlaceFragment.show(activity!!.supportFragmentManager, "")
 
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 var status = PlaceAutocomplete.getStatus(activity, data);
@@ -127,18 +123,20 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     override fun onMarkerClick(p0: Marker?): Boolean {
 
-        hashMapMarker.entries
+        hashMapMyPlace.entries
 
-        var myPlaceId = 0
+        var myPlace: MyPlaceModel? = null
 
-        for(entry in hashMapMarker.entries){
-            if(entry.value == p0){
-                myPlaceId = entry.key
+        for(entry in hashMapMyPlace.entries){
+            if(entry.value.marker == p0){
+                myPlace = entry.value.myPlace
             }
         }
 
-        myPlacePresenter.deleteMyPlace(myPlaceId)
+        var myPlaceRequestModel = MyPlaceRequestModel(myPlace!!.base_camp_id,myPlace.fk_user_id, myPlace.nickname, myPlace.address, myPlace.city, myPlace.state, myPlace.latitude, myPlace.longitude, myPlace.active, myPlace.radius)
 
+        var actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceRequestModel, false, this)
+        actionMyPlaceFragment.show(activity!!.supportFragmentManager, "")
 
         return true
     }
@@ -154,12 +152,11 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
             var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.defaultMarker(customBitmapDescriptorFactory[0]))
             val marker = googleMap.addMarker(markerOptions)
-            hashMapMarker.put(myPlaceObj.base_camp_id, marker)
 
-            myPlaceObj.radius = "5.0"
             var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(Color.TRANSPARENT).strokeColor(Color.parseColor("#107F93")).strokeWidth(10f);
             val circle = googleMap.addCircle(circleOptions)
-            hashMapCircle.put(myPlaceObj.base_camp_id, circle)
+
+            hashMapMyPlace.put(myPlaceObj.base_camp_id, MyPlaceViewModel(marker, circle, myPlaceObj))
 
         }
 
@@ -173,12 +170,11 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         var markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname).icon(BitmapDescriptorFactory.defaultMarker(189f))
         val marker = googleMap.addMarker(markerOptions)
-        hashMapMarker.put(myPlace.base_camp_id, marker)
 
-        myPlace.radius = "5.0"
-        var circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(Color.GREEN).strokeColor(Color.GREEN).strokeWidth(8f);
+        var circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(Color.TRANSPARENT).strokeColor(Color.parseColor("#107F93")).strokeWidth(10f);
         val circle = googleMap.addCircle(circleOptions)
-        hashMapCircle.put(myPlace.base_camp_id, circle)
+
+        hashMapMyPlace.put(myPlace.base_camp_id, MyPlaceViewModel(marker, circle, myPlace))
 
         updateCamera()
 
@@ -186,28 +182,28 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     override fun deleteMyPlace(myPlace: MyPlaceModel) {
 
-        val marker = hashMapMarker[myPlace.base_camp_id]
+        val marker = hashMapMyPlace[myPlace.base_camp_id]!!.marker
         marker?.remove()
-        hashMapMarker.remove(myPlace.base_camp_id)
 
-        val circle = hashMapCircle[myPlace.base_camp_id]
+        val circle = hashMapMyPlace[myPlace.base_camp_id]!!.circle
         circle?.remove()
-        hashMapCircle.remove(myPlace.base_camp_id)
+
+        hashMapMyPlace.remove(myPlace.base_camp_id)
 
         updateCamera()
     }
 
     private fun updateCamera(){
 
-        if(hashMapCircle.values.count() > 0){
+        if(hashMapMyPlace.values.count() > 0){
 
             var builder = LatLngBounds.Builder()
-            val values = hashMapCircle.values
-            for(circle in values){
+            val values = hashMapMyPlace.values
+            for(myPlaceValue in values){
                 //builder.include(marker.getPosition());
 
-                var targetNorthEast = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 45.0);
-                var targetSouthWest = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 225.0);
+                var targetNorthEast = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 45.0);
+                var targetSouthWest = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 225.0);
 
                 builder.include(targetNorthEast)
                 builder.include(targetSouthWest)
@@ -220,6 +216,18 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
             googleMap.animateCamera(cu);
 
         }
+    }
+
+    override fun createMyPlacePressed(myPlace: MyPlaceRequestModel) {
+        myPlacePresenter.createMyPlace(myPlace)
+    }
+
+    override fun editMyPlacePressed(myPlace: MyPlaceRequestModel) {
+
+    }
+
+    override fun deleteMyPlacePressed(myPlace: MyPlaceRequestModel) {
+        myPlacePresenter.deleteMyPlace(myPlace.base_camp_id)
     }
 
     override fun showProgress() {
