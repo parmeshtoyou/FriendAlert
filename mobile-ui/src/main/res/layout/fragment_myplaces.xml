@@ -2,12 +2,32 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteColor">
+    android:background="@drawable/main_gradient">
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/searchButton"
-        android:text="Search"/>
+        android:text="Search"
+        android:textAlignment="viewStart"
+        android:gravity="start"
+        android:foregroundGravity="center_vertical"
+        android:background="@drawable/main_gradient"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchEditText"
+        android:text="Type a place or address"
+        android:textColorHint="@color/whiteColor"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/search_edittext_box_background"
+        android:drawableLeft="@drawable/places_ic_search"
+        android:padding="5dp"
+        android:focusable="false"/>
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

@@ -69,6 +69,8 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
         progressBar = findViewById<ProgressBar>(R.id.progress_bar)
 
         bottomNavigationView?.setOnNavigationItemSelectedListener(this)
+
+        switchToBroadcastFragment()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
 import com.friendalert.shivangshah.model.myplaces.response.MyPlaceModel
@@ -42,6 +43,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     lateinit var googleMap : GoogleMap
     lateinit var searchButton : Button
+    lateinit var searchEditText : EditText
 
     var PLACE_AUTOCOMPLETE_REQUEST = 4000
 
@@ -69,11 +71,12 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         var view = inflater!!.inflate(R.layout.fragment_myplaces, container, false)
 
         searchButton = view.findViewById(R.id.searchButton)
+        searchEditText = view.findViewById(R.id.searchEditText)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        searchButton.setOnClickListener { v ->
+        searchEditText.setOnClickListener { v ->
             try {
                 var intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                                 .build(activity);
