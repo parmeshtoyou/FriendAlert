@@ -5,6 +5,7 @@ import android.app.Activity.RESULT_OK
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -19,20 +20,15 @@ import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
 import com.friendalert.shivangshah.model.myplaces.response.MyPlaceModel
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesContract
 import com.google.android.gms.common.GooglePlayServicesRepairableException
-import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
-import com.google.android.gms.location.places.ui.PlaceSelectionListener
-import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.google.maps.android.SphericalUtil
 import dagger.android.support.AndroidSupportInjection
+import java.util.ArrayList
 import javax.inject.Inject
 
 
@@ -48,6 +44,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     var PLACE_AUTOCOMPLETE_REQUEST = 4000
 
     var hashMapMarker: HashMap<Int, Marker> = HashMap()
+    var hashMapCircle: HashMap<Int, Circle> = HashMap()
 
     @Inject lateinit var myPlacePresenter : MyPlacesContract.Presenter
 
@@ -145,15 +142,20 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     }
 
 
-    override fun showMyPlaces(myPlace: List<MyPlaceModel>) {
+    override fun showMyPlaces(myPlaces: List<MyPlaceModel>) {
 
-        for(myPlaceObj in myPlace){
+        for(myPlaceObj in myPlaces){
 
             val latlng = LatLng(myPlaceObj.latitude.toDouble(), myPlaceObj.longitude.toDouble())
 
-            var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname)
+            var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.defaultMarker(189f))
             val marker = googleMap.addMarker(markerOptions)
             hashMapMarker.put(myPlaceObj.base_camp_id, marker)
+
+            myPlaceObj.radius = "5.0"
+            var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(Color.GREEN).strokeColor(Color.GREEN).strokeWidth(2f);
+            val circle = googleMap.addCircle(circleOptions)
+            hashMapCircle.put(myPlaceObj.base_camp_id, circle)
 
         }
 
@@ -165,9 +167,14 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         val latlng = LatLng(myPlace.latitude.toDouble(), myPlace.longitude.toDouble())
 
-        var markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname)
+        var markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname).icon(BitmapDescriptorFactory.defaultMarker(189f))
         val marker = googleMap.addMarker(markerOptions)
         hashMapMarker.put(myPlace.base_camp_id, marker)
+
+        myPlace.radius = "5.0"
+        var circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(Color.GREEN).strokeColor(Color.GREEN).strokeWidth(8f);
+        val circle = googleMap.addCircle(circleOptions)
+        hashMapCircle.put(myPlace.base_camp_id, circle)
 
         updateCamera()
 
@@ -179,22 +186,33 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         marker?.remove()
         hashMapMarker.remove(myPlace.base_camp_id)
 
+        val circle = hashMapCircle[myPlace.base_camp_id]
+        circle?.remove()
+        hashMapCircle.remove(myPlace.base_camp_id)
+
         updateCamera()
     }
 
     private fun updateCamera(){
 
         var builder = LatLngBounds.Builder()
-        val values = hashMapMarker.values
-        for(marker in values){
-            builder.include(marker.getPosition());
+        val values = hashMapCircle.values
+        for(circle in values){
+            //builder.include(marker.getPosition());
+
+            var targetNorthEast = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 45.0);
+            var targetSouthWest = SphericalUtil.computeOffset(circle.center, circle.radius * Math.sqrt(2.0), 225.0);
+
+            builder.include(targetNorthEast)
+            builder.include(targetSouthWest)
         }
 
         var bounds = builder.build();
 
         var padding = 100;
         var cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.moveCamera(cu);
+        googleMap.animateCamera(cu);
+
 
     }
 

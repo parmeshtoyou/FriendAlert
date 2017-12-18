@@ -22,7 +22,8 @@
         android:textColorHint="@color/whiteColor"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/search_edittext_box_background"
         android:drawableLeft="@drawable/places_ic_search"
         android:padding="5dp"
@@ -34,7 +35,7 @@
         android:layout_height="match_parent"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_below="@+id/searchButton"/>
+        android:layout_below="@+id/searchEditText"/>
 
 
 </RelativeLayout>

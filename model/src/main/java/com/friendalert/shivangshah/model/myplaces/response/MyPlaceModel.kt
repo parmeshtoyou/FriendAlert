@@ -11,4 +11,5 @@ class MyPlaceModel(var base_camp_id: Int,
                    var state: String,
                    var latitude: String,
                    var longitude: String,
-                   var active: Int)
+                   var active: Int,
+                   var radius: String = "5")

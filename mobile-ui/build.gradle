@@ -97,6 +97,7 @@ dependencies {
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.1.3'
+    implementation 'com.google.maps.android:android-maps-utils:0.4+'
     testImplementation mobileUiTestDependencies.kotlinJUnit
 
     kapt mobileUiDependencies.daggerCompiler
