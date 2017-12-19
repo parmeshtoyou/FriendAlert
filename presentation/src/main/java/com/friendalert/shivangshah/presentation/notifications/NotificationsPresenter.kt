@@ -1,6 +1,7 @@
 package com.friendalert.shivangshah.presentation.notifications
 
 import com.friendalert.shivangshah.domain.SingleUseCase
+import com.friendalert.shivangshah.domain.notifications.MarkAsRead
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
 import io.reactivex.observers.DisposableSingleObserver
@@ -10,7 +11,8 @@ import javax.inject.Inject
  * Created by shivangshah on 11/11/17.
  */
 class NotificationsPresenter @Inject constructor(val notificationsView: NotificationsContract.View,
-                                                 val getNotificationsUseCase: SingleUseCase<NotificationResponseModel, Void>):
+                                                 val getNotificationsUseCase: SingleUseCase<NotificationResponseModel, Void>,
+                                                 val markAsRead: SingleUseCase<Boolean, String>):
         NotificationsContract.Presenter {
 
     init {

@@ -21,18 +21,18 @@ class NotificationsAdapter @Inject constructor(): RecyclerView.Adapter<Notificat
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        //val notification = notifications[position]
+        val notification = notifications[position]
 
         holder.initialsTextView.text = "SS"
         holder.nameTextView.text = "Shivang Shah"
         holder.locationTextView.text = "New York, New York"
         holder.timestampTextView.text = "20 minutes ago"
 
-//        if(notification.isRead){
-//            holder.readImageView.visibility = View.VISIBLE
-//        }else{
-//            holder.readImageView.visibility = View.INVISIBLE
-//        }
+        if(notification.isRead){
+            holder.readImageView.visibility = View.INVISIBLE
+        }else{
+            holder.readImageView.visibility = View.VISIBLE
+        }
 
     }
 
@@ -44,8 +44,7 @@ class NotificationsAdapter @Inject constructor(): RecyclerView.Adapter<Notificat
     }
 
     override fun getItemCount(): Int {
-        //return notifications.size
-        return 10
+        return notifications.size
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

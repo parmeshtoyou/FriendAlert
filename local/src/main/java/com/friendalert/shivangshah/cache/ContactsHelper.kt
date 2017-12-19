@@ -1,7 +1,6 @@
 package com.friendalert.shivangshah.cache
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.provider.ContactsContract
 import io.reactivex.Single
 import javax.inject.Inject

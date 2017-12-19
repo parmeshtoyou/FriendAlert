@@ -11,4 +11,8 @@ interface NotificationDataStore {
 
     fun getNotifications(userId: String): Single<NotificationResponseModel>
 
+    fun markAsRead(notificationId: String): Single<Boolean>
+
+    fun getReadNotifications(): Single<ArrayList<String>>
+
 }

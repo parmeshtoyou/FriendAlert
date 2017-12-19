@@ -5,6 +5,7 @@ import android.content.Context
 import com.friendalert.shivangshah.cache.ContactsHelper
 import com.friendalert.shivangshah.cache.PreferencesHelper
 import com.friendalert.shivangshah.cache.friends.ContactsLocalImpl
+import com.friendalert.shivangshah.cache.notifications.NotificationsLocalImpl
 import com.friendalert.shivangshah.cache.user.UserCacheImpl
 import com.friendalert.shivangshah.cache.user.UserResponseModelEntityMapper
 import com.friendalert.shivangshah.data.JobExecutor
@@ -21,6 +22,7 @@ import com.friendalert.shivangshah.data.myplaces.MyPlaceDataRepository
 import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
 import com.friendalert.shivangshah.data.myplaces.source.MyPlaceDataStoreFactory
 import com.friendalert.shivangshah.data.notifications.NotificationDataRepository
+import com.friendalert.shivangshah.data.notifications.repository.NotificationLocal
 import com.friendalert.shivangshah.data.notifications.repository.NotificationRemote
 import com.friendalert.shivangshah.data.notifications.source.NotificationDataStoreFactory
 import com.friendalert.shivangshah.data.user.UserDataRepository
@@ -149,6 +151,12 @@ open class ApplicationModule {
     @PerApplication
     internal fun provideNotificationsService(): NotificationService {
         return NotificationServiceFactory.makeNotificationService(BuildConfig.DEBUG)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideNotificationsLocal(helper: PreferencesHelper): NotificationLocal {
+        return NotificationsLocalImpl(helper)
     }
 
     // MyPlaces Dependencies -----------------------------------------------------------------------

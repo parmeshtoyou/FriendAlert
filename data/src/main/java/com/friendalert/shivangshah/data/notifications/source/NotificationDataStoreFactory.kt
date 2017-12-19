@@ -7,14 +7,19 @@ import javax.inject.Inject
  * Create an instance of a BufferooDataStore
  */
 open class NotificationDataStoreFactory @Inject constructor(
-        private val notificationRemoteDataStore: NotificationRemoteDataStore) {
+        private val notificationRemoteDataStore: NotificationRemoteDataStore,
+        private val notificationLocalDataStore: NotificationLocalDataStore) {
 
     /**
      * Returns a DataStore based on whether or not there is content in the cache and the cache
      * has not expired
      */
-    open fun retrieveDataStore(): NotificationDataStore {
-        return retrieveRemoteDataStore()
+    open fun retrieveDataStore(isRemote: Boolean): NotificationDataStore {
+        if(isRemote){
+            return retrieveRemoteDataStore()
+        }else{
+            return retrieveLocalDataStore()
+        }
     }
 
     /**
@@ -22,6 +27,10 @@ open class NotificationDataStoreFactory @Inject constructor(
      */
     open fun retrieveRemoteDataStore(): NotificationDataStore {
         return notificationRemoteDataStore
+    }
+
+    open fun retrieveLocalDataStore(): NotificationDataStore {
+        return notificationLocalDataStore
     }
 
 }

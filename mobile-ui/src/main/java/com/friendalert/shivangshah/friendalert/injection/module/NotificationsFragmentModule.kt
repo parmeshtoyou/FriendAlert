@@ -1,6 +1,7 @@
 package com.friendalert.shivangshah.friendalert.injection.module
 
 import com.friendalert.shivangshah.domain.notifications.GetNotifications
+import com.friendalert.shivangshah.domain.notifications.MarkAsRead
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerFragment
 import com.friendalert.shivangshah.friendalert.notifications.NotificationsFragment
 import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
@@ -23,9 +24,10 @@ class NotificationsFragmentModule {
     @PerFragment
     @Provides
     internal fun provideNotificationsPresenter(mainView: NotificationsContract.View,
-                                               getNotifications: GetNotifications):
+                                               getNotifications: GetNotifications,
+                                               markAsRead: MarkAsRead):
             NotificationsContract.Presenter {
-        return NotificationsPresenter(mainView, getNotifications)
+        return NotificationsPresenter(mainView, getNotifications, markAsRead)
     }
 
 }
