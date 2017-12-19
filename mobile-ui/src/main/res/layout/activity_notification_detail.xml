@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.friendalert.shivangshah.friendalert.notifications.NotificationDetailActivity"
+    android:background="@color/whiteColor">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/appToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/main_gradient"
+        design:titleTextColor="@color/whiteColor"
+        app:theme="@style/ToolbarColoredBackArrow"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timestampTextView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="Today 20 mins ago"
+        android:textStyle="bold"
+        android:textColor="@color/primaryColor"
+        android:layout_below="@+id/appToolbar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/messageTextView"
+        android:layout_below="@+id/timestampTextView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="Hey, lets meet up around the art center. I will be there till around 9"
+        />
+
+        <RelativeLayout
+            android:id="@+id/phoneCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/messageTextView"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:id="@+id/phoneIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/read_circle"
+                android:layout_marginRight="20dp"
+                android:tint="@color/primaryColor"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/callTextView"
+                android:text="Call Joshua"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/phoneIcon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/phoneTextView"
+                android:text="(201)-314-4410"
+                android:layout_below="@+id/callTextView"
+                android:layout_toRightOf="@+id/phoneIcon"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/directionsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/phoneCard"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
+            <ImageView
+                android:id="@+id/directionsIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/read_circle"
+                android:layout_marginRight="20dp"
+                android:tint="@color/primaryColor"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/directionsTextView"
+                android:text="Directions"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/directionsIcon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/locationTextView"
+                android:text="32-06 Rosalie St, Fair Lawn, NJ"
+                android:layout_below="@+id/directionsTextView"
+                android:layout_toRightOf="@+id/directionsIcon"/>
+
+
+        </RelativeLayout>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_below="@+id/directionsCard"/>
+
+</RelativeLayout>

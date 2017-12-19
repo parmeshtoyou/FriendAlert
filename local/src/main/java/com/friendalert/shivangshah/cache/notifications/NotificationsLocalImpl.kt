@@ -22,11 +22,13 @@ class NotificationsLocalImpl @Inject constructor(private val preferencesHelper :
     override fun markAsRead(notificationId: String): Single<Boolean> {
 
         var set = preferencesHelper.getSharedPreferences().getStringSet("readNotificationIdsSet", HashSet<String>())
+        var set2 = HashSet<String>()
+        set2.addAll(set)
 
-        if(!set.contains(notificationId)){
+        if(!set2.contains(notificationId)){
 
-            set.add(notificationId)
-            preferencesHelper.getSharedPreferences().edit().putStringSet("readNotificationIdsSet", set).commit()
+            set2.add(notificationId)
+            preferencesHelper.getSharedPreferences().edit().putStringSet("readNotificationIdsSet", set2).commit()
 
         }
 

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,9 @@ import com.friendalert.shivangshah.model.notifications.response.NotificationMode
 import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
+import android.content.Intent
+
+
 
 
 /**
@@ -58,6 +60,9 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
     override fun notificationClicked(position: Int, notification: NotificationModel?) {
 
         notificationsPresenter.markAsRead(notification!!)
+
+        val myIntent = Intent(this.activity, NotificationDetailActivity::class.java)
+        this.activity!!.startActivity(myIntent)
 
     }
 
