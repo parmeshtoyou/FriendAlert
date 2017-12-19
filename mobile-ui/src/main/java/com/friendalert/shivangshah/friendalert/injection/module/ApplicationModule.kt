@@ -46,6 +46,7 @@ import com.friendalert.shivangshah.friendalert.injection.component.SplashActivit
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
 import com.friendalert.shivangshah.presentation.friends.FriendsPresentationModel
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
+import com.friendalert.shivangshah.presentation.notifications.NotificationPresentationModel
 import com.friendalert.shivangshah.remote.broadcast.BroadcastRemoteImpl
 import com.friendalert.shivangshah.remote.broadcast.BroadcastResponseModelEntityMapper
 import com.friendalert.shivangshah.remote.broadcast.BroadcastService
@@ -157,6 +158,12 @@ open class ApplicationModule {
     @PerApplication
     internal fun provideNotificationsLocal(helper: PreferencesHelper): NotificationLocal {
         return NotificationsLocalImpl(helper)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideNotificationsPresentationModel(): NotificationPresentationModel{
+        return NotificationPresentationModel()
     }
 
     // MyPlaces Dependencies -----------------------------------------------------------------------

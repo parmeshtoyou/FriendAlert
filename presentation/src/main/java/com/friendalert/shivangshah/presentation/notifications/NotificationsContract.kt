@@ -19,6 +19,8 @@ interface NotificationsContract {
 
         fun retrieveNotifications()
 
+        fun markAsRead(notification: NotificationModel)
+
     }
 
 }

@@ -4,6 +4,7 @@ import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.notifications.MarkAsRead
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
+import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
@@ -12,7 +13,8 @@ import javax.inject.Inject
  */
 class NotificationsPresenter @Inject constructor(val notificationsView: NotificationsContract.View,
                                                  val getNotificationsUseCase: SingleUseCase<NotificationResponseModel, Void>,
-                                                 val markAsRead: SingleUseCase<Boolean, String>):
+                                                 val markAsRead: SingleUseCase<Boolean, String>,
+                                                 val presentationModel: NotificationPresentationModel):
         NotificationsContract.Presenter {
 
     init {
@@ -23,15 +25,40 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
         retrieveNotifications()
     }
 
-    override fun retrieveNotifications() {
-        getNotificationsUseCase.execute(NotificationSubscriber())
+    override fun markAsRead(notification: NotificationModel) {
+
+        presentationModel.setToBeMarkedAsRead(notification)
+
+        markAsRead.execute(MarkAsReadSubscriber(), notification.broadcast_id)
+
     }
 
-    inner class NotificationSubscriber: DisposableSingleObserver<NotificationResponseModel>() {
+    inner class MarkAsReadSubscriber: DisposableSingleObserver<Boolean>() {
+
+        override fun onSuccess(t: Boolean) {
+
+            presentationModel.markNotificationAsRead()
+            notificationsView.showNotifications(presentationModel.getNotifications())
+
+        }
+
+        override fun onError(exception: Throwable) {
+
+        }
+
+    }
+
+    override fun retrieveNotifications() {
+        getNotificationsUseCase.execute(GetNotificationsSubscriber())
+    }
+
+    inner class GetNotificationsSubscriber: DisposableSingleObserver<NotificationResponseModel>() {
 
         override fun onSuccess(t: NotificationResponseModel) {
 
-            notificationsView.showNotifications(t.data)
+            presentationModel.setNotifications(t.data)
+
+            notificationsView.showNotifications(presentationModel.getNotifications())
 
         }
 

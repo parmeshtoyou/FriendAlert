@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.friendalert.shivangshah.friendalert.R
+import com.friendalert.shivangshah.friendalert.friends.FriendsAdapter
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
 import dagger.android.support.AndroidSupportInjection
@@ -20,11 +21,11 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class NotificationsFragment : Fragment(), NotificationsContract.View {
+class NotificationsFragment : Fragment(), NotificationsContract.View, NotificationClickedListener {
 
     @Inject lateinit var notificationsPresenter : NotificationsContract.Presenter
-    @Inject lateinit var notificationsAdapter : NotificationsAdapter
 
+    var notificationsAdapter = NotificationsAdapter(this)
     private var notificationsRecyclerView: RecyclerView? = null
 
     override fun setPresenter(presenter: NotificationsContract.Presenter) {
@@ -52,6 +53,12 @@ class NotificationsFragment : Fragment(), NotificationsContract.View {
         notificationsAdapter.notifications = notifications
         notificationsAdapter.notifyDataSetChanged()
         notificationsRecyclerView?.visibility = View.VISIBLE
+    }
+
+    override fun notificationClicked(position: Int, notification: NotificationModel?) {
+
+        notificationsPresenter.markAsRead(notification!!)
+
     }
 
     override fun onAttach(context: Context?) {

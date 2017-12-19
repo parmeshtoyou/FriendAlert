@@ -2,7 +2,6 @@ package com.friendalert.shivangshah.cache.notifications
 
 import com.friendalert.shivangshah.cache.PreferencesHelper
 import com.friendalert.shivangshah.data.notifications.repository.NotificationLocal
-import com.google.gson.Gson
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -14,42 +13,22 @@ class NotificationsLocalImpl @Inject constructor(private val preferencesHelper :
 
     override fun getReadNotifications(): Single<ArrayList<String>> {
 
-        val gson = Gson()
+        var set = preferencesHelper.getSharedPreferences().getStringSet("readNotificationIdsSet", HashSet<String>())
 
-        var readJsonString : String = preferencesHelper.getSharedPreferences().getString("readNotificationIds", "")
-
-        if(readJsonString == ""){
-
-            var readList = ArrayList<String>()
-            return Single.just(readList)
-
-        }else{
-
-            return Single.just(gson.fromJson<ArrayList<String>>(readJsonString, String::class.java))
-
-        }
+        return Single.just(ArrayList<String>(set))
 
     }
 
     override fun markAsRead(notificationId: String): Single<Boolean> {
 
-        val gson = Gson()
-        var readJsonString : String = preferencesHelper.getSharedPreferences().getString("readNotificationIds", "")
+        var set = preferencesHelper.getSharedPreferences().getStringSet("readNotificationIdsSet", HashSet<String>())
 
-        var readList = ArrayList<String>()
+        if(!set.contains(notificationId)){
 
-        if(readJsonString != "") {
-
-            readList = gson.fromJson<ArrayList<String>>(readJsonString, String::class.java)
+            set.add(notificationId)
+            preferencesHelper.getSharedPreferences().edit().putStringSet("readNotificationIdsSet", set).commit()
 
         }
-
-        if(!readList.contains(notificationId)){
-            readList.add(notificationId)
-        }
-
-        readJsonString = gson.toJson(readList)
-        preferencesHelper.getSharedPreferences().edit().putString("readNotificationIds", readJsonString).commit()
 
         return Single.just(true)
 
