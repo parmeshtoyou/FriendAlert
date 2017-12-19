@@ -1,6 +1,7 @@
 package com.friendalert.shivangshah.friendalert.notifications
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
@@ -9,17 +10,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.friendalert.friends.FriendsAdapter
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.presentation.notifications.NotificationsContract
+import com.google.gson.Gson
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
-import android.content.Intent
-import android.widget.Toast
-import com.facebook.FacebookSdk
-import com.friendalert.shivangshah.friendalert.DataLoadingListener
-import com.google.gson.Gson
+import android.support.v4.widget.SwipeRefreshLayout
+import com.friendalert.shivangshah.friendalert.R.id.swipeContainer
+import com.friendalert.shivangshah.friendalert.R.id.swipeContainer
+
+
 
 
 
@@ -29,12 +31,14 @@ import com.google.gson.Gson
 /**
  * A simple [Fragment] subclass.
  */
-class NotificationsFragment : Fragment(), NotificationsContract.View, NotificationClickedListener {
+class NotificationsFragment : Fragment(), NotificationsContract.View, NotificationClickedListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject lateinit var notificationsPresenter : NotificationsContract.Presenter
 
+
     var notificationsAdapter = NotificationsAdapter(this)
     private var notificationsRecyclerView: RecyclerView? = null
+    private var swipeContainer: SwipeRefreshLayout? = null
 
     var dataLoadingListener: DataLoadingListener? = null
 
@@ -54,6 +58,11 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
         var view = inflater!!.inflate(R.layout.fragment_notifications, container, false)
 
         notificationsRecyclerView = view.findViewById<RecyclerView>(R.id.notificationsRecyclerView)
+        swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeContainer);
+
+        swipeContainer!!.setOnRefreshListener (this)
+
+
         setupNotificationsRecyclerView()
 
         return view;
@@ -77,6 +86,13 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
     }
 
+    override fun onRefresh() {
+
+        swipeContainer!!.setRefreshing(true);
+        notificationsPresenter.retrieveNotifications()
+
+    }
+
     override fun showProgress() {
 
         dataLoadingListener!!.dataLoadingStart()
@@ -85,6 +101,7 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
     override fun hideProgress() {
 
+        swipeContainer!!.setRefreshing(false);
         dataLoadingListener!!.dataLoadingStop()
 
     }
