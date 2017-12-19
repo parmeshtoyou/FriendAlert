@@ -16,6 +16,9 @@ import com.friendalert.shivangshah.presentation.notifications.NotificationsContr
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import android.content.Intent
+import com.google.gson.Gson
+
+
 
 
 
@@ -62,6 +65,9 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
         notificationsPresenter.markAsRead(notification!!)
 
         val myIntent = Intent(this.activity, NotificationDetailActivity::class.java)
+        val gson = Gson()
+        val json = gson.toJson(notification)
+        myIntent.putExtra("Notification", json)
         this.activity!!.startActivity(myIntent)
 
     }

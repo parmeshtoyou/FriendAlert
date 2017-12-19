@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  */
 class MyPlaceRequestModel(@SerializedName("base_camp_id") var base_camp_id: Int,
                           @SerializedName("fk_user_id") var fk_user_id: String,
-                          @SerializedName("nickname") var nickname: String,
+                          @SerializedName("nickname") var nickname: String?,
                           @SerializedName("address") var address: String,
                           @SerializedName("city") var city: String,
                           @SerializedName("state") var state: String,

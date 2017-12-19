@@ -5,7 +5,7 @@ package com.friendalert.shivangshah.model.myplaces.response
  */
 class MyPlaceModel(var base_camp_id: Int,
                    var fk_user_id: String,
-                   var nickname: String,
+                   var nickname: String?,
                    var address: String,
                    var city: String,
                    var state: String,

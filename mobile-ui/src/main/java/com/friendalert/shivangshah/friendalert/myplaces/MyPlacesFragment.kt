@@ -38,6 +38,9 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     lateinit var googleMap : GoogleMap
     lateinit var searchEditText : EditText
 
+    val strokeWidth = 5f
+    val fillColor = 0x26107F93
+
     var PLACE_AUTOCOMPLETE_REQUEST = 4000
 
     var hashMapMyPlace: HashMap<Int, MyPlaceViewModel> = HashMap()
@@ -153,7 +156,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
             var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.defaultMarker(customBitmapDescriptorFactory[0]))
             val marker = googleMap.addMarker(markerOptions)
 
-            var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(Color.TRANSPARENT).strokeColor(Color.parseColor("#107F93")).strokeWidth(10f);
+            var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
             val circle = googleMap.addCircle(circleOptions)
 
             hashMapMyPlace.put(myPlaceObj.base_camp_id, MyPlaceViewModel(marker, circle, myPlaceObj))
@@ -171,7 +174,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         var markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname).icon(BitmapDescriptorFactory.defaultMarker(189f))
         val marker = googleMap.addMarker(markerOptions)
 
-        var circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(Color.TRANSPARENT).strokeColor(Color.parseColor("#107F93")).strokeWidth(10f);
+        var circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
         val circle = googleMap.addCircle(circleOptions)
 
         hashMapMyPlace.put(myPlace.base_camp_id, MyPlaceViewModel(marker, circle, myPlace))
@@ -202,7 +205,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         hashMapMyPlace[myPlace.base_camp_id]!!.circle.remove()
 
         // create new initials_circle with updated radius
-        var circleOptions = CircleOptions().center(LatLng(myPlace.latitude.toDouble(), myPlace.longitude.toDouble())).radius(myPlace.radius.toDouble() * 1609.34).fillColor(Color.TRANSPARENT).strokeColor(Color.parseColor("#107F93")).strokeWidth(10f);
+        var circleOptions = CircleOptions().center(LatLng(myPlace.latitude.toDouble(), myPlace.longitude.toDouble())).radius(myPlace.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
 
         // add new initials_circle to google map
         val circle = googleMap.addCircle(circleOptions)
