@@ -14,6 +14,10 @@ interface BroadcastContract {
 
         fun showFailure()
 
+        fun showProgress()
+
+        fun hideProgress()
+
     }
 
     interface Presenter : BasePresenter {

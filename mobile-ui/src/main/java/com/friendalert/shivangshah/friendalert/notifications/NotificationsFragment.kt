@@ -16,6 +16,9 @@ import com.friendalert.shivangshah.presentation.notifications.NotificationsContr
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import android.content.Intent
+import android.widget.Toast
+import com.facebook.FacebookSdk
+import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.google.gson.Gson
 
 
@@ -32,6 +35,8 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
     var notificationsAdapter = NotificationsAdapter(this)
     private var notificationsRecyclerView: RecyclerView? = null
+
+    var dataLoadingListener: DataLoadingListener? = null
 
     override fun setPresenter(presenter: NotificationsContract.Presenter) {
         notificationsPresenter = presenter;
@@ -72,8 +77,33 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
     }
 
+    override fun showProgress() {
+
+        dataLoadingListener!!.dataLoadingStart()
+
+    }
+
+    override fun hideProgress() {
+
+        dataLoadingListener!!.dataLoadingStop()
+
+    }
+
+    override fun showFailure() {
+
+
+
+    }
+
+    override fun showSuccess() {
+
+
+
+    }
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
+        dataLoadingListener = activity as DataLoadingListener
         super.onAttach(context)
     }
 

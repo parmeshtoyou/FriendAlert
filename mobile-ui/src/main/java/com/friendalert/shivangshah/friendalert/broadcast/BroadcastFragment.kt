@@ -97,16 +97,26 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         super.onAttach(context)
     }
 
-    override fun showSuccess() {
+    override fun showProgress() {
+
+        dataLoadingListener!!.dataLoadingStart()
+
+    }
+
+    override fun hideProgress() {
 
         dataLoadingListener!!.dataLoadingStop()
+
+    }
+
+    override fun showSuccess() {
+
         Toast.makeText(getApplicationContext(),"Broadcast sent to nearby friends!",Toast.LENGTH_LONG).show();
 
     }
 
     override fun showFailure() {
 
-        dataLoadingListener!!.dataLoadingStop()
         Toast.makeText(getApplicationContext(),"Broadcast failed to send. Please try again.",Toast.LENGTH_LONG).show();
 
     }
@@ -115,7 +125,6 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         mGoogleApiClient!!.disconnect()
 
         broadcastPresenter.createBroadcast("", noteEditText.text.toString(), p0!!.latitude.toString(), p0!!.longitude.toString())
-        dataLoadingListener!!.dataLoadingStart()
     }
 
     private fun getLocation() {

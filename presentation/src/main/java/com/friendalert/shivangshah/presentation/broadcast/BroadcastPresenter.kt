@@ -28,7 +28,10 @@ class BroadcastPresenter @Inject constructor(val broadcastView: BroadcastContrac
     }
 
     override fun createBroadcast(userId: String, message: String, latitude: String, longitude: String) {
+
+        broadcastView.showProgress()
         createBroadcastUseCase.execute(CreateBroadcastSubscriber(), broadcastMapper.mapFromView(BroadcastView(userId, message, latitude,longitude)))
+
     }
 
     inner class CreateBroadcastSubscriber: DisposableSingleObserver<CreateBroadcastResponse>(){
@@ -39,11 +42,13 @@ class BroadcastPresenter @Inject constructor(val broadcastView: BroadcastContrac
 
                 // success in backend - add returned id to the last object added to the list (newly created Myplace)
                 broadcastView.showSuccess()
+                broadcastView.hideProgress()
 
             }else{
 
                 // failure in backend - remove last object added from list
                 broadcastView.showFailure()
+                broadcastView.hideProgress()
 
             }
 
@@ -52,6 +57,7 @@ class BroadcastPresenter @Inject constructor(val broadcastView: BroadcastContrac
         override fun onError(e: Throwable) {
 
             broadcastView.showFailure()
+            broadcastView.hideProgress()
 
         }
 

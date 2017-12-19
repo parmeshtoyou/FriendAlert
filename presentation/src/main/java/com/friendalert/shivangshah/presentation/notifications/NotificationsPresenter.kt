@@ -4,6 +4,7 @@ import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.notifications.MarkAsRead
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
+import com.friendalert.shivangshah.presentation.CustomResponseCodes
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
@@ -49,20 +50,35 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
     }
 
     override fun retrieveNotifications() {
+
+        notificationsView.showProgress()
         getNotificationsUseCase.execute(GetNotificationsSubscriber())
+
     }
 
     inner class GetNotificationsSubscriber: DisposableSingleObserver<NotificationResponseModel>() {
 
         override fun onSuccess(t: NotificationResponseModel) {
 
-            presentationModel.setNotifications(t.data)
+            if(t.customCode == CustomResponseCodes.getSuccess){
 
-            notificationsView.showNotifications(presentationModel.getNotifications())
+                presentationModel.setNotifications(t.data)
+                notificationsView.showNotifications(presentationModel.getNotifications())
+                notificationsView.hideProgress()
+                notificationsView.showSuccess()
 
+            }else{
+
+                notificationsView.hideProgress()
+                notificationsView.showFailure()
+
+            }
         }
 
         override fun onError(exception: Throwable) {
+
+            notificationsView.hideProgress()
+            notificationsView.showFailure()
 
         }
 

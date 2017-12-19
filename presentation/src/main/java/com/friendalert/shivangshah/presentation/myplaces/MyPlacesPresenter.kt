@@ -36,7 +36,10 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
     }
 
     override fun retrieveMyPlaces() {
+
+        myPlacesView.showProgress()
         getMyPlacesUseCase.execute(GetMyPlacesSubscriber())
+
     }
 
 
@@ -47,17 +50,18 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
                 // save retrieved data to presentation model (knows which data to show to user)
                 presentationModel.setMyPlaces(myPlacesResponseModel.myPlaces)
-
+                myPlacesView.hideProgress()
                 // show from presentation model
                 myPlacesView.showMyPlaces(presentationModel.getAllMyPlaces())
 
             } else {
-
+                myPlacesView.hideProgress()
             }
         }
 
         override fun onError(exception: Throwable) {
 
+            myPlacesView.hideProgress()
 
         }
 
@@ -66,6 +70,7 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
     override fun createMyPlace(myPlaceRequestModel: MyPlaceRequestModel) {
 
         presentationModel.addMyPlaceToListPending(myPlaceRequestModel)
+        myPlacesView.showProgress()
         createMyPlaceUseCase.execute(CreateMyPlaceSubscriber(), myPlaceRequestModel)
 
     }
@@ -77,11 +82,13 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
                 // success in backend - add returned id to the last object added to the list (newly created Myplace)
                 presentationModel.getAllMyPlaces().last().base_camp_id = t.data.insertId
+                myPlacesView.hideProgress()
                 myPlacesView.addMyPlace(presentationModel.getAllMyPlaces().last())
 
             }else{
 
                 // failure in backend - remove last object added from list
+                myPlacesView.hideProgress()
                 presentationModel.getAllMyPlaces().removeAt(presentationModel.getAllMyPlaces().size - 1)
 
             }
@@ -90,6 +97,7 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
         override fun onError(e: Throwable) {
 
             // error - remove last object added from list
+            myPlacesView.hideProgress()
             presentationModel.getAllMyPlaces().removeAt(presentationModel.getAllMyPlaces().size - 1)
 
         }
@@ -100,7 +108,7 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
         // presentation model - set to be editted
         presentationModel.setToBeEditted(myPlaceRequestModel)
-
+        myPlacesView.showProgress()
         editMyPlaceUseCase.execute(EditMyPlaceSubscriber(), myPlaceRequestModel)
 
     }
@@ -112,24 +120,30 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
                 // presentation model - update to be editted
                 var myPlace = presentationModel.editMyPlace()
+                myPlacesView.hideProgress()
                 myPlacesView.editMyPlace(myPlace!!)
 
             }else{
 
+                myPlacesView.hideProgress()
 
             }
         }
 
         override fun onError(e: Throwable) {
 
+            myPlacesView.hideProgress()
 
         }
 
     }
 
     override fun deleteMyPlace(myPlaceId: Int) {
+
         presentationModel.setToBeDeletedId(myPlaceId)
+        myPlacesView.showProgress()
         deleteMyPlaceUseCase.execute(DeleteMyPlaceSubscriber(), myPlaceId)
+
     }
 
     inner class DeleteMyPlaceSubscriber: DisposableSingleObserver<MyPlaceResponseModel>(){
@@ -138,17 +152,19 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
             if(t.customCode == CustomResponseCodes.deleteSuccess){
 
                 var myPlaceToBeDeleted = presentationModel.deleteMyPlace()
+                myPlacesView.hideProgress()
                 myPlacesView.deleteMyPlace(myPlaceToBeDeleted)
 
             }else{
 
+                myPlacesView.hideProgress()
 
             }
         }
 
         override fun onError(e: Throwable) {
 
-
+            myPlacesView.hideProgress()
 
         }
 

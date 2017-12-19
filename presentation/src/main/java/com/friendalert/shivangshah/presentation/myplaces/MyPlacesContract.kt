@@ -24,16 +24,6 @@ interface MyPlacesContract {
 
         fun editMyPlace(myPlace: MyPlaceModel)
 
-        fun hideMyPlaces()
-
-        fun showErrorState()
-
-        fun hideErrorState()
-
-        fun showEmptyState()
-
-        fun hideEmptyState()
-
     }
 
     interface Presenter : BasePresenter {

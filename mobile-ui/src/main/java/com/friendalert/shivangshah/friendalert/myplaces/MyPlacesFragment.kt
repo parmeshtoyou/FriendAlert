@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
 import com.friendalert.shivangshah.model.myplaces.response.MyPlaceModel
@@ -45,6 +46,8 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     var hashMapMyPlace: HashMap<Int, MyPlaceViewModel> = HashMap()
 
+    var dataLoadingListener: DataLoadingListener? = null
+
     @Inject lateinit var myPlacePresenter : MyPlacesContract.Presenter
 
     override fun setPresenter(presenter: MyPlacesContract.Presenter) {
@@ -59,6 +62,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
+        dataLoadingListener = activity as DataLoadingListener
         super.onAttach(context)
     }
 
@@ -254,32 +258,17 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     }
 
     override fun showProgress() {
-        Log.d("show","progress")
+
+        dataLoadingListener!!.dataLoadingStart()
+
     }
 
     override fun hideProgress() {
-        Log.d("hide","progress")
+
+        dataLoadingListener!!.dataLoadingStop()
+
     }
 
-    override fun hideMyPlaces() {
-        Log.d("hide","myPlaces")
-    }
-
-    override fun showErrorState() {
-        Log.d("show","error state")
-    }
-
-    override fun hideErrorState() {
-        Log.d("hide","error state")
-    }
-
-    override fun showEmptyState() {
-        Log.d("show","empty state")
-    }
-
-    override fun hideEmptyState() {
-        Log.d("hide","empty state")
-    }
 
     override fun onStop() {
 
