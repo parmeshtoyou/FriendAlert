@@ -23,6 +23,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 import android.view.WindowManager
+import android.widget.RelativeLayout
 
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavigationView.OnNavigationItemSelectedListener, DataLoadingListener {
 
@@ -36,7 +37,7 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     private var bottomNavigationView: BottomNavigationView? = null
     private var containerLayout : FrameLayout? = null
     private var toolbar : Toolbar? = null
-    private var progressBar : ProgressBar? = null
+    private var loadingDialogFragment = LoadingDialogFragment()
 
     private var broadcastFragment : BroadcastFragment? = null
     private var myPlacesFragment : MyPlacesFragment? = null
@@ -65,8 +66,6 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
 
         toolbar = findViewById<Toolbar>(R.id.appToolbar)
         setSupportActionBar(toolbar)
-
-        progressBar = findViewById<ProgressBar>(R.id.progress_bar)
 
         bottomNavigationView?.setOnNavigationItemSelectedListener(this)
 
@@ -132,11 +131,11 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
     }
 
     fun showLoading(title: String){
-        progressBar!!.visibility = View.VISIBLE
+        loadingDialogFragment.show(supportFragmentManager, "")
     }
 
     fun hideLoading(){
-        progressBar!!.visibility = View.GONE
+        loadingDialogFragment.dismiss()
     }
 
     fun switchToBroadcastFragment() {
