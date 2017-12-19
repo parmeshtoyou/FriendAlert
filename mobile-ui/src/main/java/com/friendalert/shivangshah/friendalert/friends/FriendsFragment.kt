@@ -144,7 +144,7 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         tabLayout!!.addTab(requestsTab)
 
         val suggestedTab = tabLayout!!.newTab()
-        suggestedTab.text = "Suggested"
+        suggestedTab.text = "Add"
         tabLayout!!.addTab(suggestedTab)
 
         val inviteTab = tabLayout!!.newTab()
