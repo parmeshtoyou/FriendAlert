@@ -30,19 +30,23 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
     }
 
     override fun DeleteFriendClicked(position: Int, friendModel: FriendModel?) {
+        var friendModel = friends.get(position)
         this.actionListener.DeleteFriendClicked(position, friendModel)
     }
 
     override fun AcceptFriendRequestClicked(position: Int, friendModel: FriendModel?) {
+        var friendModel = friends.get(position)
         this.actionListener.AcceptFriendRequestClicked(position, friendModel)
     }
 
     override fun DeclineFriendRequestClicked(position: Int, friendModel: FriendModel?) {
+        var friendModel = friends.get(position)
         this.actionListener.DeclineFriendRequestClicked(position, friendModel)
     }
 
     override fun SendFriendRequestClicked(position: Int, friendModel: FriendModel?) {
-        this.actionListener.SendFriendRequestClicked(position, friends.get(position))
+        var friendModel = friends.get(position)
+        this.actionListener.SendFriendRequestClicked(position, friendModel)
     }
 
     override fun InviteFriendClicked() {
@@ -56,22 +60,27 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
         when(type){
             FriendType.MyFriend -> {
 
-                holder.actionButton.text = "Delete"
+                holder.actionButton.text = "Unfriend"
+                holder.actionButton2.visibility = View.GONE
 
             }
             FriendType.Suggested -> {
 
                 holder.actionButton.text = "Add"
+                holder.actionButton2.visibility = View.GONE
 
             }
             FriendType.Request -> {
 
                 holder.actionButton.text = "Accept"
+                holder.actionButton2.text = "Decline"
+                holder.actionButton2.visibility = View.VISIBLE
 
             }
             FriendType.Invite -> {
 
                 holder.actionButton.text = "Invite"
+                holder.actionButton2.visibility = View.GONE
 
             }
         }
@@ -93,6 +102,7 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
 
         var nameText: TextView
         var actionButton: Button
+        var actionButton2: Button
         var actionListener: FriendsActionListener
 
         init {
@@ -100,18 +110,30 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
 
             nameText = view.findViewById(R.id.nameTextView)
             actionButton = view.findViewById(R.id.actionButton)
+            actionButton2 = view.findViewById(R.id.actionButton2)
 
             actionButton.setOnClickListener(this)
+            actionButton2.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
 
-            when(type){
-                FriendType.MyFriend -> this.actionListener.DeleteFriendClicked(adapterPosition, null)
-                FriendType.Suggested -> this.actionListener.SendFriendRequestClicked(adapterPosition, null)
-                FriendType.Request -> this.actionListener.AcceptFriendRequestClicked(adapterPosition, null)
-                FriendType.Invite -> this.actionListener.InviteFriendClicked()
+            if(v!!.id == actionButton.id){
+
+                when(type){
+                    FriendType.MyFriend -> this.actionListener.DeleteFriendClicked(adapterPosition, null)
+                    FriendType.Suggested -> this.actionListener.SendFriendRequestClicked(adapterPosition, null)
+                    FriendType.Request -> this.actionListener.AcceptFriendRequestClicked(adapterPosition, null)
+                    FriendType.Invite -> this.actionListener.InviteFriendClicked()
+                }
+
+            }else if(v!!.id == actionButton2.id){
+
+                this.actionListener.DeclineFriendRequestClicked(adapterPosition, null)
+
             }
+
+
 
         }
     }

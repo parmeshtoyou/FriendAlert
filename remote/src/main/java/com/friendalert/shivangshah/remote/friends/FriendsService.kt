@@ -19,6 +19,6 @@ interface FriendsService {
     fun createFriendRequest(@Path("sender_id") senderId : String, @Path("receiver_id") recieverId: String): Single<CreateFriendRequestResponseModel>
 
     @PUT("friends/update/{id}/{status}")
-    fun updateFriend(@Path("id") id: String, @Path("status") status: Int) : Single<UpdateFriendResponseModel>
+    fun updateFriend(@Path("id") id: String, @Path("status") status: String) : Single<UpdateFriendResponseModel>
 
 }

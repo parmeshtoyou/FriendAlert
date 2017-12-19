@@ -30,7 +30,7 @@ class ContactsLocalDataStore @Inject constructor(private val contactsLocal: Cont
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateFriend(id: String, status: Int): Single<UpdateFriendResponseModel> {
+    override fun updateFriend(id: String, status: String): Single<UpdateFriendResponseModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

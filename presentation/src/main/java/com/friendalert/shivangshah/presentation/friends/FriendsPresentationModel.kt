@@ -14,6 +14,8 @@ class FriendsPresentationModel {
     private var acceptFriendRequestModel : FriendModel? = null
     private var declineFriendRequestModel : FriendModel? = null
 
+    private var friendActionType : FriendActionType? = null
+
     fun setFriendsDictionary(friends: ArrayList<FriendModel>,
                              requests: ArrayList<FriendModel>,
                              suggested: ArrayList<FriendModel>,
@@ -34,6 +36,7 @@ class FriendsPresentationModel {
     }
 
     fun setCreateFriendRequestModel(friendModel: FriendModel){
+
         createFriendRequestModel = friendModel
     }
 
@@ -43,6 +46,14 @@ class FriendsPresentationModel {
 
     fun setDeclineFriendRequestModel(friendModel: FriendModel){
         declineFriendRequestModel = friendModel
+    }
+
+    fun setFriendActionType(friendActionType: FriendActionType){
+        this.friendActionType = friendActionType
+    }
+
+    fun getFriendActionType() : FriendActionType {
+        return this.friendActionType!!
     }
 
     fun successDeleteFriend(){
@@ -64,16 +75,17 @@ class FriendsPresentationModel {
 
         // remove from suggested
         var suggestedFriends = friendsDictionary["Suggested"]
-        for(suggestedFriend in suggestedFriends!!){
-            if(suggestedFriend.request_id == createFriendRequestModel!!.request_id){
-                suggestedFriends.remove(suggestedFriend)
-                break
-            }
-        }
+        suggestedFriends!!.remove(createFriendRequestModel)
+//        for(suggestedFriend in suggestedFriends!!){
+//            if(suggestedFriend == createFriendRequestModel!!){
+//                 suggestedFriends.remove(suggestedFriend)
+//            }
+//        }
 
         // add to requests
-        createFriendRequestModel!!.request_status = "pending"
+        createFriendRequestModel!!.request_status = "0" // 0 = pending
         createFriendRequestModel!!.request_id = requestId
+        createFriendRequestModel!!.receiver_id = createFriendRequestModel!!.user_id
         friendsDictionary["Requests"]!!.add(createFriendRequestModel!!)
 
         createFriendRequestModel = null

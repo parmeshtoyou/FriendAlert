@@ -15,6 +15,6 @@ interface FriendsRemote {
 
     fun createFriendRequest(senderId: String, receiverId: String) : Single<CreateFriendRequestResponseModel>
 
-    fun updateFriend(id: String, status: Int) : Single<UpdateFriendResponseModel>
+    fun updateFriend(id: String, status: String) : Single<UpdateFriendResponseModel>
 
 }

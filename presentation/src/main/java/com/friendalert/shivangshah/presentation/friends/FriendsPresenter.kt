@@ -66,8 +66,9 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     override fun sendFriendRequest(position: Int, friendModel: FriendModel) {
 
+        presentationModel.setFriendActionType(FriendActionType.CreateFriendRequest)
         presentationModel.setCreateFriendRequestModel(friendModel)
-        createFriendRequest.execute(CreateFriendRequestSubscriber(), friendModel.receiver_id)
+        createFriendRequest.execute(CreateFriendRequestSubscriber(), friendModel.user_id)
 
     }
 
@@ -78,7 +79,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
             if(t.customCode == CustomResponseCodes.createSuccess){
 
-                presentationModel.successCreateFriendRequest(t.requestId)
+                presentationModel.successCreateFriendRequest(t.data.insertId)
                 friendsView.showFriends(presentationModel.getFriendsDictionary())
 
             }else{
@@ -94,22 +95,25 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     override fun deleteFriend(position: Int, friendModel: FriendModel) {
 
+        presentationModel.setFriendActionType(FriendActionType.RemoveFriend)
         presentationModel.setDeleteFriendRequestModel(friendModel)
-        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 0))
+        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), "0"))
 
     }
 
     override fun acceptFriendRequest(position: Int, friendModel: FriendModel) {
 
+        presentationModel.setFriendActionType(FriendActionType.AcceptFriendRequest)
         presentationModel.setAcceptFriendRequestModel(friendModel)
-        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 1))
+        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), "1"))
 
     }
 
     override fun declineFriendRequest(position: Int, friendModel: FriendModel) {
 
-        presentationModel.setDeclineFriendRequestModel(friendModel)
-        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 2))
+//        presentationModel.setFriendActionType(FriendActionType.DeclineFriendRequest)
+//        presentationModel.setDeclineFriendRequestModel(friendModel)
+//        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 2))
 
     }
 
@@ -117,6 +121,31 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
 
         override fun onSuccess(t: UpdateFriendResponseModel) {
+
+            when(presentationModel.getFriendActionType()){
+
+                FriendActionType.RemoveFriend -> {
+
+                    presentationModel.successDeleteFriend()
+                    friendsView.showFriends(presentationModel.getFriendsDictionary())
+
+                }
+
+                FriendActionType.AcceptFriendRequest -> {
+
+                    presentationModel.successAcceptFriendRequest()
+                    friendsView.showFriends(presentationModel.getFriendsDictionary())
+
+                }
+
+                FriendActionType.DeclineFriendRequest -> {
+
+                    presentationModel.successDeclineFriendRequest()
+                    friendsView.showFriends(presentationModel.getFriendsDictionary())
+
+                }
+
+            }
 
 
         }

@@ -31,7 +31,7 @@ class FriendsRemoteDataStore @Inject constructor(private val friendsRemote: Frie
 
     }
 
-    override fun updateFriend(id: String, status: Int): Single<UpdateFriendResponseModel> {
+    override fun updateFriend(id: String, status: String): Single<UpdateFriendResponseModel> {
 
         return friendsRemote.updateFriend(id, status)
 

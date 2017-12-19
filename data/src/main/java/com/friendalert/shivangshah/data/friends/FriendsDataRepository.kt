@@ -32,7 +32,7 @@ class FriendsDataRepository @Inject constructor(private val factory: FriendsData
         return dataStore.createFriendRequest(senderId, receiverId)
     }
 
-    override fun updateFriend(id: String, status: Int): Single<UpdateFriendResponseModel> {
+    override fun updateFriend(id: String, status: String): Single<UpdateFriendResponseModel> {
         val dataStore = factory.retrieveDataStore(local = false)
         return dataStore.updateFriend(id, status)
     }

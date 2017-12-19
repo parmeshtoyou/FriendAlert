@@ -5,16 +5,54 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SS"
+        android:textSize="30sp"
+        android:background="@drawable/rounded_textview"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:id="@+id/initialsTextView"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:layout_marginTop="30dp"
+        android:text="Shivang Shah"
+        android:layout_toRightOf="@+id/initialsTextView"
+        android:layout_toLeftOf="@+id/actionButton2"
+        android:layout_marginRight="15dp"
+        android:textStyle="bold"
         />
 
     <Button
+        android:id="@+id/actionButton2"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:text="Decline"
+        android:layout_marginTop="22dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/actionButton"
+        android:background="@drawable/button_background_white"
+        android:textColor="@color/primaryColor"
+        android:textSize="12sp"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/actionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
         android:text="Action"
-        android:layout_alignParentRight="true"/>
+        android:textSize="12sp"
+        android:layout_marginTop="22dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/button_background_white"
+        android:textColor="@color/primaryColor"
+        android:layout_marginRight="15dp"
+        android:textAllCaps="false" />
 </RelativeLayout>

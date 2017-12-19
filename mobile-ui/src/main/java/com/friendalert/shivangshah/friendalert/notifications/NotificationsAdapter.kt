@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
-import javax.inject.Inject
 
 /**
  * Created by shivangshah on 11/11/17.
@@ -48,7 +47,7 @@ class NotificationsAdapter constructor(listener: NotificationClickedListener) : 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.item_notification, parent, false)
+                .inflate(R.layout.row_notification, parent, false)
         return ViewHolder(itemView, this)
     }
 

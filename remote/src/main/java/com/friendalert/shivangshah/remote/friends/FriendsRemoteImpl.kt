@@ -25,7 +25,7 @@ class FriendsRemoteImpl  @Inject constructor(private val friendsService: Friends
 
     }
 
-    override fun updateFriend(id: String, status: Int): Single<UpdateFriendResponseModel> {
+    override fun updateFriend(id: String, status: String): Single<UpdateFriendResponseModel> {
 
         return friendsService.updateFriend(id, status)
 
