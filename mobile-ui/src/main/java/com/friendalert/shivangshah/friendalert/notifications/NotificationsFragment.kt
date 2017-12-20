@@ -109,9 +109,9 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
     }
 
-    override fun showFailure(firstTime: Boolean) {
+    override fun showFailure(firstTime: Boolean, errorMessage: String) {
 
-        Toast.makeText(activity!!.applicationContext, "Service unavailable, please try again", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity!!.applicationContext, errorMessage, Toast.LENGTH_LONG).show();
 
         if(firstTime){
             swipeContainer!!.visibility = View.GONE

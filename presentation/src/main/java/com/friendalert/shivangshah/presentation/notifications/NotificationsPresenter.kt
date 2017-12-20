@@ -2,9 +2,11 @@ package com.friendalert.shivangshah.presentation.notifications
 
 import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.notifications.MarkAsRead
+import com.friendalert.shivangshah.model.exceptions.NoNetworkException
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 import com.friendalert.shivangshah.model.notifications.response.NotificationResponseModel
 import com.friendalert.shivangshah.presentation.CustomResponseCodes
+import com.friendalert.shivangshah.presentation.ErrorMessages
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
@@ -67,18 +69,19 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
                 notificationsView.hideProgress()
                 notificationsView.showSuccess()
 
-            }else{
-
-                notificationsView.hideProgress()
-                //notificationsView.showFailure()
-
             }
+
         }
 
         override fun onError(exception: Throwable) {
 
             notificationsView.hideProgress()
-            notificationsView.showFailure(presentationModel.getNotifications() == null)
+
+            if (exception is NoNetworkException){
+                notificationsView.showFailure(presentationModel.getNotifications() == null, ErrorMessages.noNetworkError)
+            }else{
+                notificationsView.showFailure(presentationModel.getNotifications() == null, ErrorMessages.serviceError)
+            }
 
         }
 

@@ -1,5 +1,7 @@
 package com.friendalert.shivangshah.remote.notifications
 
+import android.content.Context
+import com.friendalert.shivangshah.remote.InternetConnectionInterceptor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -15,9 +17,9 @@ import java.util.concurrent.TimeUnit
  */
 object NotificationServiceFactory {
 
-    fun makeNotificationService(isDebug: Boolean): NotificationService {
+    fun makeNotificationService(isDebug: Boolean, context: Context): NotificationService {
         val okHttpClient = makeOkHttpClient(
-                makeLoggingInterceptor(isDebug))
+                makeLoggingInterceptor(isDebug), makeNetworkInterceptor(context))
         return makeNotificationService(okHttpClient, makeGson())
     }
 
@@ -31,9 +33,10 @@ object NotificationServiceFactory {
         return retrofit.create(NotificationService::class.java)
     }
 
-    private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, networkInterceptor: InternetConnectionInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(networkInterceptor)
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS)
                 .build()
@@ -54,6 +57,12 @@ object NotificationServiceFactory {
         else
             HttpLoggingInterceptor.Level.NONE
         return logging
+    }
+
+    private fun makeNetworkInterceptor(context: Context) : InternetConnectionInterceptor {
+
+        return InternetConnectionInterceptor(context)
+
     }
 
 

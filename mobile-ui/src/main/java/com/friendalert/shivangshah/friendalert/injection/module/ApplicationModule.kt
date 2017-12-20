@@ -54,7 +54,9 @@ import com.friendalert.shivangshah.remote.broadcast.BroadcastServiceFactory
 import com.friendalert.shivangshah.remote.friends.FriendsRemoteImpl
 import com.friendalert.shivangshah.remote.friends.FriendsService
 import com.friendalert.shivangshah.remote.friends.FriendsServiceFactory
-import com.friendalert.shivangshah.remote.myplaces.*
+import com.friendalert.shivangshah.remote.myplaces.MyPlaceRemoteImpl
+import com.friendalert.shivangshah.remote.myplaces.MyPlaceService
+import com.friendalert.shivangshah.remote.myplaces.MyPlaceServiceFactory
 import com.friendalert.shivangshah.remote.notifications.NotificationRemoteImpl
 import com.friendalert.shivangshah.remote.notifications.NotificationService
 import com.friendalert.shivangshah.remote.notifications.NotificationServiceFactory
@@ -144,14 +146,8 @@ open class ApplicationModule {
 
     @Provides
     @PerApplication
-    internal fun provideNotificationsRemote(service: NotificationService): NotificationRemote {
-        return NotificationRemoteImpl(service)
-    }
-
-    @Provides
-    @PerApplication
-    internal fun provideNotificationsService(): NotificationService {
-        return NotificationServiceFactory.makeNotificationService(BuildConfig.DEBUG)
+    internal fun provideNotificationsService(context: Context): NotificationService {
+        return NotificationServiceFactory.makeNotificationService(BuildConfig.DEBUG, context)
     }
 
     @Provides
@@ -164,6 +160,12 @@ open class ApplicationModule {
     @PerApplication
     internal fun provideNotificationsPresentationModel(): NotificationPresentationModel{
         return NotificationPresentationModel()
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideNotificationsRemote(service: NotificationService): NotificationRemote {
+        return NotificationRemoteImpl(service)
     }
 
     // MyPlaces Dependencies -----------------------------------------------------------------------
