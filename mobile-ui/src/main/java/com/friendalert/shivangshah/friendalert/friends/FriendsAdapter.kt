@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.friendalert.shivangshah.friendalert.R
-import com.friendalert.shivangshah.friendalert.notifications.NotificationsAdapter
 import com.friendalert.shivangshah.model.friends.response.FriendModel
-import com.friendalert.shivangshah.model.notifications.response.NotificationModel
 
 /**
  * Created by shivangshah on 12/14/17.

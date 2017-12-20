@@ -14,6 +14,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import com.facebook.FacebookSdk
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.PermissionUtils
 import com.friendalert.shivangshah.friendalert.R
@@ -41,6 +44,8 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
     private var friendsRecyclerView: RecyclerView? = null
     private var swipeContainer: SwipeRefreshLayout? = null
     private var tabLayout: TabLayout? = null
+
+    private var retryButton: Button? = null
 
     var screenType : FriendType = FriendType.MyFriend
 
@@ -72,9 +77,17 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
         swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeContainer);
 
+        retryButton = view.findViewById<Button>(R.id.retryButton)
+
         swipeContainer!!.setOnRefreshListener (this)
 
         tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
+
+        retryButton!!.setOnClickListener {
+
+            v: View? ->  friendsPresenter.getFriends()
+
+        }
 
         setupTabs()
 
@@ -145,13 +158,25 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     override fun showSuccess() {
 
+        swipeContainer!!.visibility = View.VISIBLE
+        friendsRecyclerView!!.visibility = View.VISIBLE
+        tabLayout!!.visibility = View.VISIBLE
 
+        retryButton!!.visibility = View.GONE
 
     }
 
-    override fun showFailure() {
+    override fun showFailure(firstTime: Boolean, errorMessage: String) {
 
+        Toast.makeText(activity!!.applicationContext,errorMessage, Toast.LENGTH_LONG).show();
 
+        if(firstTime){
+            swipeContainer!!.visibility = View.GONE
+            friendsRecyclerView!!.visibility = View.GONE
+            tabLayout!!.visibility = View.GONE
+
+            retryButton!!.visibility = View.VISIBLE
+        }
 
     }
 

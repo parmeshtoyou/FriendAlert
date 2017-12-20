@@ -115,9 +115,9 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     }
 
-    override fun showFailure() {
+    override fun showFailure(firstTime: Boolean, errorMessage: String) {
 
-        Toast.makeText(getApplicationContext(),"Broadcast failed to send. Please try again.",Toast.LENGTH_LONG).show();
+        Toast.makeText(activity!!.applicationContext,errorMessage,Toast.LENGTH_LONG).show();
 
     }
 

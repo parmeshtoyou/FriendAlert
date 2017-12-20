@@ -3,12 +3,14 @@ package com.friendalert.shivangshah.presentation.friends
 import com.friendalert.shivangshah.domain.friends.CreateFriendRequest
 import com.friendalert.shivangshah.domain.friends.GetFriends
 import com.friendalert.shivangshah.domain.friends.UpdateFriend
+import com.friendalert.shivangshah.model.exceptions.NoNetworkException
 import com.friendalert.shivangshah.model.friends.request.UpdateFriendRequestModel
 import com.friendalert.shivangshah.model.friends.response.CreateFriendRequestResponseModel
 import com.friendalert.shivangshah.model.friends.response.FriendModel
 import com.friendalert.shivangshah.model.friends.response.FriendsResponseModel
 import com.friendalert.shivangshah.model.friends.response.UpdateFriendResponseModel
 import com.friendalert.shivangshah.presentation.CustomResponseCodes
+import com.friendalert.shivangshah.presentation.ErrorMessages
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
@@ -52,8 +54,9 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
                         t.inviteData
                 )
 
-                friendsView.showFriends(presentationModel.getFriendsDictionary())
+                friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
                 friendsView.hideProgress()
+                friendsView.showSuccess()
 
             }else{
 
@@ -66,6 +69,12 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
         override fun onError(exception: Throwable) {
 
             friendsView.hideProgress()
+
+            if (exception is NoNetworkException){
+                friendsView.showFailure(presentationModel.getFriendsDictionary() == null, ErrorMessages.noNetworkError)
+            }else{
+                friendsView.showFailure(presentationModel.getFriendsDictionary() == null, ErrorMessages.serviceError)
+            }
 
         }
 
@@ -88,7 +97,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
             if(t.customCode == CustomResponseCodes.createSuccess){
 
                 presentationModel.successCreateFriendRequest(t.data.insertId)
-                friendsView.showFriends(presentationModel.getFriendsDictionary())
+                friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
                 friendsView.hideProgress()
 
             }else{
@@ -101,6 +110,12 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
         override fun onError(e: Throwable) {
 
             friendsView.hideProgress()
+
+            if (e is NoNetworkException){
+                friendsView.showFailure(false, ErrorMessages.noNetworkError)
+            }else{
+                friendsView.showFailure(false, ErrorMessages.serviceError)
+            }
 
         }
 
@@ -143,7 +158,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
                 FriendActionType.RemoveFriend -> {
 
                     presentationModel.successDeleteFriend()
-                    friendsView.showFriends(presentationModel.getFriendsDictionary())
+                    friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
                     friendsView.hideProgress()
 
                 }
@@ -151,7 +166,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
                 FriendActionType.AcceptFriendRequest -> {
 
                     presentationModel.successAcceptFriendRequest()
-                    friendsView.showFriends(presentationModel.getFriendsDictionary())
+                    friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
                     friendsView.hideProgress()
 
                 }
@@ -159,7 +174,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
                 FriendActionType.DeclineFriendRequest -> {
 
                     presentationModel.successDeclineFriendRequest()
-                    friendsView.showFriends(presentationModel.getFriendsDictionary())
+                    friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
                     friendsView.hideProgress()
 
                 }
@@ -173,12 +188,18 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
             friendsView.hideProgress()
 
+            if (e is NoNetworkException){
+                friendsView.showFailure(false, ErrorMessages.noNetworkError)
+            }else{
+                friendsView.showFailure(false, ErrorMessages.serviceError)
+            }
+
         }
 
     }
 
     override fun getFriendsByType() {
-        friendsView.showFriends(presentationModel.getFriendsDictionary())
+        friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
     }
 
 

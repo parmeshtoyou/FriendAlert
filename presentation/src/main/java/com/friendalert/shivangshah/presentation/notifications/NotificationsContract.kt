@@ -13,14 +13,6 @@ interface NotificationsContract {
 
         fun showNotifications(notifications: List<NotificationModel>)
 
-        fun showSuccess()
-
-        fun showFailure(firstTime: Boolean, errorMessage: String)
-
-        fun showProgress()
-
-        fun hideProgress()
-
     }
 
     interface Presenter : BasePresenter {

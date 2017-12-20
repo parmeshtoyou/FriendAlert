@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".HomeActivity" />
-        <activity android:name=".login.LoginActivity"></activity>
+        <activity android:name=".login.LoginActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -64,7 +64,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".notifications.NotificationDetailActivity"></activity>
+        <activity android:name=".notifications.NotificationDetailActivity" />
+        <activity android:name=".notifications.NotificationDetailActivity.kt" />
     </application>
 
 </manifest>

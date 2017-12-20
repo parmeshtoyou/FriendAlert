@@ -7,7 +7,7 @@ import com.friendalert.shivangshah.model.friends.response.FriendModel
  */
 class FriendsPresentationModel {
 
-    private var friendsDictionary =  HashMap<String, ArrayList<FriendModel>>()
+    private var friendsDictionary :  HashMap<String, ArrayList<FriendModel>>? = null
 
     private var deleteFriendRequestModel : FriendModel? = null
     private var createFriendRequestModel : FriendModel? = null
@@ -21,13 +21,15 @@ class FriendsPresentationModel {
                              suggested: ArrayList<FriendModel>,
                              invites: ArrayList<String>){
 
-        friendsDictionary.put("Friends", friends)
-        friendsDictionary.put("Requests", requests)
-        friendsDictionary.put("Suggested", suggested)
+        friendsDictionary = HashMap<String, ArrayList<FriendModel>>()
+
+        friendsDictionary!!.put("Friends", friends)
+        friendsDictionary!!.put("Requests", requests)
+        friendsDictionary!!.put("Suggested", suggested)
 
     }
 
-    fun getFriendsDictionary() : HashMap<String, ArrayList<FriendModel>>{
+    fun getFriendsDictionary() : HashMap<String, ArrayList<FriendModel>>?{
         return friendsDictionary
     }
 
@@ -59,7 +61,7 @@ class FriendsPresentationModel {
     fun successDeleteFriend(){
 
         // remove from friends
-        var friends = friendsDictionary["Friends"]
+        var friends = friendsDictionary!!["Friends"]
         for(friend in friends!!){
             if(friend.request_id == deleteFriendRequestModel!!.request_id){
                 friends.remove(friend)
@@ -74,14 +76,14 @@ class FriendsPresentationModel {
     fun successCreateFriendRequest(requestId: Int){
 
         // remove from suggested
-        var suggestedFriends = friendsDictionary["Suggested"]
+        var suggestedFriends = friendsDictionary!!["Suggested"]
         suggestedFriends!!.remove(createFriendRequestModel)
 
         // add to requests
         createFriendRequestModel!!.request_status = "0" // 0 = pending
         createFriendRequestModel!!.request_id = requestId
         createFriendRequestModel!!.receiver_id = createFriendRequestModel!!.user_id
-        friendsDictionary["Requests"]!!.add(createFriendRequestModel!!)
+        friendsDictionary!!["Requests"]!!.add(createFriendRequestModel!!)
 
         createFriendRequestModel = null
 
@@ -90,7 +92,7 @@ class FriendsPresentationModel {
     fun successAcceptFriendRequest(){
 
         // remove from requests
-        var requestsFriends = friendsDictionary["Requests"]
+        var requestsFriends = friendsDictionary!!["Requests"]
         for(requestFriend in requestsFriends!!){
             if(requestFriend.request_id == acceptFriendRequestModel!!.request_id){
                 requestsFriends.remove(requestFriend)
@@ -100,7 +102,7 @@ class FriendsPresentationModel {
 
         // add to my friends
         acceptFriendRequestModel!!.request_status = "accepted"
-        friendsDictionary["Friends"]!!.add(acceptFriendRequestModel!!)
+        friendsDictionary!!["Friends"]!!.add(acceptFriendRequestModel!!)
 
         acceptFriendRequestModel = null
 
@@ -109,7 +111,7 @@ class FriendsPresentationModel {
     fun successDeclineFriendRequest(){
 
         // remove from requests
-        var requestsFriends = friendsDictionary["Requests"]
+        var requestsFriends = friendsDictionary!!["Requests"]
         for(requestFriend in requestsFriends!!){
             if(requestFriend.request_id == declineFriendRequestModel!!.request_id){
                 requestsFriends.remove(requestFriend)

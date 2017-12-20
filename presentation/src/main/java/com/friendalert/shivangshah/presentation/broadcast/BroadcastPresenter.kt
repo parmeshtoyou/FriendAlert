@@ -3,7 +3,9 @@ package com.friendalert.shivangshah.presentation.broadcast
 import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.broadcast.Broadcast
 import com.friendalert.shivangshah.domain.broadcast.CreateBroadcastResponse
+import com.friendalert.shivangshah.model.exceptions.NoNetworkException
 import com.friendalert.shivangshah.presentation.CustomResponseCodes
+import com.friendalert.shivangshah.presentation.ErrorMessages
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
@@ -40,14 +42,11 @@ class BroadcastPresenter @Inject constructor(val broadcastView: BroadcastContrac
 
             if(t.customCode == CustomResponseCodes.createSuccess){
 
-                // success in backend - add returned id to the last object added to the list (newly created Myplace)
                 broadcastView.showSuccess()
                 broadcastView.hideProgress()
 
             }else{
 
-                // failure in backend - remove last object added from list
-                broadcastView.showFailure()
                 broadcastView.hideProgress()
 
             }
@@ -56,8 +55,17 @@ class BroadcastPresenter @Inject constructor(val broadcastView: BroadcastContrac
 
         override fun onError(e: Throwable) {
 
-            broadcastView.showFailure()
             broadcastView.hideProgress()
+
+            if (e is NoNetworkException){
+
+                broadcastView.showFailure(true, ErrorMessages.noNetworkError)
+
+            }else{
+
+                broadcastView.showFailure(true, ErrorMessages.serviceError)
+
+            }
 
         }
 

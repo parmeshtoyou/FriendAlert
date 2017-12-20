@@ -10,13 +10,7 @@ interface BroadcastContract {
 
     interface View : BaseView<BroadcastContract.Presenter> {
 
-        fun showSuccess()
 
-        fun showFailure()
-
-        fun showProgress()
-
-        fun hideProgress()
 
     }
 

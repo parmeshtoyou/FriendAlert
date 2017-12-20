@@ -132,8 +132,8 @@ open class ApplicationModule {
 
     @Provides
     @PerApplication
-    internal fun provideUserService(): UserService {
-        return UserServiceFactory.makeUserService(BuildConfig.DEBUG)
+    internal fun provideUserService(context: Context): UserService {
+        return UserServiceFactory.makeUserService(BuildConfig.DEBUG, context)
     }
 
 
@@ -183,8 +183,8 @@ open class ApplicationModule {
 
     @Provides
     @PerApplication
-    internal fun provideMyPlacesService(): MyPlaceService {
-        return MyPlaceServiceFactory.makeMyPlaceService(BuildConfig.DEBUG)
+    internal fun provideMyPlacesService(context: Context): MyPlaceService {
+        return MyPlaceServiceFactory.makeMyPlaceService(BuildConfig.DEBUG, context)
     }
 
     @Provides
@@ -212,8 +212,8 @@ open class ApplicationModule {
 
     @Provides
     @PerApplication
-    internal fun provideBroadcastService(): BroadcastService {
-        return BroadcastServiceFactory.makeBroadcastService(BuildConfig.DEBUG)
+    internal fun provideBroadcastService(context: Context): BroadcastService {
+        return BroadcastServiceFactory.makeBroadcastService(BuildConfig.DEBUG, context)
     }
 
     // Friends Dependencies
@@ -237,8 +237,8 @@ open class ApplicationModule {
 
     @Provides
     @PerApplication
-    internal fun provideFriendsService(): FriendsService {
-        return FriendsServiceFactory.makeFriendsService(BuildConfig.DEBUG)
+    internal fun provideFriendsService(context: Context): FriendsService {
+        return FriendsServiceFactory.makeFriendsService(BuildConfig.DEBUG, context)
     }
 
     @Provides

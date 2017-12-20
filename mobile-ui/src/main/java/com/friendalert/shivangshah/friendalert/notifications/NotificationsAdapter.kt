@@ -1,5 +1,8 @@
 package com.friendalert.shivangshah.friendalert.notifications
 
+/**
+ * Created by shivangshah on 12/20/17.
+ */
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by shivangshah on 11/11/17.

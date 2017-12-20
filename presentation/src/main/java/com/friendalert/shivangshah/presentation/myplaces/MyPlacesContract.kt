@@ -12,10 +12,6 @@ interface MyPlacesContract {
 
     interface View : BaseView<MyPlacesContract.Presenter> {
 
-        fun showProgress()
-
-        fun hideProgress()
-
         fun showMyPlaces(myPlace: List<MyPlaceModel>)
 
         fun addMyPlace(myPlace: MyPlaceModel)

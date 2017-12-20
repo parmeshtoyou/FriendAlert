@@ -7,4 +7,12 @@ interface BaseView<in T : BasePresenter> {
 
     fun setPresenter(presenter: T)
 
+    fun showSuccess()
+
+    fun showFailure(firstTime: Boolean, errorMessage: String)
+
+    fun showProgress()
+
+    fun hideProgress()
+
 }

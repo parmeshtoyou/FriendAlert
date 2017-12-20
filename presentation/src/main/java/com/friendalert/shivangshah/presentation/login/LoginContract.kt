@@ -10,10 +10,6 @@ interface LoginContract {
 
     interface View : BaseView<LoginContract.Presenter> {
 
-        fun showProgress()
-
-        fun hideProgress()
-
         fun loginUser()
 
         fun showErrorState()

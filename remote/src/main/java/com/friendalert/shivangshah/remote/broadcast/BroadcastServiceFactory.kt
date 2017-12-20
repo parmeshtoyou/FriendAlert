@@ -1,6 +1,7 @@
 package com.friendalert.shivangshah.remote.broadcast
 
-import com.friendalert.shivangshah.remote.myplaces.MyPlaceService
+import android.content.Context
+import com.friendalert.shivangshah.remote.InternetConnectionInterceptor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -16,9 +17,9 @@ import java.util.concurrent.TimeUnit
  */
 object BroadcastServiceFactory {
 
-    fun makeBroadcastService(isDebug: Boolean): BroadcastService {
+    fun makeBroadcastService(isDebug: Boolean, context: Context): BroadcastService {
         val okHttpClient = makeOkHttpClient(
-                makeLoggingInterceptor(isDebug))
+                makeLoggingInterceptor(isDebug), makeNetworkInterceptor(context))
         return makeBroadcastService(okHttpClient, makeGson())
     }
 
@@ -32,9 +33,10 @@ object BroadcastServiceFactory {
         return retrofit.create(BroadcastService::class.java)
     }
 
-    private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, networkInterceptor: InternetConnectionInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(networkInterceptor)
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS)
                 .build()
@@ -55,6 +57,12 @@ object BroadcastServiceFactory {
         else
             HttpLoggingInterceptor.Level.NONE
         return logging
+    }
+
+    private fun makeNetworkInterceptor(context: Context) : InternetConnectionInterceptor {
+
+        return InternetConnectionInterceptor(context)
+
     }
 
 }
