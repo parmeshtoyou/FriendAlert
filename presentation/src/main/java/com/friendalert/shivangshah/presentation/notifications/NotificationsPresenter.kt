@@ -83,10 +83,6 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
                 notificationsView.showFailure(presentationModel.getNotifications() == null, ErrorMessages.serviceError)
             }
 
-            if (exception is NoNetworkException){
-            }else{
-            }
-
         }
 
     }

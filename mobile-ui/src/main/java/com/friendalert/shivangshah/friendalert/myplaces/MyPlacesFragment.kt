@@ -13,7 +13,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
@@ -48,6 +50,8 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     var dataLoadingListener: DataLoadingListener? = null
 
+    private var retryButton: Button? = null
+
     @Inject lateinit var myPlacePresenter : MyPlacesContract.Presenter
 
     override fun setPresenter(presenter: MyPlacesContract.Presenter) {
@@ -71,6 +75,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         var view = inflater!!.inflate(R.layout.fragment_myplaces, container, false)
 
         searchEditText = view.findViewById(R.id.searchEditText)
+        retryButton = view.findViewById<Button>(R.id.retryButton)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -85,6 +90,12 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
             } catch (e: GooglePlayServicesRepairableException) {
                 // TODO: Handle the error.
             }
+        }
+
+        retryButton!!.setOnClickListener {
+
+            v: View? ->  myPlacePresenter.retrieveMyPlaces()
+
         }
 
         return view;
@@ -270,11 +281,19 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     }
 
     override fun showSuccess() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        retryButton!!.visibility = View.GONE
+
     }
 
     override fun showFailure(firstTime: Boolean, errorMessage: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        Toast.makeText(activity!!.applicationContext, errorMessage, Toast.LENGTH_LONG).show();
+
+        if(firstTime){
+            retryButton!!.visibility = View.VISIBLE
+        }
+
     }
 
 

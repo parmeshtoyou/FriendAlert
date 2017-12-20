@@ -8,7 +8,7 @@ import com.friendalert.shivangshah.model.myplaces.response.MyPlaceModel
  */
 class MyPlacesPresentationModel {
 
-    private var myPlaces = ArrayList<MyPlaceModel>()
+    private var myPlaces : ArrayList<MyPlaceModel>? = null
     private var toBeDeletedId = 0
     private var toBeEdittedMyPlace : MyPlaceModel? = null
 
@@ -16,13 +16,13 @@ class MyPlacesPresentationModel {
         this.myPlaces = myPlaces
     }
 
-    fun getAllMyPlaces() : ArrayList<MyPlaceModel>{
+    fun getAllMyPlaces() : ArrayList<MyPlaceModel>?{
         return this.myPlaces
     }
 
     fun addMyPlaceToListPending(myPlaceRequestModel: MyPlaceRequestModel){
         var myPlace = MyPlaceModel(myPlaceRequestModel.base_camp_id, myPlaceRequestModel.fk_user_id, myPlaceRequestModel.nickname, myPlaceRequestModel.address, myPlaceRequestModel.city, myPlaceRequestModel.state, myPlaceRequestModel.latitude, myPlaceRequestModel.longitude, myPlaceRequestModel.active, myPlaceRequestModel.radius)
-        this.myPlaces.add(myPlace)
+        this.myPlaces!!.add(myPlace)
     }
 
     fun setToBeDeletedId(myPlaceId : Int){
@@ -33,14 +33,14 @@ class MyPlacesPresentationModel {
 
         var toBeDeletedMyPlace = MyPlaceModel(0,"","","","","","","",0, "")
 
-        for (myPlace in myPlaces){
+        for (myPlace in myPlaces!!){
 
             if(myPlace.base_camp_id == toBeDeletedId){
 
                 toBeDeletedMyPlace = MyPlaceModel(myPlace.base_camp_id,myPlace.fk_user_id,myPlace.nickname,
                         myPlace.address, myPlace.city, myPlace.state, myPlace.latitude, myPlace.longitude, myPlace.active, myPlace.radius)
 
-                myPlaces.remove(myPlace)
+                myPlaces!!.remove(myPlace)
                 break
 
             }
@@ -57,7 +57,7 @@ class MyPlacesPresentationModel {
 
     fun editMyPlace() : MyPlaceModel? {
 
-        for(myPlace in getAllMyPlaces()){
+        for(myPlace in getAllMyPlaces()!!){
             if(toBeEdittedMyPlace!!.base_camp_id == myPlace.base_camp_id){
                 myPlace.nickname = toBeEdittedMyPlace!!.nickname
                 myPlace.radius = toBeEdittedMyPlace!!.radius
