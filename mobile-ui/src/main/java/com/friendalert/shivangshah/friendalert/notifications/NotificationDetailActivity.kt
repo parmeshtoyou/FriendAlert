@@ -86,12 +86,12 @@ class NotificationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun setupUI(){
 
-        supportActionBar!!.title = "Name"
+        supportActionBar!!.title = notification!!.first_name + " " + notification!!.last_name
 
-        timestampTextView!!.text = "Timestamp"
-        messageTextView!!.text = "Message"
-        callTextView!!.text = "Call"
-        phoneTextView!!.text = "Phone Number"
+        timestampTextView!!.text = notification!!.timestamp
+        messageTextView!!.text = notification!!.message
+        callTextView!!.text = "Call " + notification!!.first_name
+        phoneTextView!!.text = notification!!.phone_number
         locationTextView!!.text = "Location"
 
     }

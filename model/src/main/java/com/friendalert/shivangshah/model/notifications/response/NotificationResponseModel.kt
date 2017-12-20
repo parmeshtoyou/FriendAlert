@@ -8,6 +8,6 @@ import com.google.gson.annotations.SerializedName
 class NotificationResponseModel (@SerializedName("customCode") val customCode: Int,
                                  @SerializedName("data") val data: ArrayList<NotificationModel>)
 
-class NotificationModel(@SerializedName("broadcast_id") var broadcast_id: String, @SerializedName("fk_user_id") val fk_user_id: String, @SerializedName("latitude") val latitude: String,
-                  @SerializedName("longitude") val longitude: String, @SerializedName("message") val message: String, @SerializedName("friend_id") val friend_id: String,
-                  @SerializedName("timestamp") val timestamp: String, var isRead: Boolean)
+class NotificationModel(@SerializedName("broadcast_id") var broadcast_id: String, @SerializedName("fk_user_id") var fk_user_id: String, @SerializedName("first_name") var first_name: String, @SerializedName("last_name") var last_name: String,
+                        @SerializedName("phone_number") var phone_number: String, @SerializedName("latitude") var latitude: String, @SerializedName("longitude") var longitude: String, @SerializedName("message") var message: String, @SerializedName("friend_id") var friend_id: String,
+                        @SerializedName("timestamp") var timestamp: String, var isRead: Boolean)

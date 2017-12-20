@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by shivangshah on 11/11/17.
@@ -27,10 +28,13 @@ class NotificationsAdapter constructor(listener: NotificationClickedListener) : 
 
         val notification = notifications[position]
 
-        holder.initialsTextView.text = "SS"
-        holder.nameTextView.text = "Shivang Shah"
-        holder.locationTextView.text = "New York, New York"
-        holder.timestampTextView.text = "20 minutes ago"
+        var firstInitial = notification.first_name.take(1)
+        var secondInitial = notification.last_name.take(1)
+
+        holder.initialsTextView.text = firstInitial + secondInitial
+        holder.nameTextView.text = notification.first_name + " " + notification.last_name
+        holder.locationTextView.text = notification.latitude + ", " + notification.longitude
+        holder.timestampTextView.text = notification.timestamp
 
         if(notification.isRead){
             holder.readImageView.visibility = View.INVISIBLE
