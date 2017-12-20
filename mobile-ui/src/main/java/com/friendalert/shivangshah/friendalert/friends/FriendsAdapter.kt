@@ -129,7 +129,9 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
 
             }else if(v!!.id == actionButton2.id){
 
-                this.actionListener.DeclineFriendRequestClicked(adapterPosition, null)
+                when(type){
+                    FriendType.Request -> this.actionListener.DeclineFriendRequestClicked(adapterPosition, null)
+                }
 
             }
 

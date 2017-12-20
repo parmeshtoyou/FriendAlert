@@ -76,11 +76,6 @@ class FriendsPresentationModel {
         // remove from suggested
         var suggestedFriends = friendsDictionary["Suggested"]
         suggestedFriends!!.remove(createFriendRequestModel)
-//        for(suggestedFriend in suggestedFriends!!){
-//            if(suggestedFriend == createFriendRequestModel!!){
-//                 suggestedFriends.remove(suggestedFriend)
-//            }
-//        }
 
         // add to requests
         createFriendRequestModel!!.request_status = "0" // 0 = pending
