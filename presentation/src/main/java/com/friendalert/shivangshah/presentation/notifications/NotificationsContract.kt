@@ -15,7 +15,7 @@ interface NotificationsContract {
 
         fun showSuccess()
 
-        fun showFailure()
+        fun showFailure(firstTime: Boolean)
 
         fun showProgress()
 

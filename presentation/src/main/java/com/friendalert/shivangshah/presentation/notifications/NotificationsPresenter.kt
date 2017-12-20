@@ -39,7 +39,7 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
         override fun onSuccess(t: Boolean) {
 
             presentationModel.markNotificationAsRead()
-            notificationsView.showNotifications(presentationModel.getNotifications())
+            notificationsView.showNotifications(presentationModel.getNotifications()!!)
 
         }
 
@@ -63,14 +63,14 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
             if(t.customCode == CustomResponseCodes.getSuccess){
 
                 presentationModel.setNotifications(t.data)
-                notificationsView.showNotifications(presentationModel.getNotifications())
+                notificationsView.showNotifications(presentationModel.getNotifications()!!)
                 notificationsView.hideProgress()
                 notificationsView.showSuccess()
 
             }else{
 
                 notificationsView.hideProgress()
-                notificationsView.showFailure()
+                //notificationsView.showFailure()
 
             }
         }
@@ -78,7 +78,7 @@ class NotificationsPresenter @Inject constructor(val notificationsView: Notifica
         override fun onError(exception: Throwable) {
 
             notificationsView.hideProgress()
-            notificationsView.showFailure()
+            notificationsView.showFailure(presentationModel.getNotifications() == null)
 
         }
 

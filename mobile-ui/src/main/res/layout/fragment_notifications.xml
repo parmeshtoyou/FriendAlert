@@ -20,4 +20,15 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Retry"
+        android:background="@drawable/button_background_white"
+        android:textColor="@color/primaryColor"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
 </RelativeLayout>

@@ -2,10 +2,8 @@ package com.friendalert.shivangshah.cache
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.friendalert.shivangshah.cache.user.CachedUser
 import javax.inject.Inject
 import javax.inject.Singleton
-import com.google.gson.Gson
 
 /**
  * General Preferences Helper class, used for storing preference values using the Preference API

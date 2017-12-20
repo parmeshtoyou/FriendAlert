@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.notifications.response.NotificationModel
@@ -32,6 +34,8 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
     private var notificationsRecyclerView: RecyclerView? = null
     private var swipeContainer: SwipeRefreshLayout? = null
 
+    private var retryButton: Button? = null
+
     var dataLoadingListener: DataLoadingListener? = null
 
     override fun setPresenter(presenter: NotificationsContract.Presenter) {
@@ -51,8 +55,15 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
         notificationsRecyclerView = view.findViewById<RecyclerView>(R.id.notificationsRecyclerView)
         swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeContainer);
+        retryButton = view.findViewById<Button>(R.id.retryButton)
 
         swipeContainer!!.setOnRefreshListener (this)
+
+        retryButton!!.setOnClickListener {
+
+            v: View? ->  notificationsPresenter.retrieveNotifications()
+
+        }
 
 
         setupNotificationsRecyclerView()
@@ -98,15 +109,25 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
     }
 
-    override fun showFailure() {
+    override fun showFailure(firstTime: Boolean) {
 
+        Toast.makeText(activity!!.applicationContext, "Service unavailable, please try again", Toast.LENGTH_LONG).show();
 
+        if(firstTime){
+            swipeContainer!!.visibility = View.GONE
+            notificationsRecyclerView!!.visibility = View.GONE
+
+            retryButton!!.visibility = View.VISIBLE
+        }
 
     }
 
     override fun showSuccess() {
 
+        swipeContainer!!.visibility = View.VISIBLE
+        notificationsRecyclerView!!.visibility = View.VISIBLE
 
+        retryButton!!.visibility = View.GONE
 
     }
 

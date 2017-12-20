@@ -9,14 +9,14 @@ import com.friendalert.shivangshah.model.notifications.response.NotificationMode
  */
 class NotificationPresentationModel {
 
-    private var notifications = ArrayList<NotificationModel>()
+    private var notifications : ArrayList<NotificationModel>? = null
     private var toBeMarkedAsReadNotification : NotificationModel? = null
 
     fun setNotifications(notifications: ArrayList<NotificationModel>) {
         this.notifications = notifications
     }
 
-    fun getNotifications() : ArrayList<NotificationModel>{
+    fun getNotifications() : ArrayList<NotificationModel>?{
         return this.notifications
     }
 
@@ -25,7 +25,7 @@ class NotificationPresentationModel {
     }
 
     fun markNotificationAsRead(){
-        for (notification in this.notifications){
+        for (notification in this.notifications!!){
             if(notification.broadcast_id == toBeMarkedAsReadNotification!!.broadcast_id){
                 notification.isRead = true
                 break
