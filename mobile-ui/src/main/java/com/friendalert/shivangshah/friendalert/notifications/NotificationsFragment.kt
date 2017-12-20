@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -17,15 +18,6 @@ import com.friendalert.shivangshah.presentation.notifications.NotificationsContr
 import com.google.gson.Gson
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
-import android.support.v4.widget.SwipeRefreshLayout
-import com.friendalert.shivangshah.friendalert.R.id.swipeContainer
-import com.friendalert.shivangshah.friendalert.R.id.swipeContainer
-
-
-
-
-
-
 
 
 /**

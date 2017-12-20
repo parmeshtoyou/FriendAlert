@@ -8,11 +8,13 @@ import android.support.annotation.Nullable
 import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.PermissionUtils
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.friends.response.FriendModel
@@ -24,7 +26,7 @@ import javax.inject.Inject
  * A simple [Fragment] subclass.
  */
 class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnRequestPermissionsResultCallback,
-        PermissionUtils.PermissionResultCallback, TabLayout.OnTabSelectedListener, FriendsActionListener {
+        PermissionUtils.PermissionResultCallback, TabLayout.OnTabSelectedListener, FriendsActionListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject lateinit var friendsPresenter : FriendsContract.Presenter
 
@@ -37,9 +39,12 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     var friendsAdapter = FriendsAdapter(this)
     private var friendsRecyclerView: RecyclerView? = null
+    private var swipeContainer: SwipeRefreshLayout? = null
     private var tabLayout: TabLayout? = null
 
     var screenType : FriendType = FriendType.MyFriend
+
+    var dataLoadingListener: DataLoadingListener? = null
 
     fun instantiate(@Nullable arguments: Bundle): FriendsFragment {
         val friendsFragment = FriendsFragment()
@@ -64,6 +69,10 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         friendsRecyclerView = view.findViewById<RecyclerView>(R.id.friendsRecyclerView)
         friendsRecyclerView!!.setLayoutManager(LinearLayoutManager(getContext()));
         friendsRecyclerView!!.adapter = friendsAdapter
+
+        swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeContainer);
+
+        swipeContainer!!.setOnRefreshListener (this)
 
         tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
 
@@ -134,6 +143,31 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     }
 
+    override fun showSuccess() {
+
+
+
+    }
+
+    override fun showFailure() {
+
+
+
+    }
+
+    override fun showProgress() {
+
+        dataLoadingListener!!.dataLoadingStart()
+
+    }
+
+    override fun hideProgress() {
+
+        swipeContainer!!.setRefreshing(false);
+        dataLoadingListener!!.dataLoadingStop()
+
+    }
+
     fun setupTabs(){
         val friendsTab = tabLayout!!.newTab()
         friendsTab.text = "Friends"
@@ -165,6 +199,11 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         permissionUtils!!.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 
+    override fun onRefresh() {
+        swipeContainer!!.setRefreshing(true);
+        friendsPresenter.getFriends()
+    }
+
     override fun PartialPermissionGranted(request_code: Int, granted_permissions: ArrayList<String>) {
 
     }
@@ -179,6 +218,7 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
+        dataLoadingListener = activity as DataLoadingListener
         super.onAttach(context)
     }
 

@@ -14,6 +14,14 @@ interface FriendsContract {
 
         fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>)
 
+        fun showSuccess()
+
+        fun showFailure()
+
+        fun showProgress()
+
+        fun hideProgress()
+
     }
 
     interface Presenter : BasePresenter {

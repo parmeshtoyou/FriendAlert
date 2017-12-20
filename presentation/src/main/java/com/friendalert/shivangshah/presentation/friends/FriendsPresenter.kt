@@ -32,7 +32,10 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
     }
 
     override fun getFriends() {
+
+        friendsView.showProgress()
         getFriends.execute(GetFriendsSubscriber())
+
     }
 
     inner class GetFriendsSubscriber: DisposableSingleObserver<FriendsResponseModel>() {
@@ -50,8 +53,11 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
                 )
 
                 friendsView.showFriends(presentationModel.getFriendsDictionary())
+                friendsView.hideProgress()
 
             }else{
+
+                friendsView.hideProgress()
 
             }
 
@@ -59,6 +65,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
         override fun onError(exception: Throwable) {
 
+            friendsView.hideProgress()
 
         }
 
@@ -66,6 +73,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     override fun sendFriendRequest(position: Int, friendModel: FriendModel) {
 
+        friendsView.showProgress()
         presentationModel.setFriendActionType(FriendActionType.CreateFriendRequest)
         presentationModel.setCreateFriendRequestModel(friendModel)
         createFriendRequest.execute(CreateFriendRequestSubscriber(), friendModel.user_id)
@@ -81,13 +89,18 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
                 presentationModel.successCreateFriendRequest(t.data.insertId)
                 friendsView.showFriends(presentationModel.getFriendsDictionary())
+                friendsView.hideProgress()
 
             }else{
+
+                friendsView.hideProgress()
 
             }
         }
 
         override fun onError(e: Throwable) {
+
+            friendsView.hideProgress()
 
         }
 
@@ -95,6 +108,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     override fun deleteFriend(position: Int, friendModel: FriendModel) {
 
+        friendsView.showProgress()
         presentationModel.setFriendActionType(FriendActionType.RemoveFriend)
         presentationModel.setDeleteFriendRequestModel(friendModel)
         updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), "0"))
@@ -103,6 +117,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     override fun acceptFriendRequest(position: Int, friendModel: FriendModel) {
 
+        friendsView.showProgress()
         presentationModel.setFriendActionType(FriendActionType.AcceptFriendRequest)
         presentationModel.setAcceptFriendRequestModel(friendModel)
         updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), "1"))
@@ -111,9 +126,10 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
     override fun declineFriendRequest(position: Int, friendModel: FriendModel) {
 
-//        presentationModel.setFriendActionType(FriendActionType.DeclineFriendRequest)
-//        presentationModel.setDeclineFriendRequestModel(friendModel)
-//        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), 2))
+        friendsView.showProgress()
+        presentationModel.setFriendActionType(FriendActionType.DeclineFriendRequest)
+        presentationModel.setDeclineFriendRequestModel(friendModel)
+        updateFriend.execute(UpdateFriendSubscriber(), UpdateFriendRequestModel(friendModel.request_id.toString(), "2"))
 
     }
 
@@ -128,6 +144,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
                     presentationModel.successDeleteFriend()
                     friendsView.showFriends(presentationModel.getFriendsDictionary())
+                    friendsView.hideProgress()
 
                 }
 
@@ -135,6 +152,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
                     presentationModel.successAcceptFriendRequest()
                     friendsView.showFriends(presentationModel.getFriendsDictionary())
+                    friendsView.hideProgress()
 
                 }
 
@@ -142,6 +160,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
                     presentationModel.successDeclineFriendRequest()
                     friendsView.showFriends(presentationModel.getFriendsDictionary())
+                    friendsView.hideProgress()
 
                 }
 
@@ -151,6 +170,8 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
         }
 
         override fun onError(e: Throwable) {
+
+            friendsView.hideProgress()
 
         }
 
