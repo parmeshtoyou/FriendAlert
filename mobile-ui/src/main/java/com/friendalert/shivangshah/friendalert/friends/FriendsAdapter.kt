@@ -53,6 +53,8 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = friends[position]
+
+        holder.initialsTextView.text = friend.first_name.take(1) + friend.last_name.take(1)
         holder.nameText.text = friend.first_name  + " " + friend.last_name
 
         when(type){
@@ -102,6 +104,7 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
         var actionButton: Button
         var actionButton2: Button
         var actionListener: FriendsActionListener
+        var initialsTextView: TextView
 
         init {
             this.actionListener = actionListener
@@ -109,6 +112,7 @@ class FriendsAdapter constructor(actionListener: FriendsActionListener) : Recycl
             nameText = view.findViewById(R.id.nameTextView)
             actionButton = view.findViewById(R.id.actionButton)
             actionButton2 = view.findViewById(R.id.actionButton2)
+            initialsTextView = view.findViewById(R.id.initialsTextView)
 
             actionButton.setOnClickListener(this)
             actionButton2.setOnClickListener(this)
