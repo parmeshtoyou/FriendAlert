@@ -66,6 +66,7 @@
         </activity>
         <activity android:name=".notifications.NotificationDetailActivity" />
         <activity android:name=".notifications.NotificationDetailActivity.kt" />
+        <activity android:name=".settings.SettingsActivity"></activity>
     </application>
 
 </manifest>

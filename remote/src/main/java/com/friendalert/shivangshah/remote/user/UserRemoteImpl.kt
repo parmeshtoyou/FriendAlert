@@ -23,9 +23,7 @@ class UserRemoteImpl @Inject constructor(private val userService: UserService,
                     response ->
                         responseModelEntityMapper.mapFromRemote(response)
                 }
-//
-//        var response = UserResponseModel(customCode = CustomResponseCodes.createSuccess)
-//        return Single.just(response).map { userResponse -> responseModelEntityMapper.mapFromRemote(response) }
+
     }
 
     override fun updateUser(user: UserEntity): Single<UserResponseModelEntity> {
@@ -33,8 +31,15 @@ class UserRemoteImpl @Inject constructor(private val userService: UserService,
     }
 
     override fun logoutUser(user: UserEntity): Single<UserResponseModelEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
+        val requestModel : UserRequestModel = requestModelEntityMapper.mapFromEntity(user)
+
+        return userService.deleteUser(requestModel)
+                .map {
+                    response: UserResponseModel ->
+                        responseModelEntityMapper.mapFromRemote(response)
+                }
+
+    }
 
 }

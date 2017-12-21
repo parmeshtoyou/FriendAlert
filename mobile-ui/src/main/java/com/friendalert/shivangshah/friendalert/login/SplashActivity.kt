@@ -68,4 +68,10 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     override fun hideProgress() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun onDestroy() {
+        splashPresenter.stop()
+
+        super.onDestroy()
+    }
 }

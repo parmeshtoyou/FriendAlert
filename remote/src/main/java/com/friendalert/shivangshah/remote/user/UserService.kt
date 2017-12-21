@@ -14,14 +14,10 @@ interface UserService {
     @POST("login")
     fun createUser(@Body user : UserRequestModel): Single<UserResponseModel>
 
-    @PUT("")
+    @PUT("updateToken")
     fun updateUser(user : UserRequestModel): Single<UserResponseModel>
 
-    @DELETE("")
+    @PUT("logout")
     fun deleteUser(user : UserRequestModel): Single<UserResponseModel>
-
-    class BufferooResponse {
-        var customCode: Int = 1
-    }
 
 }

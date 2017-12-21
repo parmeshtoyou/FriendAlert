@@ -42,6 +42,7 @@ import com.friendalert.shivangshah.friendalert.BuildConfig
 import com.friendalert.shivangshah.friendalert.UiThread
 import com.friendalert.shivangshah.friendalert.injection.component.HomeActivitySubComponent
 import com.friendalert.shivangshah.friendalert.injection.component.LoginActivitySubComponent
+import com.friendalert.shivangshah.friendalert.injection.component.SettingsActivitySubComponent
 import com.friendalert.shivangshah.friendalert.injection.component.SplashActivitySubComponent
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerApplication
 import com.friendalert.shivangshah.presentation.friends.FriendsPresentationModel
@@ -74,7 +75,8 @@ import dagger.Provides
  */
 @Module(subcomponents = arrayOf(HomeActivitySubComponent::class,
                                 LoginActivitySubComponent::class,
-                                SplashActivitySubComponent::class))
+                                SplashActivitySubComponent::class,
+                                SettingsActivitySubComponent::class))
 open class ApplicationModule {
 
     @Provides
@@ -216,7 +218,7 @@ open class ApplicationModule {
         return BroadcastServiceFactory.makeBroadcastService(BuildConfig.DEBUG, context)
     }
 
-    // Friends Dependencies
+    // Friends Dependencies ----------------------------------------------------------------------
     @Provides
     @PerApplication
     internal fun provideFriendsRepository(factory: FriendsDataStoreFactory): FriendsRepository {

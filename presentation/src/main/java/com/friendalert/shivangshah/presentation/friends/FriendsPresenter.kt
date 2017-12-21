@@ -1,5 +1,6 @@
 package com.friendalert.shivangshah.presentation.friends
 
+import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.friends.CreateFriendRequest
 import com.friendalert.shivangshah.domain.friends.GetFriends
 import com.friendalert.shivangshah.domain.friends.UpdateFriend
@@ -18,9 +19,9 @@ import javax.inject.Inject
  * Created by shivangshah on 12/12/17.
  */
 class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View,
-                                           val getFriends: GetFriends,
-                                           val createFriendRequest: CreateFriendRequest,
-                                           val updateFriend: UpdateFriend,
+                                           val getFriends: SingleUseCase<FriendsResponseModel, Void?>,
+                                           val createFriendRequest: SingleUseCase<CreateFriendRequestResponseModel, String>,
+                                           val updateFriend: SingleUseCase<UpdateFriendResponseModel, UpdateFriendRequestModel>,
                                            val presentationModel: FriendsPresentationModel)
     : FriendsContract.Presenter{
 

@@ -1,7 +1,6 @@
 package com.friendalert.shivangshah.friendalert
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -9,21 +8,21 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.ProgressBar
 import com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment
 import com.friendalert.shivangshah.friendalert.friends.FriendsFragment
 import com.friendalert.shivangshah.friendalert.myplaces.MyPlacesFragment
 import com.friendalert.shivangshah.friendalert.notifications.NotificationsFragment
+import com.friendalert.shivangshah.friendalert.settings.SettingsActivity
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
-import android.view.WindowManager
-import android.widget.RelativeLayout
+
 
 class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavigationView.OnNavigationItemSelectedListener, DataLoadingListener {
 
@@ -188,5 +187,25 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return fragmentDispatchingAndroidInjector
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val id = item.itemId
+
+        if (id == R.id.item_settings) {
+
+            var intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

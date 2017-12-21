@@ -42,7 +42,7 @@ class UserCacheImpl @Inject constructor(private val preferencesHelper : Preferen
 
     override fun logoutUser(user: UserEntity): Single<UserResponseModelEntity> {
         return Single.defer{
-            preferencesHelper.getSharedPreferences().edit().putString("", "").commit()
+            preferencesHelper.getSharedPreferences().edit().putString("userObject", "").commit()
 
             var response = UserResponseModel(customCode = CustomResponseCodes.deleteSuccess)
 

@@ -51,12 +51,13 @@ class UserDataRepository @Inject constructor(private val factory: UserDataStoreF
         val cacheUserSingle: Single<UserResponse> = factory.retrieveCacheDataStore().logoutUser(mapper.mapToEntity(user)).map { response -> responseMapper.mapFromEntity(response) }
 
             return remoteUserSingle.flatMap{
-                response: UserResponse -> if (response.customCode == 1){
-                cacheUserSingle
-            }else{
-                var response = UserResponse(customCode = 0)
-                Single.just(response)
-            }
+                response: UserResponse ->
+                if (response.customCode == CustomResponseCodes.deleteSuccess){
+                    cacheUserSingle
+                }else{
+                    var response = UserResponse(customCode = 0)
+                    Single.just(response)
+                }
         }
     }
 
