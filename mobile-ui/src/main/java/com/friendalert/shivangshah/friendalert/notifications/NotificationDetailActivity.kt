@@ -92,7 +92,7 @@ class NotificationDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         messageTextView!!.text = notification!!.message
         callTextView!!.text = "Call " + notification!!.first_name
         phoneTextView!!.text = notification!!.phone_number
-        locationTextView!!.text = "Location"
+        locationTextView!!.text = notification!!.location
 
     }
 

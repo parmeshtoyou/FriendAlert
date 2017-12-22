@@ -7,6 +7,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -31,6 +32,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.location.*
 import dagger.android.support.AndroidSupportInjection
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -124,7 +126,23 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
     override fun onLocationChanged(p0: Location?) {
         mGoogleApiClient!!.disconnect()
 
-        broadcastPresenter.createBroadcast("", noteEditText.text.toString(), p0!!.latitude.toString(), p0!!.longitude.toString())
+        var location = ""
+
+        var geocoder = Geocoder(activity);
+        try
+        {
+            var addresses = geocoder.getFromLocation(p0!!.latitude,p0!!.longitude, 1);
+            var address = addresses.get(0).getAddressLine(0);
+            var city = addresses.get(0).getAddressLine(1);
+
+            location = address + ", " + city
+
+        } catch (e: IOException)
+        {
+            location = "Location Not Available"
+        }
+
+        broadcastPresenter.createBroadcast("", noteEditText.text.toString(), p0!!.latitude.toString(), p0!!.longitude.toString(), location)
     }
 
     private fun getLocation() {

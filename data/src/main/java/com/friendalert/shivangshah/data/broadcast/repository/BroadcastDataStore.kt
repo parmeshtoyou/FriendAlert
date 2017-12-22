@@ -1,7 +1,7 @@
 package com.friendalert.shivangshah.data.broadcast.repository
 
-import com.friendalert.shivangshah.data.broadcast.BroadcastEntity
-import com.friendalert.shivangshah.data.broadcast.CreateBroadcastResponseEntity
+import com.friendalert.shivangshah.model.broadcast.request.BroadcastRequestModel
+import com.friendalert.shivangshah.model.broadcast.response.BroadcastResponseModel
 import io.reactivex.Single
 
 /**
@@ -9,6 +9,6 @@ import io.reactivex.Single
  */
 interface BroadcastDataStore {
 
-    fun createBroadcast(broadcast : BroadcastEntity) : Single<CreateBroadcastResponseEntity>
+    fun createBroadcast(broadcast: BroadcastRequestModel) : Single<BroadcastResponseModel>
 
 }

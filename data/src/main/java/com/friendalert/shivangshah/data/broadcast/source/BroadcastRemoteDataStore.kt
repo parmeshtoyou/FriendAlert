@@ -1,11 +1,9 @@
 package com.friendalert.shivangshah.data.broadcast.source
 
-import com.friendalert.shivangshah.data.broadcast.BroadcastEntity
-import com.friendalert.shivangshah.data.broadcast.CreateBroadcastResponseEntity
 import com.friendalert.shivangshah.data.broadcast.repository.BroadcastDataStore
 import com.friendalert.shivangshah.data.broadcast.repository.BroadcastRemote
-import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceDataStore
-import com.friendalert.shivangshah.data.myplaces.repository.MyPlaceRemote
+import com.friendalert.shivangshah.model.broadcast.request.BroadcastRequestModel
+import com.friendalert.shivangshah.model.broadcast.response.BroadcastResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -16,7 +14,7 @@ class BroadcastRemoteDataStore @Inject constructor(private val broadcastRemote: 
         BroadcastDataStore {
 
 
-    override fun createBroadcast(broadcast: BroadcastEntity): Single<CreateBroadcastResponseEntity> {
+    override fun createBroadcast(broadcast: BroadcastRequestModel): Single<BroadcastResponseModel> {
         return broadcastRemote.createBroadcast(broadcast)
     }
 

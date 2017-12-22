@@ -16,7 +16,7 @@ interface BroadcastContract {
 
     interface Presenter : BasePresenter {
 
-        fun createBroadcast(userId: String, message: String, latitude: String, longitude: String)
+        fun createBroadcast(userId: String, message: String, latitude: String, longitude: String, location: String)
 
     }
 

@@ -4,7 +4,6 @@ import com.friendalert.shivangshah.domain.broadcast.CreateBroadcast
 import com.friendalert.shivangshah.friendalert.broadcast.BroadcastFragment
 import com.friendalert.shivangshah.friendalert.injection.scopes.PerFragment
 import com.friendalert.shivangshah.presentation.broadcast.BroadcastContract
-import com.friendalert.shivangshah.presentation.broadcast.BroadcastMapper
 import com.friendalert.shivangshah.presentation.broadcast.BroadcastPresenter
 import dagger.Module
 import dagger.Provides
@@ -23,9 +22,9 @@ class BroadcastFragmentModule {
 
     @PerFragment
     @Provides
-    internal fun provideBroadcastPresenter(mainView: BroadcastContract.View, createBroadcast: CreateBroadcast, mapper: BroadcastMapper):
+    internal fun provideBroadcastPresenter(mainView: BroadcastContract.View, createBroadcast: CreateBroadcast):
             BroadcastContract.Presenter {
-        return BroadcastPresenter(mainView, createBroadcast, mapper)
+        return BroadcastPresenter(mainView, createBroadcast)
     }
 
 }

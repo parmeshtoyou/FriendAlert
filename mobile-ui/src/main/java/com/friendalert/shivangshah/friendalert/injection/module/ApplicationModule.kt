@@ -10,8 +10,6 @@ import com.friendalert.shivangshah.cache.user.UserCacheImpl
 import com.friendalert.shivangshah.cache.user.UserResponseModelEntityMapper
 import com.friendalert.shivangshah.data.JobExecutor
 import com.friendalert.shivangshah.data.broadcast.BroadcastDataRepository
-import com.friendalert.shivangshah.data.broadcast.BroadcastMapper
-import com.friendalert.shivangshah.data.broadcast.CreateBroadcastResponseEntityMapper
 import com.friendalert.shivangshah.data.broadcast.repository.BroadcastRemote
 import com.friendalert.shivangshah.data.broadcast.source.BroadcastDataStoreFactory
 import com.friendalert.shivangshah.data.friends.FriendsDataRepository
@@ -49,7 +47,6 @@ import com.friendalert.shivangshah.presentation.friends.FriendsPresentationModel
 import com.friendalert.shivangshah.presentation.myplaces.MyPlacesPresentationModel
 import com.friendalert.shivangshah.presentation.notifications.NotificationPresentationModel
 import com.friendalert.shivangshah.remote.broadcast.BroadcastRemoteImpl
-import com.friendalert.shivangshah.remote.broadcast.BroadcastResponseModelEntityMapper
 import com.friendalert.shivangshah.remote.broadcast.BroadcastService
 import com.friendalert.shivangshah.remote.broadcast.BroadcastServiceFactory
 import com.friendalert.shivangshah.remote.friends.FriendsRemoteImpl
@@ -198,18 +195,14 @@ open class ApplicationModule {
     // Broadcast Dependencies ----------------------------------------------------------------------
     @Provides
     @PerApplication
-    internal fun provideBroadcastRepository(factory: BroadcastDataStoreFactory,
-                                            mapper: BroadcastMapper,
-                                            createBroadcastResponseEntityMapper: CreateBroadcastResponseEntityMapper): BroadcastRepository {
-        return BroadcastDataRepository(factory, mapper,createBroadcastResponseEntityMapper)
+    internal fun provideBroadcastRepository(factory: BroadcastDataStoreFactory): BroadcastRepository {
+        return BroadcastDataRepository(factory)
     }
 
     @Provides
     @PerApplication
-    internal fun provideBroadcastRemote(service: BroadcastService,
-                                       broadcastEntityMapper: com.friendalert.shivangshah.remote.broadcast.BroadcastEntityMapper,
-                                       broadcastResponseModelMapper: BroadcastResponseModelEntityMapper): BroadcastRemote {
-        return BroadcastRemoteImpl(service, broadcastEntityMapper, broadcastResponseModelMapper)
+    internal fun provideBroadcastRemote(service: BroadcastService): BroadcastRemote {
+        return BroadcastRemoteImpl(service)
     }
 
     @Provides

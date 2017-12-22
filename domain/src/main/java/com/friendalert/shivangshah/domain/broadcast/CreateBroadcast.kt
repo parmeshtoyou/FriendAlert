@@ -5,6 +5,8 @@ import com.friendalert.shivangshah.domain.SingleUseCase
 import com.friendalert.shivangshah.domain.ThreadExecutor
 import com.friendalert.shivangshah.domain.user.User
 import com.friendalert.shivangshah.domain.user.UserRepository
+import com.friendalert.shivangshah.model.broadcast.request.BroadcastRequestModel
+import com.friendalert.shivangshah.model.broadcast.response.BroadcastResponseModel
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -15,15 +17,15 @@ class CreateBroadcast @Inject constructor(val broadcastRepository: BroadcastRepo
                                         val userRepository: UserRepository,
                                         threadExecutor: ThreadExecutor,
                                         postExecutionThread: PostExecutionThread):
-        SingleUseCase<CreateBroadcastResponse, Broadcast>(threadExecutor, postExecutionThread) {
+        SingleUseCase<BroadcastResponseModel, BroadcastRequestModel>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(broadcast: Broadcast?): Single<CreateBroadcastResponse> {
+    override fun buildUseCaseObservable(broadcast: BroadcastRequestModel?): Single<BroadcastResponseModel> {
 
-        var localBroadcast : Broadcast;
+        var localBroadcast : BroadcastRequestModel;
 
         return userRepository.getUser().flatMap{
             user: User ->
-            localBroadcast = Broadcast(user.userId, broadcast!!.message, broadcast!!.latitude, broadcast!!.longitude)
+            localBroadcast = BroadcastRequestModel(user.userId, broadcast!!.message, broadcast!!.latitude, broadcast!!.longitude, broadcast!!.location)
             broadcastRepository.createBroadcast(localBroadcast)
         }
     }

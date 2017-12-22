@@ -1,5 +1,7 @@
 package com.friendalert.shivangshah.domain.broadcast
 
+import com.friendalert.shivangshah.model.broadcast.request.BroadcastRequestModel
+import com.friendalert.shivangshah.model.broadcast.response.BroadcastResponseModel
 import io.reactivex.Single
 
 /**
@@ -7,6 +9,6 @@ import io.reactivex.Single
  */
 interface BroadcastRepository {
 
-    fun createBroadcast(broadcast: Broadcast) : Single<CreateBroadcastResponse>
+    fun createBroadcast(broadcast: BroadcastRequestModel) : Single<BroadcastResponseModel>
 
 }

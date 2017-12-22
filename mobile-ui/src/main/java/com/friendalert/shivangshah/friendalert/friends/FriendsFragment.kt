@@ -121,7 +121,7 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         builder.setMessage("Please add friends from :\nSuggested (Your phone contacts who have FriendAlert)\nRequests (Accept any pending friend requests)\nInvite (Invite your friends to join FriendAlert)");
         builder.setCancelable(true);
 
-        builder.setPositiveButton("Okay", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+        builder.setPositiveButton("Okay", { dialog, which -> dialog.cancel() })
 
         var alert = builder.create()
         alert.show();

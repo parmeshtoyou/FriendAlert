@@ -35,7 +35,7 @@ class NotificationsAdapter constructor(listener: NotificationClickedListener) : 
 
         holder.initialsTextView.text = firstInitial + secondInitial
         holder.nameTextView.text = notification.first_name + " " + notification.last_name
-        holder.locationTextView.text = notification.latitude + ", " + notification.longitude
+        holder.locationTextView.text = if (notification.location == null) "Location Not Available" else notification.location
         holder.timestampTextView.text = notification.timestamp
 
         if(notification.isRead){

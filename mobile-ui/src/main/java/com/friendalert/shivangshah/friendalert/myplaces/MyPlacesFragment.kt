@@ -168,7 +168,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         builder.setMessage(message);
         builder.setCancelable(true);
 
-        builder.setPositiveButton("Okay", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+        builder.setPositiveButton("Okay", { dialog, which -> dialog.cancel() })
 
         var alert = builder.create()
         alert.show();
