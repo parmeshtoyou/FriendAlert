@@ -14,6 +14,8 @@ interface FriendsContract {
 
         fun showFriends(friendsDictionary: HashMap<String, ArrayList<FriendModel>>)
 
+        fun showNoFriends()
+
     }
 
     interface Presenter : BasePresenter {

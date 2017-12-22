@@ -15,9 +15,9 @@ interface UserService {
     fun createUser(@Body user : UserRequestModel): Single<UserResponseModel>
 
     @PUT("updateToken")
-    fun updateUser(user : UserRequestModel): Single<UserResponseModel>
+    fun updateUser(@Body user : UserRequestModel): Single<UserResponseModel>
 
     @PUT("logout")
-    fun deleteUser(user : UserRequestModel): Single<UserResponseModel>
+    fun deleteUser(@Body user : UserRequestModel): Single<UserResponseModel>
 
 }

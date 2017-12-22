@@ -21,7 +21,7 @@ class FriendsPresentationModel {
                              suggested: ArrayList<FriendModel>,
                              invites: ArrayList<String>){
 
-        friendsDictionary = HashMap<String, ArrayList<FriendModel>>()
+        friendsDictionary = HashMap()
 
         friendsDictionary!!.put("Friends", friends)
         friendsDictionary!!.put("Requests", requests)

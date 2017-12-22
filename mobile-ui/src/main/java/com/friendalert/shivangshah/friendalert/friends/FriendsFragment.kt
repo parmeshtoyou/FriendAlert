@@ -3,12 +3,14 @@ package com.friendalert.shivangshah.friendalert.friends
 
 import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -112,6 +114,20 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     }
 
+    override fun showNoFriends() {
+
+        var builder = AlertDialog.Builder(context!!);
+        builder.setTitle("Friends list is empty")
+        builder.setMessage("Please add friends from :\nSuggested (Your phone contacts who have FriendAlert)\nRequests (Accept any pending friend requests)\nInvite (Invite your friends to join FriendAlert)");
+        builder.setCancelable(true);
+
+        builder.setPositiveButton("Okay", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+
+        var alert = builder.create()
+        alert.show();
+
+    }
+
     override fun onTabReselected(tab: TabLayout.Tab?) {
 
     }
@@ -203,7 +219,7 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         tabLayout!!.addTab(requestsTab)
 
         val suggestedTab = tabLayout!!.newTab()
-        suggestedTab.text = "Add"
+        suggestedTab.text = "Suggested"
         tabLayout!!.addTab(suggestedTab)
 
         val inviteTab = tabLayout!!.newTab()

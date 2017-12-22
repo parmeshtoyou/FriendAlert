@@ -14,6 +14,8 @@ interface MyPlacesContract {
 
         fun showMyPlaces(myPlace: List<MyPlaceModel>)
 
+        fun showNoMyPlacesAvailable(message: String)
+
         fun addMyPlace(myPlace: MyPlaceModel)
 
         fun deleteMyPlace(myPlace: MyPlaceModel)

@@ -41,7 +41,6 @@ class SettingsPresenter @Inject constructor(val settingsView: SettingsContract.V
             if(response.customCode == CustomResponseCodes.deleteSuccess){
 
                 settingsView.logout()
-                settingsView.goToLoginScreen()
 
             }else{
 

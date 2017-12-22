@@ -4,11 +4,13 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -157,6 +159,20 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         actionMyPlaceFragment.show(activity!!.supportFragmentManager, "")
 
         return true
+    }
+
+    override fun showNoMyPlacesAvailable(message: String) {
+
+        var builder = AlertDialog.Builder(context!!);
+        builder.setTitle("No MyPlaces Found")
+        builder.setMessage(message);
+        builder.setCancelable(true);
+
+        builder.setPositiveButton("Okay", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+
+        var alert = builder.create()
+        alert.show();
+
     }
 
 

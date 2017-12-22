@@ -12,8 +12,6 @@ interface SettingsContract {
 
         fun logout()
 
-        fun goToLoginScreen()
-
     }
 
     interface Presenter : BasePresenter {

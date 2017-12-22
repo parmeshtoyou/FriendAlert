@@ -57,6 +57,11 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
                 friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
                 friendsView.hideProgress()
+
+                if(presentationModel.getFriendsDictionary()!!["Friends"]!!.size == 1){
+                    friendsView.showNoFriends()
+                }
+
                 friendsView.showSuccess()
 
             }else{

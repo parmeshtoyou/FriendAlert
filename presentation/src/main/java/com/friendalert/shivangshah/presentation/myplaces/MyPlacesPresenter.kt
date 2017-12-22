@@ -53,8 +53,14 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
                 // save retrieved data to presentation model (knows which data to show to user)
                 presentationModel.setMyPlaces(myPlacesResponseModel.myPlaces)
                 myPlacesView.hideProgress()
+
                 // show from presentation model
-                myPlacesView.showMyPlaces(presentationModel.getAllMyPlaces()!!)
+                if(myPlacesResponseModel.myPlaces.size == 0){
+                    myPlacesView.showNoMyPlacesAvailable("Use the search bar to add MyPlaces of your most visited locations so you can be alerted when your friends are nearby!")
+                }else{
+                    myPlacesView.showMyPlaces(presentationModel.getAllMyPlaces()!!)
+                }
+
                 myPlacesView.showSuccess()
 
             } else {

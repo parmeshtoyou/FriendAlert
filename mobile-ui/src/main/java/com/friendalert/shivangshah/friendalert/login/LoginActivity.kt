@@ -24,6 +24,7 @@ import org.json.JSONObject
 import com.facebook.GraphRequest
 import com.facebook.GraphRequestAsyncTask
 import com.facebook.login.LoginManager
+import com.friendalert.shivangshah.friendalert.HomeActivity
 
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
@@ -86,8 +87,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun loginUser() {
-        //Start Home Activity
-        Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_LONG).show();
+
+        var intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+
     }
 
     override fun showProgress() {
@@ -99,6 +102,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun showErrorState() {
+
         Toast.makeText(getApplicationContext(), "Login Fail", Toast.LENGTH_LONG).show();
         LoginManager.getInstance().logOut()
 
