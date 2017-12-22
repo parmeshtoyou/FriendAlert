@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -13,6 +15,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.R
@@ -34,6 +38,8 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
     var notificationsAdapter = NotificationsAdapter(this)
     private var notificationsRecyclerView: RecyclerView? = null
     private var swipeContainer: SwipeRefreshLayout? = null
+
+    lateinit var mRelativeLayout: RelativeLayout
 
     private var retryButton: Button? = null
 
@@ -57,6 +63,9 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
         notificationsRecyclerView = view.findViewById<RecyclerView>(R.id.notificationsRecyclerView)
         swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeContainer);
         retryButton = view.findViewById<Button>(R.id.retryButton)
+
+        mRelativeLayout = view.findViewById<RelativeLayout>(R.id.layoutRL)
+
 
         swipeContainer!!.setOnRefreshListener (this)
 
@@ -112,7 +121,7 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
 
     override fun showFailure(firstTime: Boolean, errorMessage: String) {
 
-        Toast.makeText(activity!!.applicationContext, errorMessage, Toast.LENGTH_LONG).show();
+        showSnackBar(errorMessage)
 
         if(firstTime){
             swipeContainer!!.visibility = View.GONE
@@ -152,5 +161,16 @@ class NotificationsFragment : Fragment(), NotificationsContract.View, Notificati
     override fun onDestroy() {
         notificationsPresenter.stop()
         super.onDestroy()
+    }
+
+    fun showSnackBar(message: String){
+
+        var snackbar = Snackbar.make(mRelativeLayout,message, Snackbar.LENGTH_LONG);
+        var snackBarView = snackbar.view
+        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.primaryColor, null));
+        var textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ResourcesCompat.getColor(resources, R.color.whiteColor, null));
+        snackbar.show();
+
     }
 }// Required empty public constructor

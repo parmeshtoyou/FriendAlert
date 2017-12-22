@@ -9,15 +9,15 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
@@ -38,10 +38,13 @@ import javax.inject.Inject
 /**
  * Created by shivangshah on 11/15/17.
  */
-class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, MyPlaceActionListener {
+class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, MyPlaceActionListener, MarkerViewClickedListener {
 
     lateinit var googleMap : GoogleMap
+    var clickedMarker: Marker? = null
     lateinit var searchEditText : EditText
+
+    lateinit var mRelativeLayout: RelativeLayout
 
     val strokeWidth = 5f
     val fillColor = 0x26107F93
@@ -79,6 +82,8 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
         searchEditText = view.findViewById(R.id.searchEditText)
         retryButton = view.findViewById<Button>(R.id.retryButton)
 
+        mRelativeLayout = view.findViewById<RelativeLayout>(R.id.layoutRL)
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -111,14 +116,15 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
                 Log.i(TAG, "Place: " + place.getName());
 
                 var nickname = place.name
-                var address = place.address;
-                var city = place.locale;
+                var address = place.address
+                var city = ""
+                var state = ""
                 var latitude = place.latLng.latitude.toString()
                 var longitude = place.latLng.longitude.toString()
 
                 // TODO : Show create new myplace popup
 
-                var myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), "Hackensack", "NJ", latitude, longitude, 1, "5")
+                var myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), city, state, latitude, longitude, 1, "5")
 
                 var actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceViewModelData, true, this)
                 actionMyPlaceFragment.show(activity!!.supportFragmentManager, "")
@@ -143,12 +149,29 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     override fun onMarkerClick(p0: Marker?): Boolean {
 
-        hashMapMyPlace.entries
+        clickedMarker = p0!!
 
         var myPlace: MyPlaceModel? = null
 
         for(entry in hashMapMyPlace.entries){
-            if(entry.value.marker == p0){
+            if(entry.value.marker == clickedMarker){
+                myPlace = entry.value.myPlace
+            }
+        }
+
+        var displayText = if(myPlace!!.nickname == null || myPlace!!.nickname == "") myPlace!!.address else myPlace!!.nickname
+
+        showSnackBar(displayText!!, true)
+
+        return true
+    }
+
+    fun markerSnackBarClicked(){
+
+        var myPlace: MyPlaceModel? = null
+
+        for(entry in hashMapMyPlace.entries){
+            if(entry.value.marker == clickedMarker){
                 myPlace = entry.value.myPlace
             }
         }
@@ -157,8 +180,6 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         var actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceRequestModel, false, this)
         actionMyPlaceFragment.show(activity!!.supportFragmentManager, "")
-
-        return true
     }
 
     override fun showNoMyPlacesAvailable(message: String) {
@@ -304,7 +325,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     override fun showFailure(firstTime: Boolean, errorMessage: String) {
 
-        Toast.makeText(activity!!.applicationContext, errorMessage, Toast.LENGTH_LONG).show();
+        showSnackBar(errorMessage, false)
 
         if(firstTime){
             retryButton!!.visibility = View.VISIBLE
@@ -317,5 +338,22 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         myPlacePresenter.stop()
         super.onStop()
+    }
+
+    fun showSnackBar(message: String, action: Boolean){
+
+        var snackbar = Snackbar.make(mRelativeLayout,message, Snackbar.LENGTH_LONG);
+        var snackBarView = snackbar.view
+        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.primaryColor, null));
+        var textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ResourcesCompat.getColor(resources, R.color.whiteColor, null));
+
+        if(action){
+            snackbar.setAction("View", { markerSnackBarClicked() })
+            snackbar.setActionTextColor(ResourcesCompat.getColor(resources, R.color.whiteColor, null))
+        }
+
+        snackbar.show();
+
     }
 }

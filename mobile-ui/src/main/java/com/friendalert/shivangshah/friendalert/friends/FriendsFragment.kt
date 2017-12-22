@@ -6,9 +6,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -17,6 +19,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.facebook.FacebookSdk
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
@@ -47,6 +51,8 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
     private var swipeContainer: SwipeRefreshLayout? = null
     private var tabLayout: TabLayout? = null
 
+    lateinit var mRelativeLayout: RelativeLayout
+
     private var retryButton: Button? = null
 
     var screenType : FriendType = FriendType.MyFriend
@@ -67,6 +73,9 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_friends, container, false)
+
+        mRelativeLayout = view.findViewById<RelativeLayout>(R.id.layoutRL)
+
 
         permissionUtils = PermissionUtils(context!!, this)
         permissions.add(Manifest.permission.READ_CONTACTS)
@@ -184,7 +193,7 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
 
     override fun showFailure(firstTime: Boolean, errorMessage: String) {
 
-        Toast.makeText(activity!!.applicationContext,errorMessage, Toast.LENGTH_LONG).show();
+        showSnackBar(errorMessage)
 
         if(firstTime){
             swipeContainer!!.visibility = View.GONE
@@ -273,6 +282,17 @@ class FriendsFragment : Fragment(), FriendsContract.View, FragmentCompat.OnReque
         friendsPresenter.stop()
 
         super.onDestroy()
+    }
+
+    fun showSnackBar(message: String){
+
+        var snackbar = Snackbar.make(mRelativeLayout,message, Snackbar.LENGTH_LONG);
+        var snackBarView = snackbar.view
+        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.primaryColor, null));
+        var textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ResourcesCompat.getColor(resources, R.color.whiteColor, null));
+        snackbar.show();
+
     }
 
 }

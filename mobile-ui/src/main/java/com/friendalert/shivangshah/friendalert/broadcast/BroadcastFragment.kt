@@ -7,20 +7,23 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.content.res.Resources
+import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.annotation.Nullable
+import android.support.design.widget.Snackbar
 import android.support.v13.app.FragmentCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.facebook.FacebookSdk.getApplicationContext
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.PermissionUtils
@@ -32,6 +35,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.location.*
 import dagger.android.support.AndroidSupportInjection
+import org.w3c.dom.Text
 import java.io.IOException
 import javax.inject.Inject
 
@@ -45,6 +49,7 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     lateinit var sendBroadcastButton : Button
     lateinit var noteEditText: EditText
+    lateinit var mRelativeLayout: RelativeLayout
 
     private val PLAY_SERVICES_REQUEST = 1000
     private val REQUEST_CHECK_SETTINGS = 2000
@@ -72,6 +77,8 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_broadcast, container, false)
+
+        mRelativeLayout = view.findViewById<RelativeLayout>(R.id.layoutRL)
 
         createLocationRequest()
         permissionUtils = PermissionUtils(context!!, this)
@@ -113,13 +120,13 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     override fun showSuccess() {
 
-        Toast.makeText(getApplicationContext(),"Broadcast sent to nearby friends!",Toast.LENGTH_LONG).show();
+        showSnackBar("Broadcast sent to nearby friends!")
 
     }
 
     override fun showFailure(firstTime: Boolean, errorMessage: String) {
 
-        Toast.makeText(activity!!.applicationContext,errorMessage,Toast.LENGTH_LONG).show();
+        showSnackBar(errorMessage)
 
     }
 
@@ -297,6 +304,17 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
         broadcastPresenter.stop()
         super.onStop()
+    }
+
+    fun showSnackBar(message: String){
+
+        var snackbar = Snackbar.make(mRelativeLayout,message,Snackbar.LENGTH_LONG);
+        var snackBarView = snackbar.view
+        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.primaryColor, null));
+        var textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ResourcesCompat.getColor(resources, R.color.whiteColor, null));
+        snackbar.show();
+
     }
 
 }// Required empty public constructor

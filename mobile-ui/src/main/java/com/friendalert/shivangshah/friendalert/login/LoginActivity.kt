@@ -130,4 +130,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
         loginPresenter.start()
     }
+
+    override fun onBackPressed() {
+
+        // Do Not go back to login screen
+
+    }
 }

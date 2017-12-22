@@ -208,4 +208,10 @@ class HomeActivity : AppCompatActivity(), HasSupportFragmentInjector, BottomNavi
 
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onBackPressed() {
+
+        // Do Not go back to login screen
+
+    }
 }
