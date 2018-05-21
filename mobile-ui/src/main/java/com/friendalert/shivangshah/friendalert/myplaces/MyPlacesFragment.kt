@@ -4,11 +4,8 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.design.widget.Snackbar
@@ -19,7 +16,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RelativeLayout
+import android.widget.TextView
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.model.myplaces.request.MyPlaceRequestModel
@@ -91,7 +91,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         searchEditText.setOnClickListener { v ->
             try {
-                var intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                val intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                                 .build(activity);
                 activity!!.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST);
             } catch (e: GooglePlayServicesRepairableException) {
@@ -107,34 +107,34 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         }
 
-        return view;
+        return view
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST) {
             if (resultCode == RESULT_OK) {
-                var place = PlaceAutocomplete.getPlace(activity, data);
+                val place = PlaceAutocomplete.getPlace(activity, data);
                 Log.i(TAG, "Place: " + place.getName());
 
-                var nickname = place.name
-                var address = place.address
-                var city = "city"
-                var state = "state"
-                var latitude = place.latLng.latitude.toString()
-                var longitude = place.latLng.longitude.toString()
+                val nickname = place.name
+                val address = place.address
+                val city = "city"
+                val state = "state"
+                val latitude = place.latLng.latitude.toString()
+                val longitude = place.latLng.longitude.toString()
 
                 // TODO : Show create new myplace popup
 
-                var myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), city, state, latitude, longitude, 1, "5")
+                val myPlaceViewModelData = MyPlaceRequestModel(0,"", nickname.toString(), address.toString(), city, state, latitude, longitude, 1, "5")
 
-                var actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceViewModelData, true, this)
+                val actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceViewModelData, true, this)
                 actionMyPlaceFragment.show(activity!!.supportFragmentManager, "")
 
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                var status = PlaceAutocomplete.getStatus(activity, data);
+                val status = PlaceAutocomplete.getStatus(activity, data);
                 // TODO: Handle the error.
-                Log.i(TAG, status.getStatusMessage());
+                Log.i(TAG, status.statusMessage);
 
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
@@ -161,7 +161,7 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
             }
         }
 
-        var displayText = if(myPlace!!.nickname == null || myPlace!!.nickname == "") myPlace!!.address else myPlace!!.nickname
+        val displayText = if(myPlace!!.nickname == null || myPlace!!.nickname == "") myPlace!!.address else myPlace!!.nickname
 
         showSnackBar(displayText!!, true)
 
@@ -178,22 +178,22 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
             }
         }
 
-        var myPlaceRequestModel = MyPlaceRequestModel(myPlace!!.base_camp_id,myPlace.fk_user_id, myPlace.nickname, myPlace.address, myPlace.city, myPlace.state, myPlace.latitude, myPlace.longitude, myPlace.active, myPlace.radius)
+        val myPlaceRequestModel = MyPlaceRequestModel(myPlace!!.base_camp_id,myPlace.fk_user_id, myPlace.nickname, myPlace.address, myPlace.city, myPlace.state, myPlace.latitude, myPlace.longitude, myPlace.active, myPlace.radius)
 
-        var actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceRequestModel, false, this)
+        val actionMyPlaceFragment = ActionMyPlaceDialogFragment().newInstance(myPlaceRequestModel, false, this)
         actionMyPlaceFragment.show(activity!!.supportFragmentManager, "")
     }
 
     override fun showNoMyPlacesAvailable(message: String) {
 
-        var builder = AlertDialog.Builder(context!!);
+        val builder = AlertDialog.Builder(context!!);
         builder.setTitle("No MyPlaces Found")
         builder.setMessage(message);
         builder.setCancelable(true);
 
-        builder.setPositiveButton("Okay", { dialog, which -> dialog.cancel() })
+        builder.setPositiveButton("Okay", { dialog, _ -> dialog.cancel() })
 
-        var alert = builder.create()
+        val alert = builder.create()
         alert.show();
 
     }
@@ -208,10 +208,10 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 //            var img = BitmapFactory.decodeResource(resources, R.drawable.pin)
 //            var bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(img);
 
-            var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+            val markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
             val marker = googleMap.addMarker(markerOptions)
 
-            var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
+            val circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
             val circle = googleMap.addCircle(circleOptions)
 
             hashMapMyPlace.put(myPlaceObj.base_camp_id, MyPlaceViewModel(marker, circle, myPlaceObj))
@@ -229,10 +229,10 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 //        var img = BitmapFactory.decodeResource(resources, R.drawable.pin)
 //        var bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(img);
 
-        var markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+        val markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
         val marker = googleMap.addMarker(markerOptions)
 
-        var circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
+        val circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
         val circle = googleMap.addCircle(circleOptions)
 
         hashMapMyPlace.put(myPlace.base_camp_id, MyPlaceViewModel(marker, circle, myPlace))
@@ -244,10 +244,10 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
     override fun deleteMyPlace(myPlace: MyPlaceModel) {
 
         val marker = hashMapMyPlace[myPlace.base_camp_id]!!.marker
-        marker?.remove()
+        marker.remove()
 
         val circle = hashMapMyPlace[myPlace.base_camp_id]!!.circle
-        circle?.remove()
+        circle.remove()
 
         hashMapMyPlace.remove(myPlace.base_camp_id)
 
@@ -279,21 +279,21 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         if(hashMapMyPlace.values.count() > 0){
 
-            var builder = LatLngBounds.Builder()
+            val builder = LatLngBounds.Builder()
             val values = hashMapMyPlace.values
             for(myPlaceValue in values){
 
-                var targetNorthEast = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 45.0);
-                var targetSouthWest = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 225.0);
+                val targetNorthEast = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 45.0);
+                val targetSouthWest = SphericalUtil.computeOffset(myPlaceValue.circle.center, myPlaceValue.circle.radius * Math.sqrt(2.0), 225.0);
 
                 builder.include(targetNorthEast)
                 builder.include(targetSouthWest)
             }
 
-            var bounds = builder.build();
+            val bounds = builder.build();
 
-            var padding = 100;
-            var cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            val padding = 100;
+            val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             googleMap.animateCamera(cu);
 
         }
@@ -348,10 +348,10 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
     fun showSnackBar(message: String, action: Boolean){
 
-        var snackbar = Snackbar.make(mRelativeLayout,message, Snackbar.LENGTH_LONG);
-        var snackBarView = snackbar.view
+        val snackbar = Snackbar.make(mRelativeLayout,message, Snackbar.LENGTH_LONG);
+        val snackBarView = snackbar.view
         snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.primaryColor, null));
-        var textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
+        val textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
         textView.setTextColor(ResourcesCompat.getColor(resources, R.color.whiteColor, null));
 
         if(action){

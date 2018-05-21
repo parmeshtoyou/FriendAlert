@@ -25,6 +25,7 @@ class ActionMyPlaceDialogFragment : DialogFragment() {
     var isNewMyPlace = false
     var actionButtonListener: MyPlaceActionListener? = null
 
+    lateinit var titleTextView: TextView
     lateinit var nickNameEditText : EditText
     lateinit var locationTextView : TextView
     lateinit var radiusSpinner : Spinner
@@ -44,7 +45,7 @@ class ActionMyPlaceDialogFragment : DialogFragment() {
 
         args.putString("myPlace", json)
         args.putBoolean("isNewMyPlace", isNewMyPlace)
-        f.setArguments(args)
+        f.arguments = args
 
         f.actionButtonListener = actionButtonListener
 
@@ -65,41 +66,45 @@ class ActionMyPlaceDialogFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_create_my_place, container, false)
+        val view = inflater.inflate(R.layout.fragment_create_my_place, container, false)
 
-        locationTextView = view.findViewById<TextView>(R.id.locationValueTextView)
-        nickNameEditText = view.findViewById<EditText>(R.id.nicknameEditText)
-        radiusSpinner = view.findViewById<Spinner>(R.id.radiusSpinner)
+        titleTextView = view.findViewById(R.id.titleTextView)
 
-        actionButton1 = view.findViewById<Button>(R.id.actionButton1)
-        actionButton2 = view.findViewById<Button>(R.id.actionButton2)
+        locationTextView = view.findViewById(R.id.locationValueTextView)
+        nickNameEditText = view.findViewById(R.id.nicknameEditText)
+        radiusSpinner = view.findViewById(R.id.radiusSpinner)
+
+        actionButton1 = view.findViewById(R.id.actionButton1)
+        actionButton2 = view.findViewById(R.id.actionButton2)
 
         setupUI()
 
         return view
     }
 
-    fun setupUI(){
+    private fun setupUI(){
 
-        locationTextView.setText(myPlace.address)
+        locationTextView.text = myPlace.address
 
         if(isNewMyPlace){
+
+            // title
+            titleTextView.text = "Create New MyPlace"
 
             // set radius spinner default - 5 miles
             radiusSpinner.setSelection(4)
 
             // action button 1 - cancel
-            actionButton1.setText("Cancel")
+            actionButton1.text = "Cancel"
             actionButton1.setOnClickListener{
-                v ->
-                    this.dismiss()
+                this.dismiss()
             }
 
             // action button 2 - create
-            actionButton2.setText("Create")
+            actionButton2.text = "Create"
             actionButton2.setOnClickListener {
-                v ->
-                    if(nickNameEditText.text.toString() == null || nickNameEditText.text.toString() == ""){
+
+                if(nickNameEditText.text.toString() == ""){
                         myPlace.nickname = ""
                     }else{
                         myPlace.nickname = nickNameEditText.text.toString()
@@ -107,10 +112,13 @@ class ActionMyPlaceDialogFragment : DialogFragment() {
 
                     myPlace.radius = radiusSpinner.selectedItem as String
                     actionButtonListener!!.createMyPlacePressed(myPlace)
-                    this. dismiss()
+                    this.dismiss()
             }
 
         }else{
+
+            // title
+            titleTextView.text = "Edit MyPlace"
 
             // set nickname
             if(myPlace.nickname == null){
@@ -123,7 +131,7 @@ class ActionMyPlaceDialogFragment : DialogFragment() {
             radiusSpinner.setSelection(getIndex(radiusSpinner, myPlace.radius))
 
             // action button 1 - delete
-            actionButton1.setText("Delete")
+            actionButton1.text = "Delete"
             actionButton1.setOnClickListener{
                 v ->
                     actionButtonListener!!.deleteMyPlacePressed(myPlace)
@@ -131,10 +139,10 @@ class ActionMyPlaceDialogFragment : DialogFragment() {
             }
 
             // action button 2 - save
-            actionButton2.setText("Save")
+            actionButton2.text = "Save"
             actionButton2.setOnClickListener {
                 v ->
-                    if(nickNameEditText.text.toString() == null || nickNameEditText.text.toString() == ""){
+                    if(nickNameEditText.text.toString() == ""){
                         myPlace.nickname = ""
                     }else{
                         myPlace.nickname = nickNameEditText.text.toString()

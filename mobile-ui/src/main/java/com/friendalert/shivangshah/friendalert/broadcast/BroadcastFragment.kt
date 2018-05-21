@@ -28,6 +28,7 @@ import com.facebook.FacebookSdk.getApplicationContext
 import com.friendalert.shivangshah.friendalert.DataLoadingListener
 import com.friendalert.shivangshah.friendalert.PermissionUtils
 import com.friendalert.shivangshah.friendalert.R
+import com.friendalert.shivangshah.friendalert.login.PhoneActionListener
 import com.friendalert.shivangshah.presentation.broadcast.BroadcastContract
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -69,16 +70,16 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     fun instantiate(@Nullable arguments: Bundle): BroadcastFragment {
         val broadcastFragment = BroadcastFragment()
-        broadcastFragment.setArguments(arguments)
+        broadcastFragment.arguments = arguments
         return broadcastFragment
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view = inflater!!.inflate(R.layout.fragment_broadcast, container, false)
+        val view = inflater.inflate(R.layout.fragment_broadcast, container, false)
 
-        mRelativeLayout = view.findViewById<RelativeLayout>(R.id.layoutRL)
+        mRelativeLayout = view.findViewById(R.id.layoutRL)
 
         createLocationRequest()
         permissionUtils = PermissionUtils(context!!, this)
@@ -86,12 +87,12 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
 
-        sendBroadcastButton = view.findViewById<Button>(R.id.sendBroadcastButton)
+        sendBroadcastButton = view.findViewById(R.id.sendBroadcastButton)
         sendBroadcastButton.setOnClickListener { v ->
             permissionUtils!!.check_permission(permissions,"Need GPS permission for getting your location",PLAY_SERVICES_REQUEST)
         }
 
-        noteEditText = view.findViewById<EditText>(R.id.noteEditText)
+        noteEditText = view.findViewById(R.id.noteEditText)
 
         return view
     }
@@ -133,23 +134,23 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
     override fun onLocationChanged(p0: Location?) {
         mGoogleApiClient!!.disconnect()
 
-        var location = ""
+        val location: String
 
-        var geocoder = Geocoder(activity);
-        try
+        val geocoder = Geocoder(activity)
+        location = try
         {
-            var addresses = geocoder.getFromLocation(p0!!.latitude,p0!!.longitude, 1);
-            var address = addresses.get(0).getAddressLine(0);
-            var city = addresses.get(0).getAddressLine(1);
+            val addresses = geocoder.getFromLocation(p0!!.latitude, p0.longitude, 1)
+            val address = addresses[0].getAddressLine(0)
+            val city = addresses[0].getAddressLine(1)
 
-            location = address + ", " + city
+            "$address, $city"
 
         } catch (e: IOException)
         {
-            location = "Location Not Available"
+            "Location Not Available"
         }
 
-        broadcastPresenter.createBroadcast("", noteEditText.text.toString(), p0!!.latitude.toString(), p0!!.longitude.toString(), location)
+        broadcastPresenter.createBroadcast("", noteEditText.text.toString(), p0!!.latitude.toString(), p0.longitude.toString(), location)
     }
 
     private fun getLocation() {
@@ -197,7 +198,7 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
 
     override fun onConnectionFailed(p0: ConnectionResult) {
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = "
-                + p0.getErrorCode());
+                + p0.errorCode);
     }
 
     override fun PermissionGranted(request_code: Int) {
@@ -249,7 +250,7 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         checkPlayServices()
     }
 
-    fun buildGoogleApiClient() {
+    private fun buildGoogleApiClient() {
         if (mGoogleApiClient == null) {
             mGoogleApiClient = GoogleApiClient.Builder(context!!)
                     .addApi(LocationServices.API)
@@ -293,11 +294,11 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         })
     }
 
-    fun createLocationRequest() {
+    private fun createLocationRequest() {
         mLocationRequest = LocationRequest()
-        mLocationRequest.setInterval(10000)
-        mLocationRequest.setFastestInterval(5000)
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        mLocationRequest.interval = 10000
+        mLocationRequest.fastestInterval = 5000
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
     override fun onStop() {
@@ -306,15 +307,15 @@ class BroadcastFragment : Fragment(), BroadcastContract.View, GoogleApiClient.Co
         super.onStop()
     }
 
-    fun showSnackBar(message: String){
+    private fun showSnackBar(message: String){
 
-        var snackbar = Snackbar.make(mRelativeLayout,message,Snackbar.LENGTH_LONG);
-        var snackBarView = snackbar.view
+        val snackbar = Snackbar.make(mRelativeLayout,message,Snackbar.LENGTH_LONG);
+        val snackBarView = snackbar.view
         snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.primaryColor, null));
-        var textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
+        val textView = snackBarView.findViewById<TextView>(android.support.design.R.id.snackbar_text);
         textView.setTextColor(ResourcesCompat.getColor(resources, R.color.whiteColor, null));
-        snackbar.show();
+        snackbar.show()
 
     }
 
-}// Required empty public constructor
+}

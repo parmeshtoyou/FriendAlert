@@ -62,15 +62,13 @@ class LoginActivity : AppCompatActivity(), LoginContract.View, PhoneActionListen
 
                     Log.d("Name", user.optString("name"))
 
-                    loginButton.visibility = View.GONE
-
-//                    loginPresenter.loginUser(loginResult.accessToken.userId,
-//                            firstName,
-//                            lastName,
-//                            "2013144410",
-//                            newPushNotificationToken,
-//                            oldPushNotificationToken,
-//                            1)
+                    loginPresenter.loginUser(loginResult.accessToken.userId,
+                            firstName,
+                            lastName,
+                            "2013144410",
+                            newPushNotificationToken,
+                            oldPushNotificationToken,
+                            1)
                 }.executeAsync()
 
             }
@@ -109,7 +107,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View, PhoneActionListen
 
     override fun showErrorState() {
 
-        Toast.makeText(getApplicationContext(), "Login Fail", Toast.LENGTH_LONG).show();
+        Toast.makeText(applicationContext, "Login Fail", Toast.LENGTH_LONG).show();
         LoginManager.getInstance().logOut()
 
     }
