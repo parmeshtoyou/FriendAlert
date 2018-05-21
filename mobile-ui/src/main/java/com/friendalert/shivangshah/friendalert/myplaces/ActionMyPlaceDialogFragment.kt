@@ -81,7 +81,7 @@ class ActionMyPlaceDialogFragment : DialogFragment() {
 
     fun setupUI(){
 
-        locationTextView.setText(myPlace.address + " "  + myPlace.city + " " + myPlace.state)
+        locationTextView.setText(myPlace.address)
 
         if(isNewMyPlace){
 

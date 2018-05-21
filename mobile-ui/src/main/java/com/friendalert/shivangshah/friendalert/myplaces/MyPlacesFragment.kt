@@ -6,7 +6,9 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.design.widget.Snackbar
@@ -117,8 +119,8 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
                 var nickname = place.name
                 var address = place.address
-                var city = ""
-                var state = ""
+                var city = "city"
+                var state = "state"
                 var latitude = place.latLng.latitude.toString()
                 var longitude = place.latLng.longitude.toString()
 
@@ -203,9 +205,10 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
             val latlng = LatLng(myPlaceObj.latitude.toDouble(), myPlaceObj.longitude.toDouble())
 
-            var customBitmapDescriptorFactory = CustomBitmapDescriptorFactory.getHsvFromColor("#107F93")
+//            var img = BitmapFactory.decodeResource(resources, R.drawable.pin)
+//            var bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(img);
 
-            var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.defaultMarker(customBitmapDescriptorFactory[0]))
+            var markerOptions = MarkerOptions().position(latlng).title(myPlaceObj.nickname).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
             val marker = googleMap.addMarker(markerOptions)
 
             var circleOptions = CircleOptions().center(latlng).radius(myPlaceObj.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);
@@ -223,7 +226,10 @@ class MyPlacesFragment : Fragment(), MyPlacesContract.View, OnMapReadyCallback, 
 
         val latlng = LatLng(myPlace.latitude.toDouble(), myPlace.longitude.toDouble())
 
-        var markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname).icon(BitmapDescriptorFactory.defaultMarker(189f))
+//        var img = BitmapFactory.decodeResource(resources, R.drawable.pin)
+//        var bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(img);
+
+        var markerOptions = MarkerOptions().position(latlng).title(myPlace.nickname).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
         val marker = googleMap.addMarker(markerOptions)
 
         var circleOptions = CircleOptions().center(latlng).radius(myPlace.radius.toDouble() * 1609.34).fillColor(fillColor).strokeColor(Color.parseColor("#107F93")).strokeWidth(strokeWidth);

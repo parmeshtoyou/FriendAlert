@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by shivangshah on 11/11/17.
  */
-object NotificationServiceFactory {
+object  NotificationServiceFactory {
 
     fun makeNotificationService(isDebug: Boolean, context: Context): NotificationService {
         val okHttpClient = makeOkHttpClient(

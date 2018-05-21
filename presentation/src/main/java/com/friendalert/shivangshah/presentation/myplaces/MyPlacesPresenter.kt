@@ -63,7 +63,7 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
 
                 myPlacesView.showSuccess()
 
-            } else {
+            } else{
                 myPlacesView.hideProgress()
             }
         }
@@ -100,7 +100,13 @@ class MyPlacesPresenter @Inject constructor(val myPlacesView: MyPlacesContract.V
                 myPlacesView.hideProgress()
                 myPlacesView.addMyPlace(presentationModel.getAllMyPlaces()!!.last())
 
-            }else{
+            } else if(t.customCode == CustomResponseCodes.alreadyExists){
+
+                myPlacesView.hideProgress()
+                myPlacesView.showFailure(false, "This location already exists in your MyPlaces")
+
+            }
+            else{
 
                 // failure in backend - remove last object added from list
                 myPlacesView.hideProgress()

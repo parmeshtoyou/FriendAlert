@@ -2,7 +2,7 @@
     <item
         android:id="@+id/menu_broadcast"
         android:title=""
-        android:icon="@drawable/places_ic_search"
+        android:icon="@drawable/broadcast"
         android:iconTint="@color/darkGreyColor"
         />
     <item
@@ -15,7 +15,7 @@
     <item
         android:id="@+id/menu_friends"
         android:title=""
-        android:icon="@drawable/places_ic_search"
+        android:icon="@drawable/friends"
         android:iconTint="@color/darkGreyColor"
         />
 

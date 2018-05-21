@@ -102,7 +102,7 @@ class FriendsPresenter @Inject constructor(val friendsView: FriendsContract.View
 
             if(t.customCode == CustomResponseCodes.createSuccess){
 
-                presentationModel.successCreateFriendRequest(t.data.insertId)
+                 presentationModel.successCreateFriendRequest(t.data.insertId)
                 friendsView.showFriends(presentationModel.getFriendsDictionary()!!)
                 friendsView.hideProgress()
 

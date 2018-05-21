@@ -5,31 +5,28 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Button
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
-import com.friendalert.shivangshah.cache.PreferencesHelper
+import com.friendalert.shivangshah.friendalert.HomeActivity
 import com.friendalert.shivangshah.friendalert.R
 import com.friendalert.shivangshah.presentation.login.LoginContract
-import com.friendalert.shivangshah.presentation.login.LoginPresenter
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
-import com.facebook.GraphResponse
-import org.json.JSONObject
-import com.facebook.GraphRequest
-import com.facebook.GraphRequestAsyncTask
-import com.facebook.login.LoginManager
-import com.friendalert.shivangshah.friendalert.HomeActivity
 
 
-class LoginActivity : AppCompatActivity(), LoginContract.View {
+class LoginActivity : AppCompatActivity(), LoginContract.View, PhoneActionListener {
 
     @Inject lateinit var loginPresenter : LoginContract.Presenter
+
+    lateinit var loginButton : LoginButton
 
     override fun setPresenter(presenter: LoginContract.Presenter) {
         loginPresenter = presenter;
@@ -45,7 +42,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         setContentView(R.layout.activity_login)
 
         callbackManager = CallbackManager.Factory.create()
-        val loginButton = findViewById<LoginButton>(R.id.login_button)
+        loginButton = findViewById<LoginButton>(R.id.login_button)
         loginButton.setReadPermissions("public_profile");
 
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -64,13 +61,16 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
                     lastName = name.split(' ')[1]
 
                     Log.d("Name", user.optString("name"))
-                    loginPresenter.loginUser(loginResult.accessToken.userId,
-                            firstName,
-                            lastName,
-                            "2013144410",
-                            newPushNotificationToken,
-                            oldPushNotificationToken,
-                            1)
+
+                    loginButton.visibility = View.GONE
+
+//                    loginPresenter.loginUser(loginResult.accessToken.userId,
+//                            firstName,
+//                            lastName,
+//                            "2013144410",
+//                            newPushNotificationToken,
+//                            oldPushNotificationToken,
+//                            1)
                 }.executeAsync()
 
             }
@@ -84,6 +84,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
             }
         })
 
+    }
+
+    override fun enterClicked(phoneNumber: String) {
+    }
+
+    override fun cancelClicked() {
     }
 
     override fun loginUser() {

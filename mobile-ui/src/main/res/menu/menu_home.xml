@@ -4,6 +4,7 @@
         android:id="@+id/item_settings"
         android:title="Settings"
         android:iconTint="@color/whiteColor"
+        android:icon="@drawable/settings"
         app:showAsAction="ifRoom"
         />
 
