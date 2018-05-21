@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity(), SettingsContract.View {
         logoutButton = findViewById<Button>(R.id.logoutButton)
 
         logoutButton!!.setOnClickListener {
-            v: View? -> settingsPresenter.logout()
+            settingsPresenter.logout()
         }
     }
 

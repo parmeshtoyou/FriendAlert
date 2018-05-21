@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.facebook.CallbackManager
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View, PhoneActionListen
     @Inject lateinit var loginPresenter : LoginContract.Presenter
 
     lateinit var loginButton : LoginButton
+    lateinit var fbButton : Button
 
     override fun setPresenter(presenter: LoginContract.Presenter) {
         loginPresenter = presenter;
@@ -41,17 +43,22 @@ class LoginActivity : AppCompatActivity(), LoginContract.View, PhoneActionListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        fbButton = findViewById(R.id.customFBButton)
+        fbButton.setOnClickListener {
+            loginButton.performClick()
+        }
+
         callbackManager = CallbackManager.Factory.create()
-        loginButton = findViewById<LoginButton>(R.id.login_button)
-        loginButton.setReadPermissions("public_profile");
+        loginButton = findViewById(R.id.login_button)
+        loginButton.setReadPermissions("public_profile")
 
         loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
 
                 val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
-                var newPushNotificationToken = preferences.getString("newPushNotificationToken", "")
-                var oldPushNotificationToken = preferences.getString("oldPushNotificationToken", "")
+                val newPushNotificationToken = preferences.getString("newPushNotificationToken", "")
+                val oldPushNotificationToken = preferences.getString("oldPushNotificationToken", "")
                 var firstName = ""
                 var lastName = ""
 
